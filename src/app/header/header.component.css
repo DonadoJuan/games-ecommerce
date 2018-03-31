@@ -1,0 +1,98 @@
+.nav {
+    background: #eee;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: inset -8px 0 8px -6px rgba(0, 0, 0, 0.2);
+    display: none;
+    /* deal with FOUC */
+    height: 100%;
+    overflow-y: auto;
+    padding: 3%;
+    position: absolute;
+    top: 0;
+    transform: translate3d(-100%, 0, 0);
+    width: 270px;
+  }
+  :host-context(.nav-closed) .nav, :host-context(.nav-open) .nav {
+    display: block;
+    /* deal with FOUC */
+  }
+  .nav .active {
+    font-weight: bold;
+  }
+  .nav-list {
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+  .nav-list a {
+    display: block;
+    padding: 6px;
+  }
+  .nav-list a:hover, .nav-list a:active, .nav-list a:focus {
+    text-decoration: none;
+  }
+  
+  /*-- Hamburger toggle --*/
+  .toggle-offcanvas {
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    display: inline-block;
+    height: 50px;
+    padding: 23.5px 13px;
+    position: relative;
+    text-align: center;
+    width: 50px;
+    z-index: 100;
+  }
+  .toggle-offcanvas span,
+  .toggle-offcanvas span:before,
+  .toggle-offcanvas span:after {
+    background: #fff;
+    border-radius: 1px;
+    content: '';
+    display: block;
+    height: 3px;
+    position: absolute;
+    transition: all 250ms ease-in-out;
+    width: 24px;
+  }
+  .toggle-offcanvas span:before {
+    top: -9px;
+  }
+  .toggle-offcanvas span:after {
+    bottom: -9px;
+  }
+  :host-context(.nav-open) .toggle-offcanvas span {
+    background: transparent;
+  }
+  :host-context(.nav-open) .toggle-offcanvas span:before, :host-context(.nav-open) .toggle-offcanvas span:after {
+    top: 0;
+  }
+  :host-context(.nav-open) .toggle-offcanvas span:before {
+    transform: rotate(45deg);
+  }
+  :host-context(.nav-open) .toggle-offcanvas span:after {
+    transform: rotate(-45deg);
+  }
+  
+  /*-- Header and title --*/
+  .header-page {
+    color: #fff;
+    height: 50px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .header-page-siteTitle {
+    font-size: 30px;
+    line-height: 50px;
+    margin: 0;
+    padding: 0 0 0 60px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .header-page a {
+    color: #fff;
+    text-decoration: none;
+  }
+  

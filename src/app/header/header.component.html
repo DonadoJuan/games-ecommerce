@@ -1,0 +1,19 @@
+<header id="header" class="header">
+  <div class="header-page bg-secondary">
+    <a class="toggle-offcanvas bg-secondary" (click)="toggleNav()"><span></span></a>
+    <h1 class="header-page-siteTitle">
+      <a routerLink="/">Games</a>
+    </h1>
+  </div>
+
+  <nav id="nav" class="nav" role="navigation">
+    <ul class="nav-list">
+      <li>
+        <a
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      </li>
+    </ul>
+  </nav>
+</header>
