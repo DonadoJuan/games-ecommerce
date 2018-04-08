@@ -95,4 +95,16 @@
     color: #fff;
     text-decoration: none;
   }
+  .header-page-authStatus {
+    color: #fff;
+    font-size: 12px;
+    line-height: 50px;
+    padding: 0 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .header-page-authStatus a:hover {
+    text-decoration: underline;
+  }
   

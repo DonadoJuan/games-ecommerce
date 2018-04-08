@@ -1,0 +1,40 @@
+<ng-template [ngIf]="true">
+
+  <div class="card">
+    <!-- Event tab navigation -->
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'login'}"
+            [ngClass]="{'active': utils.tabIs(tab, 'login')}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="[]"
+            [queryParams]="{tab: 'signup'}"
+            [ngClass]="{'active': utils.tabIs(tab, 'signup')}">Registrarse</a>
+        </li>
+      </ul>
+    </div>
+
+    <app-login
+      *ngIf="utils.tabIs(tab, 'login')"></app-login>
+
+    <app-signup
+      *ngIf="utils.tabIs(tab, 'signup')"></app-signup>
+    <!-- Event detail tab -->
+    <!--<app-event-detail
+      *ngIf="utils.tabIs(tab, 'details')"
+      [event]="event"></app-event-detail>-->
+
+    <!-- Event RSVP tab -->
+    <!--<app-rsvp
+      *ngIf="utils.tabIs(tab, 'rsvp')"
+      [eventId]="event._id"
+      [eventPast]="eventPast"></app-rsvp>-->
+  </div>
+</ng-template>

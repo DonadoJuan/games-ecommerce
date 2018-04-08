@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header primary-color lighten-1 white-text">
+      Login
+  </div>
+  <div class="card-body">
+    <form>
+      <p class="h5 mb-4">Login</p>
+  
+      <div class="md-form">
+          <i class="fa fa-envelope prefix grey-text"></i>
+          <input type="text" id="defaultForm-email" class="form-control" mdbActive>
+          <label for="defaultForm-email">Ingresa tu email</label>
+      </div>
+  
+      <div class="md-form">
+          <i class="fa fa-lock prefix grey-text"></i>
+          <input type="password" id="defaultForm-pass" class="form-control" mdbActive>
+          <label for="defaultForm-pass">Ingresa tu password</label>
+      </div>
+  
+      <div class="text-center">
+          <button class="btn btn-default waves-light" mdbRippleRadius>Login</button>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer text-muted primary-color white-text">
+    <p class="mb-0">No eres miembro? 
+      <a [routerLink]="[]"
+        [queryParams]="{tab: 'signup'}"
+        class="white-text">Registrate</a></p>
+    <p class="mb-0">Olvidaste tu <a>Password?</a></p>
+  </div>
+</div>
