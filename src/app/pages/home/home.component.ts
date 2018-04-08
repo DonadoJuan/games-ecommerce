@@ -7,7 +7,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  pageTitle = 'Games';
+  pageTitle = 'Padogi';
 
   constructor(private title: Title) { }
 

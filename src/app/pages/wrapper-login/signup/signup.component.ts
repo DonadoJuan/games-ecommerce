@@ -7,12 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  optionsSelect: any[];
+  barrios: any[] = [];
 
   constructor() { }
 
   ngOnInit() {
-    this.optionsSelect.push("Barracas");
+    this.barrios.push({value: "1", viewValue: "Barracas"});
   }
 
 }
