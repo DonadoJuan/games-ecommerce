@@ -11,20 +11,20 @@
     position: relative;
     left: 0;
     transition: transform 250ms ease;
-    transform: translate3d(0, 0, 0);
+    /*transform: translate3d(0, 0, 0);*/
     width: 100%;
   }
   .layout-canvas.nav-open {
     transform: translate3d(270px, 0, 0);
   }
   
-  .layout-view {
+  /*.layout-view {
     padding: 3%;
-  }
-  @media (min-width: 768px) {
+  }*/
+  /*@media (min-width: 768px) {
     .layout-view {
       margin: 0 auto;
       max-width: 960px;
       padding: 1.5% 3%;
     }
-  }
+  }*/

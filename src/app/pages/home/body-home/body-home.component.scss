@@ -1,0 +1,106 @@
+@font-face {
+    font-family: Playstation;
+    src: url("../../../../assets/font/playstation.otf") format("opentype");
+}
+
+@font-face {
+    font-family: Nintendo;
+    src: url("../../../../assets/font/nintendo.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: Xbox;
+    src: url("../../../../assets/font/xbox.ttf") format("opentype");
+}
+
+.title-playstation {
+    font-family: Playstation;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.blue-gradient {
+    background: linear-gradient(90deg, lightskyblue, navy);
+}
+
+.title-nintendo {
+    font-family: Nintendo;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.red-gradient {
+    background-color: #E50000;
+}
+
+.btn-nintendo {
+    background-color: #E50000;
+}
+
+.wrapper {
+    padding-bottom: 1em;
+}
+
+.img-nintendo {
+    width: 190px;
+    height: 130px;
+}
+
+.title-xbox {
+    font-family: Xbox;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.green-gradient {
+    background: linear-gradient(90deg, limegreen, forestgreen);
+}
+
+.btn-xbox {
+    background-color: forestgreen;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    margin-left: 50px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+  }
+  .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+  }
+
+.zoom {
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -ms-transition: all 1s ease; /* IE 9 */
+    -o-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+}
+
+.zoom:hover {
+    -webkit-transform:scale(1.25); /* Safari and Chrome */
+    -moz-transform:scale(1.25); /* Firefox */
+    -ms-transform:scale(1.25); /* IE 9 */
+    -o-transform:scale(1.25); /* Opera */
+     transform:scale(1.25);
+}
+  

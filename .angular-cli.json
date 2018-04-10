@@ -19,12 +19,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/wowjs/css/libs/animate.css",
         "../node_modules/font-awesome/scss/font-awesome.scss",
         "../node_modules/angular-bootstrap-md/scss/bootstrap/bootstrap.scss",
         "../node_modules/angular-bootstrap-md/scss/mdb-free.scss",
         "./styles.scss"
       ],
       "scripts": [
+        "../node_modules/wowjs/dist/wow.js",
         "../node_modules/chart.js/dist/Chart.js",
         "../node_modules/hammerjs/hammer.min.js"
       ],

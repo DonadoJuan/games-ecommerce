@@ -79,7 +79,7 @@
   .header-page {
     color: #fff;
     height: 50px;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     position: relative;
   }
   .header-page-siteTitle {

@@ -1,1 +1,8 @@
-<h1 class="text-center">{{pageTitle}}</h1>
+<app-slideshow></app-slideshow>
+<app-banner></app-banner>
+<app-body-home></app-body-home>
+<div class="scroll-to-top" [ngClass]="{'show-scroll': navIsFixed}">
+    <button (click)="scrollToTop()" class="btn btn-primary">
+        Top
+    </button>
+</div>

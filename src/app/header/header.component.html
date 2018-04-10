@@ -10,6 +10,11 @@
         routerLink="/wrapper-login"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }">Log In</a>
+      <span class="opacity-half">|</span> 
+      <a routerLink="/wrapper-login"
+        routerLinkActive="active"
+        [queryParams]="{tab: 'signup'}"
+        [routerLinkActiveOptions]="{ exact: true }">Registrarse</a>
       <!--<span *ngIf="auth.loggedIn">
         <a routerLink="/my-rsvps">{{auth.userProfile?.name}}</a>
         <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>

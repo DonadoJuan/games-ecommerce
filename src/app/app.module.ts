@@ -14,6 +14,9 @@ import { UtilsService } from './core/utils.service';
 import { WrapperLoginComponent } from './pages/wrapper-login/wrapper-login.component';
 import { LoginComponent } from './pages/wrapper-login/login/login.component';
 import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
+import { SlideshowComponent } from './pages/home/slideshow/slideshow.component';
+import { BannerComponent } from './pages/home/banner/banner.component';
+import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
     FooterComponent,
     WrapperLoginComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    SlideshowComponent,
+    BannerComponent,
+    BodyHomeComponent
   ],
   imports: [
     BrowserModule,
