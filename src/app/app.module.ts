@@ -4,6 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatSelectModule } from '@angular/material/select';
+import { OwlModule } from 'ngx-owl-carousel';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -38,7 +39,8 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
     FormsModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
-    MatSelectModule
+    MatSelectModule,
+    OwlModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, UtilsService ],

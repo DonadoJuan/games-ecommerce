@@ -28,7 +28,9 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
+    "ngx-owl-carousel": "^2.0.7",
     "rxjs": "^5.5.6",
+    "script-loader": "^0.7.2",
     "wowjs": "^1.1.3",
     "zone.js": "^0.8.19"
   },
