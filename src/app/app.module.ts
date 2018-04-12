@@ -18,7 +18,9 @@ import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
 import { SlideshowComponent } from './pages/home/slideshow/slideshow.component';
 import { BannerComponent } from './pages/home/banner/banner.component';
 import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
-
+import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
     SignupComponent,
     SlideshowComponent,
     BannerComponent,
-    BodyHomeComponent
+    BodyHomeComponent,
+    VideojuegosComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,8 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     MatSelectModule,
-    OwlModule
+    OwlModule,
+    AngularMultiSelectModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, UtilsService ],

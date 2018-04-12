@@ -1,0 +1,134 @@
+
+
+.title-playstation {
+    font-family: Playstation;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.blue-gradient {
+    background: linear-gradient(90deg, lightskyblue, navy);
+}
+
+.title-nintendo {
+    font-family: Nintendo;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.red-gradient {
+    background-color: #E50000;
+}
+
+.btn-nintendo {
+    background-color: #E50000;
+}
+
+.wrapper {
+    padding-bottom: 1em;
+}
+
+.img-nintendo {
+    width: 190px;
+    height: 130px;
+}
+
+.title-xbox {
+    font-family: Xbox;
+    text-align: center;
+    padding: 1em 0em;
+}
+
+.green-gradient {
+    background: linear-gradient(90deg, limegreen, forestgreen);
+}
+
+.btn-xbox {
+    background-color: forestgreen;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    margin-left: 50px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+  }
+  .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+  }
+
+.zoom {
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -ms-transition: all 1s ease; /* IE 9 */
+    -o-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+}
+
+.zoom:hover {
+    -webkit-transform:scale(1.25); /* Safari and Chrome */
+    -moz-transform:scale(1.25); /* Firefox */
+    -ms-transform:scale(1.25); /* IE 9 */
+    -o-transform:scale(1.25); /* Opera */
+     transform:scale(1.25);
+}
+  .cd-tab-filter-wrapper {
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.cd-filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background: #ffffff;
+  z-index: 2;
+  transform: translateX(-100%);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.cd-filter-trigger {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 60px;
+  z-index: 3;
+}
+
+.cd-main-content.is-fixed .cd-tab-filter-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.cd-main-content.is-fixed .cd-filter {
+  position: fixed;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.cd-main-content.is-fixed .cd-filter-trigger {
+  position: fixed;
+}
