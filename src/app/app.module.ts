@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatSelectModule } from '@angular/material/select';
 import { OwlModule } from 'ngx-owl-carousel';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -21,6 +22,10 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { AdminSlideshowComponent } from './pages/admin/admin-slideshow/admin-slideshow.component';
+import { CheckboxComponent } from './pages/admin/checkbox.component';
+import { AdminVideojuegosComponent } from './pages/admin/admin-videojuegos/admin-videojuegos.component';
+import { NumberComponent } from './pages/admin/number.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,11 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     BannerComponent,
     BodyHomeComponent,
     VideojuegosComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    AdminSlideshowComponent,
+    CheckboxComponent,
+    AdminVideojuegosComponent,
+    NumberComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +54,12 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     BrowserAnimationsModule,
     MatSelectModule,
     OwlModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    Ng2SmartTableModule
+  ],
+  entryComponents: [
+    CheckboxComponent,
+    NumberComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, UtilsService ],

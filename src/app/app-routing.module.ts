@@ -4,6 +4,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { WrapperLoginComponent } from "./pages/wrapper-login/wrapper-login.component";
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
+import { AdminSlideshowComponent } from "./pages/admin/admin-slideshow/admin-slideshow.component";
+import { AdminVideojuegosComponent } from "./pages/admin/admin-videojuegos/admin-videojuegos.component";
 
 const routes: Routes = [
   {
@@ -21,6 +23,14 @@ const routes: Routes = [
   {
     path: 'usuarios',
     component: UsuariosComponent
+  },
+  {
+    path: 'admin-slideshow',
+    component: AdminSlideshowComponent
+  },
+  {
+    path: 'admin-videojuegos',
+    component: AdminVideojuegosComponent
   }
 ];
 
