@@ -1,48 +1,39 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top unique-color-dark justify-content-between">
-  <ul class="navbar-nav d-flex justify-content-around w-100">
+    <ul class="navbar-nav d-flex justify-content-around w-100">
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white" routerLink="/videojuegos" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">JUEGOS</a>
+            <a class="nav-link font-weight-bold text-white" routerLink="/videojuegos" routerLinkActive="active">JUEGOS</a>
         </li>
         <li class="nav-item">
             <a class="nav-link font-weight-bold text-white" routerLink="/game-details" href="#">OFERTAS</a>
         </li>
         <li class="nav-item">
-              <a class="nav-link font-weight-bold text-white">PREVENTA</a>
+            <a class="nav-link font-weight-bold text-white">PREVENTA</a>
         </li>
     </ul>
-  
-  <a class="navbar-brand text-white font-weight-bold border rounded px-3 m-auto" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> P A D O G I </a>
+
+    <a class="navbar-brand text-white font-weight-bold border rounded px-3 m-auto" routerLink="/" routerLinkActive="active">
+    P A D O G I </a>
 
     <ul class="navbar-nav d-flex justify-content-around w-100">
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white">FAQ</a>
+            <a class="nav-link font-weight-bold text-white" routerLink="/wrapper-login" routerLinkActive="active">LOGIN</a>
         </li>
-      <li class="nav-item">
-          <a class="nav-link font-weight-bold text-white" routerLink="/wrapper-login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">LOGIN</a>
-      </li>
-      
-      <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white" routerLink="/cart-wizard" routerLinkActive="active">
-                <i class="material-icons align-middle">shopping_cart</i>
-            </a>
-      </li>
-      <li>
-        <a
-          routerLink="/admin-slideshow"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Slideshow</a>
-      </li>
-      <li>
-        <a
-          routerLink="/admin-videojuegos"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Gestion Videojuegos</a>
-      </li>
-      <li>
-        <a
-          routerLink="/pedidos"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Mis Pedidos</a>
-      </li>
+        <li class="nav-item btn-group" dropdown>
+                <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
+                    PERFIL
+                </a>
+            
+                <div class="dropdown-menu">
+                    <a class="nav-link font-weight-bold" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
+                    <a class="nav-link font-weight-bold" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
+                    <a class="nav-link font-weight-bold" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
+                </div>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link font-weight-bold text-white" routerLink="/cart-wizard" routerLinkActive="active">
+                    <i class="material-icons align-middle">shopping_cart</i>
+                </a>
+        </li>
+
     </ul>
 </nav>
