@@ -4,6 +4,8 @@ import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from "@angular/material";
+import { MatStepperModule } from "@angular/material";
 import { OwlModule } from 'ngx-owl-carousel';
 
 import { AppComponent } from './app.component';
@@ -21,6 +23,8 @@ import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
+import { GameDetailsComponent } from './pages/game-details/game-details.component';
+import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     BannerComponent,
     BodyHomeComponent,
     VideojuegosComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    GameDetailsComponent,
+    CartWizardComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +50,8 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     MatSelectModule,
+    MatTabsModule,
+    MatStepperModule,
     OwlModule,
     AngularMultiSelectModule
   ],

@@ -1,0 +1,30 @@
+<!-- BASE WIZARD CARRITO DE COMPRAS -->
+<section class="container">
+    <mat-horizontal-stepper linear="'true'" #stepper="matHorizontalStepper">
+
+      <!-- PASO 1 MI CARRITO -->
+      <mat-step>
+          <ng-template matStepLabel>
+            <h5>Mi carrito</h5>
+          </ng-template>
+        <span>step 1</span>
+      </mat-step>
+
+      <!-- PASO 2 PAGO Y ENVIO -->
+      <mat-step>
+          <ng-template matStepLabel>
+              <h5>Pago y envio</h5>
+          </ng-template>
+        <span>step 2</span>
+    </mat-step>
+
+    <!-- PASO 3 VERIFICAR Y FINALIZAR -->
+      <mat-step>
+          <ng-template matStepLabel>
+              <h5>Verificar y finalizar</h5>
+          </ng-template>
+        <span>step 3</span>
+      </mat-step>
+    </mat-horizontal-stepper>
+
+</section>

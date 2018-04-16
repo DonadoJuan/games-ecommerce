@@ -4,6 +4,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { WrapperLoginComponent } from "./pages/wrapper-login/wrapper-login.component";
 import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
+import { GameDetailsComponent } from './pages/game-details/game-details.component';
+import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,14 @@ const routes: Routes = [
   {
     path: 'usuarios',
     component: UsuariosComponent
+  },
+  {
+    path: 'game-details',
+    component: GameDetailsComponent
+  },
+  {
+    path: 'cart-wizard',
+    component: CartWizardComponent
   }
 ];
 

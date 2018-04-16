@@ -1,41 +1,30 @@
-<header id="header" class="header">
-  <div class="header-page bg-elegant">
-    <a class="toggle-offcanvas bg-elegant"  (click)="toggleNav()"><span></span></a>
-    <h1 class="header-page-siteTitle">
-      <a routerLink="/">Padogi</a>
-    </h1>
-    <div class="header-page-authStatus">
-      <!--<a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>-->
-      <a
-        routerLink="/wrapper-login"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }">Log In</a>
-      <span class="opacity-half">|</span> 
-      <a routerLink="/wrapper-login"
-        routerLinkActive="active"
-        [queryParams]="{tab: 'signup'}"
-        [routerLinkActiveOptions]="{ exact: true }">Registrarse</a>
-      <!--<span *ngIf="auth.loggedIn">
-        <a routerLink="/my-rsvps">{{auth.userProfile?.name}}</a>
-        <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>
-      </span>-->
-    </div>
-  </div>
+<nav class="navbar navbar-expand-sm navbar-light fixed-top unique-color-dark justify-content-between">
+  <ul class="navbar-nav d-flex justify-content-around w-100">
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-white" routerLink="/videojuegos" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">JUEGOS</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-white" routerLink="/game-details" href="#">OFERTAS</a>
+        </li>
+        <li class="nav-item">
+              <a class="nav-link font-weight-bold text-white">PREVENTA</a>
+        </li>
+    </ul>
+  
+  <a class="navbar-brand text-white font-weight-bold border rounded px-3 m-auto" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> P A D O G I </a>
 
-  <nav id="nav" class="nav" role="navigation">
-    <ul class="nav-list">
-      <li>
-        <a
-          routerLink="/"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <ul class="navbar-nav d-flex justify-content-around w-100">
+        <li class="nav-item">
+            <a class="nav-link font-weight-bold text-white">FAQ</a>
+        </li>
+      <li class="nav-item">
+          <a class="nav-link font-weight-bold text-white" routerLink="/wrapper-login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">LOGIN</a>
       </li>
-      <li>
-        <a
-          routerLink="/videojuegos"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }">Juegos</a>
+      
+      <li class="nav-item">
+            <a class="nav-link font-weight-bold text-white" routerLink="/cart-wizard" routerLinkActive="active">
+                <i class="material-icons align-middle">shopping_cart</i>
+            </a>
       </li>
     </ul>
-  </nav>
-</header>
+</nav>
