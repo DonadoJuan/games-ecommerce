@@ -54,7 +54,7 @@ import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
     CheckboxComponent,
     AdminVideojuegosComponent,
     NumberComponent,
-    PedidosComponent
+    PedidosComponent,
     UsuariosComponent,
     GameDetailsComponent,
     CartWizardComponent
