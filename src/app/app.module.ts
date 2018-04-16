@@ -3,7 +3,11 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 import { OwlModule } from 'ngx-owl-carousel';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -26,6 +30,7 @@ import { AdminSlideshowComponent } from './pages/admin/admin-slideshow/admin-sli
 import { CheckboxComponent } from './pages/admin/checkbox.component';
 import { AdminVideojuegosComponent } from './pages/admin/admin-videojuegos/admin-videojuegos.component';
 import { NumberComponent } from './pages/admin/number.component';
+import { PedidosComponent } from './pages/pedidos/pedidos.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +49,8 @@ import { NumberComponent } from './pages/admin/number.component';
     AdminSlideshowComponent,
     CheckboxComponent,
     AdminVideojuegosComponent,
-    NumberComponent
+    NumberComponent,
+    PedidosComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +58,11 @@ import { NumberComponent } from './pages/admin/number.component';
     FormsModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
+    MatInputModule,
     MatSelectModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
     OwlModule,
     AngularMultiSelectModule,
     Ng2SmartTableModule

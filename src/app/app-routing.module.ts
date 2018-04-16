@@ -6,6 +6,7 @@ import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
 import { AdminSlideshowComponent } from "./pages/admin/admin-slideshow/admin-slideshow.component";
 import { AdminVideojuegosComponent } from "./pages/admin/admin-videojuegos/admin-videojuegos.component";
+import { PedidosComponent } from "./pages/pedidos/pedidos.component";
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'admin-videojuegos',
     component: AdminVideojuegosComponent
+  },
+  {
+    path: 'pedidos',
+    component: PedidosComponent
   }
 ];
 

@@ -1,0 +1,41 @@
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+</div>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table [dataSource]="dataSource" matSort>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="fecha">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Fecha </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.fecha}} </mat-cell>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="cliente">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Cliente </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.cliente}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="destino">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Destino </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.destino}} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Estado </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.estado}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" class="mdb-color darken-3"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+</div>
