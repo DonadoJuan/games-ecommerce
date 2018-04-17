@@ -1,17 +1,44 @@
 <!-- BASE WIZARD CARRITO DE COMPRAS -->
 <section class="container">
-    <mat-horizontal-stepper linear="'true'" #stepper="matHorizontalStepper">
+    <mat-horizontal-stepper #stepper="matHorizontalStepper">
 
       <!-- PASO 1 MI CARRITO -->
       <mat-step>
           <ng-template matStepLabel>
             <h5>Mi carrito</h5>
           </ng-template>
-
-          
-
-
-        <span>step 1</span>
+          <div class="container">
+            <div class="row pt-5">
+              <div class="col-8">
+                <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+              </div>
+              <div class="col-4">
+                <div class="row border border-dark justify-content-center p-3">
+                  <div class="col-12 d-flex justify-content-between">
+                    <label>Subtotal:</label>
+                    <span>$ 2000.00</span>
+                  </div>
+                  <div class="col-12 d-flex justify-content-between">
+                      <label>Costo de envio:</label>
+                      <span>$ 140.00</span>
+                    </div>
+                  <div class="col-12 d-flex justify-content-between">
+                      <label>Descuentos:</label>
+                      <span>- $ 345.00</span>
+                  </div>
+                  <div class="col-12 d-flex justify-content-between">
+                      <label>Total:</label>
+                        <span>$ 1567.00</span>
+                      </div>
+                </div>
+                <div class="row justify-content-center mt-5">
+                  <button type="button" class="btn btn-block btn-elegant waves-light font-weight-bold">
+                    CONTINUAR
+                  </button>
+                </div>
+              </div>
+            </div>
+        </div>
       </mat-step>
 
       <!-- PASO 2 PAGO Y ENVIO -->
