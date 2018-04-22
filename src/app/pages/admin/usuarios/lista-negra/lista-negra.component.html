@@ -1,0 +1,23 @@
+<div class="container layout-view">
+    <div class="row justify-content-center">
+  
+      <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif; display: block;">Lista Negra</h2>
+      <p class="fullwidth paragraph">NOMBRE: {{nombre}}</p>
+      <p class="fullwidth paragraph">DNI: {{dni}}</p>
+      <p class="fullwidth paragraph">EMAIL: {{email}}</p>
+
+      <p>Seleccione la cantidad de tiempo en la que el usuario permanecer&aacute; en Lista Negra</p>
+
+      <mat-form-field class="fullwidth">
+        <mat-select placeholder="Seleccione">
+          <mat-option *ngFor="let opcion of opciones" [value]="opcion.value">
+            {{ opcion.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="text-center">
+        <button class="btn btn-danger waves-light" mdbRippleRadius>Confirmar</button>
+      </div>
+    </div>
+</div>
