@@ -1,0 +1,77 @@
+<div class="container layout-view">
+  <div class="row justify-content-center">
+
+    <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">Alta de Videojuegos</h2>
+    <form class="fullwidth" id="formVideojuegos" name="videojuegos">
+      <div class="md-form fullwidth">
+        <input type="text" id="titulo" class="form-control" mdbActive>
+        <label for="titulo">Titulo</label>
+      </div>
+
+      <mat-form-field class="fullwidth">
+        <mat-select placeholder="Genero">
+          <mat-option *ngFor="let genero of generos" [value]="genero.value">
+            {{ genero.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="fullwidth">
+        <mat-select placeholder="Plataforma">
+          <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma.value">
+            {{ plataforma.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="fullwidth">
+        <mat-select placeholder="Compañia">
+          <mat-option *ngFor="let compania of companias" [value]="compania.value">
+            {{ compania.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <br>
+      <div class="md-form fullwidth">
+        <input type="number" id="cantMinima" class="form-control" mdbActive>
+        <label for="cantMinima">Cantidad Min</label>
+      </div>
+
+      <div class="md-form fullwidth">
+        <input type="number" id="cantMaxima" class="form-control" mdbActive>
+        <label for="cantMaxima">Cantidad Max</label>
+      </div>
+
+      <div class="md-form fullwidth">
+        <input type="text" id="urlVideo" class="form-control" mdbActive>
+        <label for="urlVideo">Video</label>
+      </div>
+
+      <div class="md-form fullwidth">
+        <input type="number" id="precio" class="form-control" mdbActive>
+        <label for="precio">Precio</label>
+      </div>
+
+      <mat-checkbox class="fullwidth">Destacado</mat-checkbox>
+      <div class="md-form fullwidth">
+
+        <input class="ng-hide" id="input-file-id" type="file" />
+      </div>
+      <br>
+
+
+      <mat-form-field class="fullwidth">
+        <textarea matInput placeholder="Descripcion"></textarea>
+      </mat-form-field>
+
+      <div class="text-center">
+        <button class="btn btn-success waves-light" mdbRippleRadius>Registrar Videojuego</button>
+      </div>
+    </form>
+
+
+
+
+  </div>
+</div>

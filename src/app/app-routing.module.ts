@@ -12,6 +12,7 @@ import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
 import { AdminEmpleadosComponent } from "./pages/admin/admin-empleados/admin-empleados.component";
 import { AdminEmpleadosFormComponent } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component";
 import { ListaNegraComponent } from "./pages/admin/usuarios/lista-negra/lista-negra.component";
+import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'admin-empleados-form',
     component: AdminEmpleadosFormComponent
+  },
+  {
+    path: 'admin-videojuegos-form',
+    component: FormVideojuegosComponent
   }
 ];
 

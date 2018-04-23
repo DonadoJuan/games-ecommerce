@@ -1,0 +1,29 @@
+@media (min-width: 768px) {
+    .layout-view {
+      margin: 0 auto;
+      max-width: 65%;
+      padding: 1.5% 3%;
+      border: 1px #000 solid;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+}
+
+.fullwidth {
+    width: 85%;
+    margin-left: 5%;
+}
+
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin: 0 10px;
+}
