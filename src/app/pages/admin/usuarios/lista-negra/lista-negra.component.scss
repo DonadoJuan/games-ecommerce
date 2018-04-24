@@ -1,0 +1,23 @@
+@media (min-width: 768px) {
+    .layout-view {
+      margin: 0 auto;
+      max-width: 65%;
+      padding: 1.5% 3%;
+      border: 1px #000 solid;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+}
+
+.fullwidth {
+    width: 85%;
+    margin-left: 5%;
+}
+
+.paragraph {
+   font-size: 1.8rem;
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   font-style: normal; 
+   color: slategray;
+   text-shadow: 2px 2px 5px lightblue;
+   text-align: center;
+}

@@ -33,7 +33,7 @@ import { SlideshowComponent } from './pages/home/slideshow/slideshow.component';
 import { BannerComponent } from './pages/home/banner/banner.component';
 import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
 import { VideojuegosComponent } from './pages/videojuegos/videojuegos.component';
-import { UsuariosComponent } from './pages/usuarios/usuarios.component';
+import { UsuariosComponent } from './pages/admin/usuarios/usuarios.component';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown/angular2-multiselect-dropdown';
 import { AdminSlideshowComponent } from './pages/admin/admin-slideshow/admin-slideshow.component';
 import { CheckboxComponent } from './pages/admin/checkbox.component';
@@ -42,6 +42,11 @@ import { NumberComponent } from './pages/admin/number.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { GameDetailsComponent } from './pages/game-details/game-details.component';
 import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
+import { AdminEmpleadosComponent } from './pages/admin/admin-empleados/admin-empleados.component';
+import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component';
+import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
+import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -64,7 +69,11 @@ import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
     PedidosComponent,
     UsuariosComponent,
     GameDetailsComponent,
-    CartWizardComponent
+    CartWizardComponent,
+    AdminEmpleadosComponent,
+    AdminEmpleadosFormComponent,
+    ListaNegraComponent,
+    FormVideojuegosComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +96,8 @@ import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
     MatNativeDateModule,
     OwlModule,
     AngularMultiSelectModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     CheckboxComponent,
