@@ -46,7 +46,6 @@ import { AdminEmpleadosComponent } from './pages/admin/admin-empleados/admin-emp
 import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component';
 import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -96,8 +95,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatNativeDateModule,
     OwlModule,
     AngularMultiSelectModule,
-    Ng2SmartTableModule,
-    MatCheckboxModule
+    Ng2SmartTableModule
   ],
   entryComponents: [
     CheckboxComponent,
