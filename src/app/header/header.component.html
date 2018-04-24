@@ -1,38 +1,37 @@
 <nav class="navbar navbar-expand-sm navbar-light fixed-top unique-color-dark justify-content-between">
-    <ul class="navbar-nav d-flex justify-content-around w-100">
+    <ul class="navbar-nav d-flex d-row">
+        <a class="navbar-brand text-white font-weight-bold border rounded px-3" routerLink="/" routerLinkActive="active">
+                P A D O G I </a>
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white" routerLink="/videojuegos" routerLinkActive="active">JUEGOS</a>
+            <a class="nav-link text-white" routerLink="/videojuegos" routerLinkActive="active">Juegos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white" routerLink="/game-details" href="#">OFERTAS</a>
+            <a class="nav-link text-white" routerLink="/game-details" href="#">Ofertas</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white">PREVENTA</a>
+            <a class="nav-link text-white">Preventa</a>
         </li>
     </ul>
 
-    <a class="navbar-brand text-white font-weight-bold border rounded px-3 m-auto" routerLink="/" routerLinkActive="active">
-    P A D O G I </a>
-
-    <ul class="navbar-nav d-flex justify-content-around w-100">
+    <ul class="navbar-nav d-flex d-row">
         <li class="nav-item">
-            <a class="nav-link font-weight-bold text-white" routerLink="/wrapper-login" routerLinkActive="active">LOGIN</a>
+            <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
         <li class="nav-item btn-group" dropdown>
                 <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
-                    PERFIL
+                    Perfil
                 </a>
             
                 <div class="dropdown-menu">
-                    <a class="nav-link font-weight-bold" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
-                    <a class="nav-link font-weight-bold" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
-                    <a class="nav-link font-weight-bold" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
-                    <a class="nav-link font-weight-bold" routerLink="/usuarios" routerLinkActive="active">Gestion Usuarios</a>
+                    <a class="nav-link" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
+                    <a class="nav-link" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
+                    <a class="nav-link" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
+                    <a class="nav-link" routerLink="/usuarios" routerLinkActive="active">Gestion Usuarios</a>
 
                 </div>
         </li>
         <li class="nav-item">
-                <a class="nav-link font-weight-bold text-white" routerLink="/cart-wizard" routerLinkActive="active">
+                <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
                     <i class="material-icons align-middle">shopping_cart</i>
                 </a>
         </li>

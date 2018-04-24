@@ -7,12 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartWizardComponent implements OnInit {
 
+  formaEntrega: String;
+  tarjetas: any;
+  sucursales: any;
   settings: any;
   data: any[];
 
   constructor() { }
 
   ngOnInit() {
+
+    this.formaEntrega = "1";
     this.settings = {
       actions: false,
       hideSubHeader: true,
@@ -39,6 +44,34 @@ export class CartWizardComponent implements OnInit {
         class: 'table'
       }
     }
+
+    this.sucursales = [
+      {
+        id: "3212354",
+        name: "Microcentro - Paraguay 1050"
+      },
+      {
+        id: "3219632",
+        name: "Paternal - av. Sarmiento 720"
+      },
+      {
+        id: "945725",
+        name: "Puerto Madero - Juana Manso 1240"
+      }
+    ]
+
+    this.tarjetas = [
+      {
+        id: "234562",
+        marca: "Mastercard",
+        num:"..5314"
+      },
+      {
+        id: "634521",
+        marca: "Visa",
+        num:"..7492"
+      }
+    ]
 
     this.data = [
       {

@@ -12,6 +12,13 @@ import { MatTabsModule } from "@angular/material";
 import { MatStepperModule } from "@angular/material";
 import { OwlModule } from 'ngx-owl-carousel';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material';
+
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -72,6 +79,12 @@ import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
     MatSortModule,
     MatTabsModule,
     MatStepperModule,
+    MatCheckboxModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     OwlModule,
     AngularMultiSelectModule,
     Ng2SmartTableModule
