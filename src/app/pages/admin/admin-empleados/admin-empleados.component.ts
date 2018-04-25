@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NumberComponent } from "../number.component";
 import { CheckboxComponent } from '../checkbox.component';
+import { Router, NavigationStart } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-admin-empleados',
@@ -12,17 +15,21 @@ export class AdminEmpleadosComponent implements OnInit {
   settings: any;
   data: any[];
 
-  constructor() { }
+  constructor(router: Router) { }
 
   ngOnInit() {
 
     this.settings = {
       actions: {
-        delete: true,
-        add: false,
-        edit: true,
+        add: false, edit: false, delete: false, position: 'right', custom:
+          [{ name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
+          { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }]
       },
+
+
+
       columns: {
+
         nombre: {
           title: 'Nombre'
         },
@@ -55,12 +62,13 @@ export class AdminEmpleadosComponent implements OnInit {
           title: 'Telefono',
           type: 'custom',
           renderComponent: NumberComponent
-        },      
-         checkbox: {
+        },
+        checkbox: {
           title: 'Clave descuento',
           type: 'custom',
           renderComponent: CheckboxComponent,
           filter: false,
+          width: "10%",
         }
       },
       defaultStyle: true,
@@ -80,7 +88,7 @@ export class AdminEmpleadosComponent implements OnInit {
         email: 'mladelbarrio@padogi.com',
         domicilio: 'Av. Pavon 1133',
         telefono: 45559123
-      }, 
+      },
       {
         nombre: 'Mister Ed',
         legajo: 444,
@@ -91,7 +99,7 @@ export class AdminEmpleadosComponent implements OnInit {
         email: 'med@padogi.com',
         domicilio: 'Defensa 1742',
         telefono: 45571134
-      }, 
+      },
       {
         nombre: 'Elbo Lastristes',
         legajo: 912,
@@ -106,6 +114,15 @@ export class AdminEmpleadosComponent implements OnInit {
     ];
 
 
+  }
+
+  onCustom(event) {
+    if (`'${event.action}'` == "'eliminar'") {
+
+      //agregar accion para eliminar
+    } else {
+      //agregar accion  para editar
+    }
   }
 
 }

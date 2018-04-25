@@ -1,1 +1,2 @@
-<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source]="data" (custom)="onCustom($event)"></ng2-smart-table>
+<button class="btn btn-primary" routerLink="/admin-empleados-form">ADD</button>
