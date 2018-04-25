@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NumberComponent } from "../number.component";
+import { CheckboxComponent } from '../checkbox.component';
 
 @Component({
   selector: 'app-admin-empleados',
@@ -54,6 +55,12 @@ export class AdminEmpleadosComponent implements OnInit {
           title: 'Telefono',
           type: 'custom',
           renderComponent: NumberComponent
+        },      
+         checkbox: {
+          title: 'Clave descuento',
+          type: 'custom',
+          renderComponent: CheckboxComponent,
+          filter: false,
         }
       },
       defaultStyle: true,
