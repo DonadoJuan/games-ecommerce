@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckboxComponent } from "../checkbox.component";
 import { NumberComponent } from "../number.component";
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-admin-videojuegos',
@@ -12,15 +13,16 @@ export class AdminVideojuegosComponent implements OnInit {
   settings: any;
   data: any[];
 
-  constructor() { }
+  constructor(router: Router) { }
 
   ngOnInit() {
     this.settings = {
       actions: {
-        delete: true,
-        add: false,
-        edit: true,
+        add: false, edit: false, delete: false, position: 'right', custom:
+          [{ name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
+          { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }]
       },
+
       columns: {
         titulo: {
           title: 'Titulo'
@@ -108,6 +110,14 @@ export class AdminVideojuegosComponent implements OnInit {
       }
     ]
 
+  }
+  onCustom(event) {
+    if (`'${event.action}'` == "'eliminar'") {
+
+      //agregar accion para eliminar
+    } else {
+      //agregar accion  para editar
+    }
   }
 
 }
