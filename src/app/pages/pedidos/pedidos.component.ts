@@ -27,11 +27,11 @@ export class PedidosComponent implements OnInit {
     const pedidos: Pedido[] = [];
     for (let i = 1; i <= 100; i++) { 
       pedidos.push({
-        id: i,
         fecha: '15/04/2018',
         cliente: 'Bart Simpson ' + i,
         destino: 'Av. Siempreviva 742',
-        estado: 'Despachado' 
+        estado: 'Despachado',
+        id: i 
       }); 
     }
 

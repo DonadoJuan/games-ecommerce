@@ -1,6 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { MatInputModule } from '@angular/material';
@@ -47,6 +47,8 @@ import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin
 import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 
+import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +80,7 @@ import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-v
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,
     MatInputModule,
@@ -102,7 +105,7 @@ import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-v
     NumberComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService ],
+  providers: [ Title, UtilsService, AdminEmpleadosFormService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

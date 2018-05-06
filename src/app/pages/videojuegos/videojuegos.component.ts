@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Videojuegos } from '../../domain/videojuegos';
+import { Videojuego } from '../../domain/videojuego';
 
 
 @Component({
@@ -10,9 +10,9 @@ import { Videojuegos } from '../../domain/videojuegos';
 
 export class VideojuegosComponent implements OnInit {
 
-  private videojuego1 : Videojuegos = new Videojuegos();
-  private videojuego2 : Videojuegos = new Videojuegos();
-  private listaVideoJuegos : Videojuegos[] = new Array();
+  private videojuego1 : Videojuego = new Videojuego();
+  private videojuego2 : Videojuego = new Videojuego();
+  private listaVideoJuegos : Videojuego[] = new Array();
      dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};

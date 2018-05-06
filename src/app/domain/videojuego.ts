@@ -1,5 +1,5 @@
 
-export class Videojuegos {
+export class Videojuego {
 
   id: number;
   nombre: string;
