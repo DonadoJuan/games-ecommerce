@@ -2,7 +2,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { MDBBootstrapModule } from 'angular-bootstrap-md' ;
 import { MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
@@ -18,7 +18,9 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material';
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -41,13 +43,14 @@ import { AdminVideojuegosComponent } from './pages/admin/admin-videojuegos/admin
 import { NumberComponent } from './pages/admin/number.component';
 import { PedidosComponent } from './pages/pedidos/pedidos.component';
 import { GameDetailsComponent } from './pages/game-details/game-details.component';
-import { CartWizardComponent } from './pages/cart-wizard/cart-wizard.component';
+import { CartWizardComponent, ConfirmPurchaseDialog } from './pages/cart-wizard/cart-wizard.component';
 import { AdminEmpleadosComponent } from './pages/admin/admin-empleados/admin-empleados.component';
 import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component';
 import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 
 import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
+import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +77,9 @@ import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-e
     AdminEmpleadosComponent,
     AdminEmpleadosFormComponent,
     ListaNegraComponent,
-    FormVideojuegosComponent
+    FormVideojuegosComponent,
+    ConfirmPurchaseDialog,
+    ProgressSpinnerDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -96,13 +101,18 @@ import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-e
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonModule,
+    MatDialogModule,
     OwlModule,
     AngularMultiSelectModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     CheckboxComponent,
-    NumberComponent
+    NumberComponent,
+    ConfirmPurchaseDialog,
+    ProgressSpinnerDialogComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, UtilsService, AdminEmpleadosFormService ],

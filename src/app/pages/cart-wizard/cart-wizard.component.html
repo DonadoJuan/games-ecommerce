@@ -314,13 +314,44 @@
     <!-- PASO 4 CONFIRMAR COMPRA -->
     <mat-step label="CONFIRMAR COMPRA">
       <div class="container">
-
+        
         <div class="row pt-5">
 
           <div class="col-12 col-lg-8 d-flex flex-column">
+            <section class="mb-3 mt-3">
+              <h6>CARRITO</h6>
+              <mat-divider class="mb-4"></mat-divider>
+              <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+            </section>
+            <section class="mb-3 mt-3">
+              <h6>FORMA DE ENTREGA</h6>
+              <mat-divider class="mb-4"></mat-divider>
+              <div class="d-flex d-row justify-content-between h-50">
+                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Entrega a domicilio</span>
+                <span class="alert alert-dark">Defensa 7010, San Telmo</span>
+              </div>
+            </section>
+            <section class="mb-3 mt-3">
+              <h6>MEDIO DE PAGO</h6>
+              <mat-divider class="mb-4"></mat-divider>
+              <div class="d-flex d-row justify-content-between h-50">
+                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Tarjeta</span>
+                <span class="alert alert-dark">Visa terminada en ...5631</span>
+              </div>
+            </section>
+            <section class="mb-3 mt-3">
+              <h6>DESCUENTOS</h6>
+              <mat-divider class="mb-4"></mat-divider>
+              <div class="d-flex d-row justify-content-between">
+                <mat-form-field class="w-50">
+                    <input matInput placeholder="Cupon de descuento">
+                </mat-form-field>
+                <button mat-button mat-raised-button>APLICAR DESCUENTO</button>
+              </div>
+            </section>
           </div>
 
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-lg-4 sticky-top">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
@@ -332,28 +363,22 @@
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Descuentos:</label>
-                <span> - </span>
+                <span> $50 </span>
               </div>
-              <div class="col-12 d-flex justify-content-between align-items-center p-2">
+              <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Total:</label>
-                <span> - </span>
+                <span> $1500 </span>
               </div>
             </div>
             <div class="row justify-content-center mt-5">
-              <button matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
-                CONTINUAR
+              <button (click)="confirmPurchase()" matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold sticky-top">
+                CONFIRMAR COMPRA
               </button>
             </div>
           </div>
-
         </div>
-
       </div>
-
-
-
 
     </mat-step>
   </mat-horizontal-stepper>
-
 </section>

@@ -1,4 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Router } from '@angular/router';
+import { ProgressSpinnerDialogComponent } from '../../progress-spinner-dialog/progress-spinner-dialog.component';
+
+
+
+@Component({
+  selector: 'confirm-purchase-dialog',
+  templateUrl: 'confirm-purchase-dialog.html',
+})
+export class ConfirmPurchaseDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmPurchaseDialog>
+  ) { 
+      dialogRef.disableClose = true;
+  }
+
+  confirmMsg(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+
+
 
 @Component({
   selector: 'app-cart-wizard',
@@ -13,8 +39,21 @@ export class CartWizardComponent implements OnInit {
   settings: any;
   data: any[];
 
-  constructor() { }
+  confirmPurchase(): void {
+    let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
+      width: '300px'
+    });
 
+    dialogRef.beforeClose().subscribe(result => {
+      //this.dialog.open(ProgressSpinnerDialogComponent, { panelClass: 'transparent' });
+      this.router.navigate(['pedidos']);
+    });
+  }
+  
+  constructor (public dialog: MatDialog, public router: Router) { 
+  }
+
+  
   ngOnInit() {
 
     this.formaEntrega = "1";
