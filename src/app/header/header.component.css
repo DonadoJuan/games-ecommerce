@@ -32,6 +32,11 @@
   .nav-list a:hover, .nav-list a:active, .nav-list a:focus {
     text-decoration: none;
   }
+
+  a:hover.nav-link.font-weight-bold {
+    opacity: 1;
+    background-color: darkblue;
+  }
   
   /*-- Hamburger toggle --*/
   .toggle-offcanvas {
