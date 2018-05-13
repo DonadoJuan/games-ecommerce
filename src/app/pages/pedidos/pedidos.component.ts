@@ -31,7 +31,7 @@ export class PedidosComponent implements OnInit {
         cliente: 'Bart Simpson ' + i,
         destino: 'Av. Siempreviva 742',
         estado: 'Despachado',
-        id: i 
+        _id: i + ""
       }); 
     }
 

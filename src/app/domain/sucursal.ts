@@ -4,7 +4,7 @@ import { Videojuego } from "./videojuego";
 export class Sucursal {
     constructor(
         public ubicacion: Domicilio,
-        public videojuego: Videojuego,
-        public id?: string
+        public videojuegos?: Videojuego[],
+        public _id?: string
     ) {}
 }

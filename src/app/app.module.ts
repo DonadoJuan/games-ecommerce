@@ -1,5 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MDBBootstrapModule } from 'angular-bootstrap-md' ;
@@ -51,6 +52,10 @@ import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-v
 
 import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
 import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
+import { LoadingComponent } from './core/loading.component';
+import { SubmittingComponent } from './core/submitting.component';
+
+import { ApiService } from './core/api.service';
 
 @NgModule({
   declarations: [
@@ -79,11 +84,14 @@ import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progre
     ListaNegraComponent,
     FormVideojuegosComponent,
     ConfirmPurchaseDialog,
-    ProgressSpinnerDialogComponent
+    ProgressSpinnerDialogComponent,
+    LoadingComponent,
+    SubmittingComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
@@ -115,7 +123,7 @@ import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progre
     ProgressSpinnerDialogComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService, AdminEmpleadosFormService ],
+  providers: [ Title, UtilsService, AdminEmpleadosFormService, ApiService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

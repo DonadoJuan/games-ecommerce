@@ -8,6 +8,7 @@ import { FormEmpleadosModel } from "../../../../core/models/form-empleados.model
 import { AdminEmpleadosFormService } from "./admin-empleados-form.service";
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Personal } from "../../../../domain/personal";
+import { ApiService } from "../../../../core/api.service";
 
 
 @Component({
@@ -15,8 +16,9 @@ import { Personal } from "../../../../domain/personal";
   templateUrl: './admin-empleados-form.component.html',
   styleUrls: ['./admin-empleados-form.component.scss']
 })
-export class AdminEmpleadosFormComponent implements OnInit {
+export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
 
+  
   @Input() personal: Personal;
   isEdit: boolean;
 
@@ -27,27 +29,56 @@ export class AdminEmpleadosFormComponent implements OnInit {
 
   submitPersonalObj: Personal;
   submitPersonalSub: Subscription;
+  sucursalesSub: Subscription;
+  barriosSub: Subscription;
   error: boolean;
   submitting: boolean;
   submitBtnText: string;
 
   perfiles: any[] = [];
   sucursales: any[] = [];
+  sucursalesApi: any[] = [];
   barrios: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private aes: AdminEmpleadosFormService,
-    private router: Router) { }
+    private router: Router,
+    private api: ApiService) { }
 
   ngOnInit() {
-    this.perfiles.push({value: '1', viewValue:'Empleado'});
-    this.perfiles.push({value: '2', viewValue: 'Administrador'});
 
-    this.sucursales.push({value: '1', viewValue: 'Av. Mitre 750'});
-    this.sucursales.push({value: '2', viewValue: 'Av. Santa Fe 1944'});
+    this.sucursalesSub = this.api.getSucursalesUbicacion$()
+      .subscribe(
+        data => {
+          data.forEach(d => {
+            console.log(d);
+            this.sucursalesApi.push(d);
+            this.sucursales.push({value: d._id, viewValue: d.ubicacion.calle + " " + d.ubicacion.altura});
+          })
+        },
+        err => this._handleSubmitError(err)
+      );
 
-    this.barrios.push({value: '1', viewValue: 'Barracas'});
+    this.barriosSub = this.api.getBarrios$()
+      .subscribe(
+        data => {
+          data.forEach(d => {
+            this.barrios.push({value: d.nombre, viewValue: d.nombre})
+          });
+        },
+        err => this._handleSubmitError(err)
+      );
+
+      console.log(this.sucursalesApi);
+
+    this.perfiles.push({value: 'Empleado', viewValue:'Empleado'});
+    this.perfiles.push({value: 'Administrador', viewValue: 'Administrador'});
+
+    //this.sucursales.push({value: 'Av. Mitre 750', viewValue: 'Av. Mitre 750'});
+    //this.sucursales.push({value: 'Av. Santa Fe 1944', viewValue: 'Av. Santa Fe 1944'});
+
+    //this.barrios.push({value: 'Barracas', viewValue: 'Barracas'});
 
     this.formErrors = this.aes.formErrors;
     this.isEdit = !!this.personal;
@@ -158,7 +189,72 @@ export class AdminEmpleadosFormComponent implements OnInit {
     }
   }
 
+  private _getSubmitObj() {
+    let barrio = new Barrio(this.formEmpleados.get('barrio').value);
+    let domicilio = new Domicilio(
+      this.formEmpleados.get('calle').value,
+      this.formEmpleados.get('altura').value,
+      barrio,
+      this.formEmpleados.get('codigo_postal').value
+    );
+    let idSucursal = this.formEmpleados.get('sucursal').value;
+    let sucursal;
+    this.sucursalesApi.forEach(suc => {
+      if(suc._id == idSucursal) {
+        sucursal = new Sucursal(suc.ubicacion, null, suc._id);
+      }
+    })
+    //sucursal = new Sucursal(null);
+    let p = new Personal(
+      this.formEmpleados.get('nombre').value,
+      this.formEmpleados.get('legajo').value,
+      this.formEmpleados.get('dni').value,
+      this.formEmpleados.get('fecha_nacimiento').value,
+      this.formEmpleados.get('email').value,
+      this.formEmpleados.get('perfil').value,
+      sucursal,
+      domicilio,
+      this.formEmpleados.get('telefono').value,
+      this.personal ? this.personal._id : null
+    );
+    console.log(JSON.stringify(p));
+    return p;
+  }
 
+  onSubmit() {
+    this.submitting = true;
+    this.submitPersonalObj = this._getSubmitObj();
 
+    if(!this.isEdit) {
+      this.submitPersonalSub = this.api
+        .postPersonal$(this.submitPersonalObj)
+        .subscribe(
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
+        );
+    }
+
+  }
+  
+  private _handleSubmitSuccess(res) {
+    this.error = false;
+    this.submitting = false;
+    this.router.navigate(['admin-empleados']);
+  }
+
+  private _handleSubmitError(err) {
+    console.error(err);
+    this.submitting = false;
+    this.error = true;
+  }
+
+  ngOnDestroy() {
+    if(this.submitPersonalSub) {
+      this.submitPersonalSub.unsubscribe();
+    }
+    this.sucursalesSub.unsubscribe();
+    this.barriosSub.unsubscribe();
+    this.formChangeSub.unsubscribe();
+  }
 
 }

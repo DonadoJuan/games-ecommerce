@@ -3,5 +3,5 @@ export class Pedido {
     cliente: string;
     destino: string;
     estado: string;
-    id?: number
+    _id?: string
 }

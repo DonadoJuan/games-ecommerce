@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
 
     <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">Alta de Personal</h2>
-    <form class="fullwidth" [formGroup]="formEmpleados" name="empleados">
+    <form class="fullwidth" [formGroup]="formEmpleados" (ngSubmit)="onSubmit()" name="empleados">
 
     <div class="md-form fullwidth">
       <input type="text" id="nombre" class="form-control" mdbActive formControlName="nombre" [maxlength]="aes.strMax">
@@ -143,8 +143,14 @@
 
 
     <div class="text-center">
-      <button class="btn btn-success waves-light" [disabled]="formEmpleados.invalid" [innerText]="submitBtnText" mdbRippleRadius></button>
+      <button class="btn btn-success waves-light" [disabled]="formEmpleados.invalid || submitting ? true : null" [innerText]="submitBtnText" mdbRippleRadius></button>
     </div>
+
+    <app-submitting *ngIf="submitting"></app-submitting>
+
+    <p *ngIf="error" class="mt-3 alert alert-danger">
+      <strong>Error:</strong> Hubo un problema al intentar enviar los datos. Por favor, reintente.
+    </p>
     </form>
 
   </div>

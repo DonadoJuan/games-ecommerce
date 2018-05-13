@@ -22,10 +22,10 @@ export class VideojuegosComponent implements OnInit {
   ngOnInit() {
     
 
-    this.videojuego1.id = 1;
-    this.videojuego1.nombre = "Mario";
-        this.videojuego2.id = 2;
-    this.videojuego2.nombre = "Nino";
+    this.videojuego1._id = 1;
+    this.videojuego1.titulo = "Mario";
+        this.videojuego2._id = 2;
+    this.videojuego2.titulo = "Nino";
     
 
     this.listaVideoJuegos.push(this.videojuego1);

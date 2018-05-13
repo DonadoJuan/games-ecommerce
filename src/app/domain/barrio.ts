@@ -1,6 +1,6 @@
 export class Barrio {
     constructor(
         public nombre: string,
-        public id?: string
+        public _id?: string
     ) {}
 }

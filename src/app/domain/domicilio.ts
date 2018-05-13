@@ -6,6 +6,6 @@ export class Domicilio {
         public altura: number,
         public barrio: Barrio,
         public codigo_postal: number,
-        public id?: string
+        public _id?: string
     ) {}
 }
