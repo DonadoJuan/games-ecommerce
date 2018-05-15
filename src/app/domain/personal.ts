@@ -6,7 +6,7 @@ export class Personal {
         public nombre: string,
         public legajo: string,
         public dni: string,
-        public fecha_nacimiento: string,
+        public fecha_nacimiento: Date,
         public email: string,
         public perfil: string,
         public sucursal: Sucursal,

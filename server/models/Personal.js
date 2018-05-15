@@ -14,7 +14,7 @@ const personalSchema = mongoose.Schema({
         required: true
     },
     fecha_nacimiento: {
-        type: String,
+        type: Date,
         required: true
     },
     email: {

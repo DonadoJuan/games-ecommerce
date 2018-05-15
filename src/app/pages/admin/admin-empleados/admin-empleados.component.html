@@ -1,2 +1,8 @@
-<ng2-smart-table [settings]="settings" [source]="data" (custom)="onCustom($event)"></ng2-smart-table>
-<button class="btn btn-primary" routerLink="/admin-empleados-form">ADD</button>
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+    <ng2-smart-table [settings]="settings" [source]="data" (custom)="onCustom($event)"></ng2-smart-table>
+    <button class="btn btn-primary" routerLink="/admin-empleados-form">ADD</button>
+</ng-template>
+<p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> Ocurrio un error al traer datos del personal.
+</p>

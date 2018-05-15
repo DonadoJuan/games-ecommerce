@@ -13,21 +13,16 @@ module.exports = function(app) {
     });
 
     app.get('/api/sucursales/ubicacion', (req, res) => {
-        console.log('endpoint sucursales');
         Sucursal.find({}, {_id: 1, ubicacion: 1}, (err, sucursales) => {
             let sucursalesArr = [];
             if (err) {
-                console.log('primer error. Error interno');
                 return res.status(500).send({message: err.message});
             }
             if(sucursales) {
-                console.log('Aca ni entro, no?');
                 sucursales.forEach(sucursal => {
-                    console.log('sucursal: ', sucursal);
                     sucursalesArr.push(sucursal);
                 });
             }
-            console.log('sucursales: ' + sucursales);
             res.send(sucursalesArr);
         });
     });
@@ -44,6 +39,21 @@ module.exports = function(app) {
                 });
             }
             res.send(barriosArr);
+        });
+    });
+
+    app.get('/api/personal', (req, res) => {
+        Personal.find({}, (err, personal) => {
+            let personalArr = [];
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(personal) {
+                personal.forEach(p => {
+                    personalArr.push(p);
+                });
+            }
+            res.send(personalArr);
         });
     });
 
@@ -75,6 +85,50 @@ module.exports = function(app) {
                     return res.status(500).send({message: err.message + " segundo error interno"});
                 }
                 res.send(personal);
+            });
+        });
+    });
+
+    app.put('/api/personal/:id', (req, res) => {
+        Personal.findById(req.params.id, (err, personal) => {
+            if (err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!personal) {
+                return res.status(400).send({message: "Personal no encontrado"});
+            }
+            personal.nombre = req.body.nombre;
+            personal.legajo = req.body.legajo;
+            personal.dni = req.body.dni;
+            personal.fecha_nacimiento = req.body.fecha_nacimiento;
+            personal.email = req.body.email;
+            personal.perfil = req.body.perfil;
+            personal.sucursal = req.body.sucursal;
+            personal.domicilio = req.body.domicilio;
+            personal.telefono = req.body.telefono;
+
+            personal.save(err => {
+                if(err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(personal);
+            });
+        });
+    });
+
+    app.delete('/api/personal/:id', (req, res) => {
+        Personal.findById(req.params.id, (err, personal) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!personal) {
+                return res.status(500).send({message: "Personal no encontrado"});
+            }
+            personal.remove(err => {
+                if(err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.status(200).send({message: "Personal eliminado exitosamente"});
             });
         });
     });

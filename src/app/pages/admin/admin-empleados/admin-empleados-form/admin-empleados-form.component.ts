@@ -9,12 +9,21 @@ import { AdminEmpleadosFormService } from "./admin-empleados-form.service";
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Personal } from "../../../../domain/personal";
 import { ApiService } from "../../../../core/api.service";
-
+import { UtilsService } from "../../../../core/utils.service";
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 @Component({
   selector: 'app-admin-empleados-form',
   templateUrl: './admin-empleados-form.component.html',
-  styleUrls: ['./admin-empleados-form.component.scss']
+  styleUrls: ['./admin-empleados-form.component.scss'],
+  providers: [
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
 
@@ -34,6 +43,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
   error: boolean;
   submitting: boolean;
   submitBtnText: string;
+  tituloForm: string;
 
   perfiles: any[] = [];
   sucursales: any[] = [];
@@ -44,15 +54,19 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private aes: AdminEmpleadosFormService,
     private router: Router,
-    private api: ApiService) { }
+    private api: ApiService,
+    private adapter: DateAdapter<any>,
+    private us: UtilsService) { }
 
   ngOnInit() {
-
+    if(this.us.personal) {
+      this.personal = this.us.personal;
+      this.us.personal = null;
+    }
     this.sucursalesSub = this.api.getSucursalesUbicacion$()
       .subscribe(
         data => {
           data.forEach(d => {
-            console.log(d);
             this.sucursalesApi.push(d);
             this.sucursales.push({value: d._id, viewValue: d.ubicacion.calle + " " + d.ubicacion.altura});
           })
@@ -70,21 +84,20 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
         err => this._handleSubmitError(err)
       );
 
-      console.log(this.sucursalesApi);
-
     this.perfiles.push({value: 'Empleado', viewValue:'Empleado'});
     this.perfiles.push({value: 'Administrador', viewValue: 'Administrador'});
-
-    //this.sucursales.push({value: 'Av. Mitre 750', viewValue: 'Av. Mitre 750'});
-    //this.sucursales.push({value: 'Av. Santa Fe 1944', viewValue: 'Av. Santa Fe 1944'});
-
-    //this.barrios.push({value: 'Barracas', viewValue: 'Barracas'});
 
     this.formErrors = this.aes.formErrors;
     this.isEdit = !!this.personal;
     this.submitBtnText = this.isEdit ? 'Modificar Personal' : 'Crear Personal';
     this.formEmpleadosModel = this._setFormEmpleados();
     this._buildForm();
+    this.tituloForm = "Alta de Personal"
+    if(this.isEdit) {
+      this.tituloForm = "Modificacion de Personal"
+      this.formEmpleados.controls['barrio'].setValue(this.personal.domicilio.barrio.nombre);
+      this.formEmpleados.controls['sucursal'].setValue(this.personal.sucursal._id);
+    }
   }
 
 
@@ -203,13 +216,13 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       if(suc._id == idSucursal) {
         sucursal = new Sucursal(suc.ubicacion, null, suc._id);
       }
-    })
-    //sucursal = new Sucursal(null);
+    });
+    let fecha = new Date(this.formEmpleados.get('fecha_nacimiento').value);
     let p = new Personal(
       this.formEmpleados.get('nombre').value,
       this.formEmpleados.get('legajo').value,
       this.formEmpleados.get('dni').value,
-      this.formEmpleados.get('fecha_nacimiento').value,
+      fecha,
       this.formEmpleados.get('email').value,
       this.formEmpleados.get('perfil').value,
       sucursal,
@@ -217,7 +230,6 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       this.formEmpleados.get('telefono').value,
       this.personal ? this.personal._id : null
     );
-    console.log(JSON.stringify(p));
     return p;
   }
 
@@ -228,6 +240,13 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     if(!this.isEdit) {
       this.submitPersonalSub = this.api
         .postPersonal$(this.submitPersonalObj)
+        .subscribe(
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
+        );
+    } else {
+      this.submitPersonalSub = this.api
+        .putPersonal$(this.personal._id, this.submitPersonalObj)
         .subscribe(
           data => this._handleSubmitSuccess(data),
           err => this._handleSubmitError(err)

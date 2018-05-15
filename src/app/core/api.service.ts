@@ -31,9 +31,33 @@ export class ApiService {
       );
   }
 
+  getPersonal$(): Observable<Personal[]> {
+    return this.http
+      .get(`${ENV.BASE_API}personal`)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
   postPersonal$(personal: Personal): Observable<Personal> {
     return this.http
       .post(`${ENV.BASE_API}personal/new`, personal)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  putPersonal$(id: string, personal: Personal): Observable<Personal> {
+    return this.http
+      .put(`${ENV.BASE_API}personal/${id}`, personal)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  deletePersonal$(id: string): Observable<any> {
+    return this.http
+      .delete(`${ENV.BASE_API}personal/${id}`)
       .pipe(
         catchError((error) => this._handleError(error))
       );

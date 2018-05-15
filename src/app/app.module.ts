@@ -54,8 +54,11 @@ import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-e
 import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 import { LoadingComponent } from './core/loading.component';
 import { SubmittingComponent } from './core/submitting.component';
+import { ConfirmDeleteDialog } from "./pages/admin/admin-empleados/admin-empleados.component";
 
 import { ApiService } from './core/api.service';
+
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -86,7 +89,8 @@ import { ApiService } from './core/api.service';
     ConfirmPurchaseDialog,
     ProgressSpinnerDialogComponent,
     LoadingComponent,
-    SubmittingComponent
+    SubmittingComponent,
+    ConfirmDeleteDialog
   ],
   imports: [
     BrowserModule,
@@ -120,10 +124,11 @@ import { ApiService } from './core/api.service';
     CheckboxComponent,
     NumberComponent,
     ConfirmPurchaseDialog,
-    ProgressSpinnerDialogComponent
+    ProgressSpinnerDialogComponent,
+    ConfirmDeleteDialog
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService, AdminEmpleadosFormService, ApiService ],
+  providers: [ Title, UtilsService, AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
