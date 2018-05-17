@@ -22,6 +22,7 @@ import {MatNativeDateModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -59,6 +60,7 @@ import { ConfirmDeleteDialog } from "./pages/admin/admin-empleados/admin-emplead
 import { ApiService } from './core/api.service';
 
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { AdminStockComponent } from './pages/admin/admin-stock/admin-stock.component';
 
 @NgModule({
   declarations: [
@@ -90,13 +92,15 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
     ProgressSpinnerDialogComponent,
     LoadingComponent,
     SubmittingComponent,
-    ConfirmDeleteDialog
+    ConfirmDeleteDialog,
+    AdminStockComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     BrowserAnimationsModule,

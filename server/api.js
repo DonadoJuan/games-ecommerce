@@ -27,6 +27,36 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/api/sucursales/:id', (req, res) => {
+        Sucursal.find({_id: req.params.id}, (err, sucursal) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!sucursal) {
+                return res.status(400).send({message: 'No pudo identificarse a que sucursal pertenece.'});
+            }
+            res.send(sucursal);
+        });
+    });
+
+    app.put('/api/stock/:id', (req, res) => {
+        Sucursal.findById(req.params.id, (err, sucursal) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!sucursal) {
+                return res.status(400).send({message: 'No pudo identificarse a que sucursal pertenece.'});
+            }
+            sucursal.videojuegos = req.body;
+            sucursal.save((err) => {
+                if(err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(sucursal);
+            });
+        });
+    });
+
     app.get('/api/barrios', (req, res) => {
         Barrio.find({}, (err, barrios) => {
             let barriosArr = [];

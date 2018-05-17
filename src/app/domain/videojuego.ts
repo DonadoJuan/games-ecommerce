@@ -1,6 +1,7 @@
 export class Videojuego {
   constructor(
     public titulo?: string,
+    public codigo?: string,
     public genero?: Array<string>,
     public plataforma?: Array<string>,
     public cantidadMinima?: number,

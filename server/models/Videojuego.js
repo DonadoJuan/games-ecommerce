@@ -5,6 +5,10 @@ const videojuegoSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    codigo: {
+        type: String,
+        required: true
+    },
     genero: {
         type: Array,
         required: true

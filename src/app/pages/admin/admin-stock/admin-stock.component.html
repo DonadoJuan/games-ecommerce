@@ -1,0 +1,95 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" (ngSubmit)="codeSubmit(stepper)">
+      <ng-template matStepLabel>Ingresa el codigo del videojuego</ng-template>
+      <mat-form-field>
+        <input type="number" matInput placeholder="Codigo" formControlName="CodigoCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup" (ngSubmit)="stockSubmit(stepper)">
+      <div *ngIf="videojuego">
+          <strong>Codigo: </strong> {{videojuego.codigo}} <br />
+          <strong>Titulo: </strong> {{videojuego.titulo}}
+      </div>
+      <ng-template matStepLabel>Ingresa stock a reponer</ng-template>
+      <mat-form-field>
+        <input type="number" matInput placeholder="Stock" formControlName="StockCtrl" min="1" max="99" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Exito</ng-template>
+    Exito al cargar. ¿Desea cargar stock de otro juego?
+    <div>
+      <button mat-button matStepperNext>No</button>
+      <button mat-button (click)="nuevo(stepper)">Si</button>
+    </div>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel>Revision</ng-template>
+      Aqui podra revisar los stocks cargados previamente. Una vez confirmado, estos stocks seran actualizados.<br />
+      Para modificar el stock de algun videojuego, solo modifique la cantidad en el campo 'Stock a reponer' y luego presione ENTER. <br />
+      Si NO presiona ENTER, el valor NO SERA MODIFICADO. 
+          <div class="container" class="doc-confirmar">
+            <div class="row">
+              <div class="col-md-6">
+                <strong>Titulo: </strong> 
+              </div>
+              <div class="col-md-6">
+                <strong>Stock a reponer: </strong> 
+              </div>
+            </div>
+            <div *ngFor="let vj of videojuegosStock">
+              <div class="row">
+                <div class="col-md-6">
+                  {{vj.titulo}}
+                </div>
+                <div class="col-md-6">
+                  <input type="number" #newStock (keyup.enter)="onEnter(newStock.value, vj, refreshSotck)" matInput placeholder="Stock" value="{{vj.cantidad}}" required>
+                </div>
+              </div>
+            </div>
+        </div>
+        <button mat-button (click)="confirmSubmit(stepper, success)">Confirmar</button>
+  </mat-step>
+</mat-horizontal-stepper>
+
+  <ng-template #refreshSotck let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Exito</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Modificacion de stock exitosa&hellip;</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Close</button>
+    </div>
+  </ng-template>
+
+  <ng-template #success let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Exito</h4>
+      </div>
+      <div class="modal-body">
+        <p>Todos los stocks han sido actualizados&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="c('Close click')">Close</button>
+      </div>
+  </ng-template>
+
+<p *ngIf="error" class="mt-3 alert alert-danger">
+    <strong>Error:</strong> {{errorMsg}}
+</p>

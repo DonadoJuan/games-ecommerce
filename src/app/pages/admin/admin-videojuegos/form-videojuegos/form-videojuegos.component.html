@@ -8,6 +8,11 @@
         <label for="titulo">Titulo</label>
       </div>
 
+      <div class="md-form fullwidth">
+        <input type="number" id="codigo" class="form-control" mdbActive>
+        <label for="codigo">Codigo</label>
+      </div>
+
       <mat-form-field class="fullwidth">
         <mat-select placeholder="Genero">
           <mat-option *ngFor="let genero of generos" [value]="genero.value">

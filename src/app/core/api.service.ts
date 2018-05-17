@@ -22,6 +22,22 @@ export class ApiService {
         catchError((error) => this._handleError(error))
       );   
   }
+
+  getSucursalById$(id: string): Observable<Sucursal> {
+    return this.http
+      .get(`${ENV.BASE_API}sucursales/${id}`)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  updateSucursalStock$(id: string, videojuegos: Videojuego[]): Observable<Sucursal> {
+    return this.http
+      .put(`${ENV.BASE_API}stock/${id}`, videojuegos)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
   
   getBarrios$(): Observable<Barrio[]> {
     return this.http
