@@ -37,7 +37,7 @@ export class ApiService {
 
   updateSucursalStock$(id: string, videojuegos: Videojuego[]): Observable<Sucursal> {
     return this.http
-      .put(`${ENV.BASE_API}stock/${id}`, videojuegos)
+      .put(`${ENV.BASE_API}sucursales/stock/${id}`, videojuegos)
       .pipe(
         catchError((error) => this._handleError(error))
       );
