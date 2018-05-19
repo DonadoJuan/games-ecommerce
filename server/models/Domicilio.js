@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const domicilioSchema = mongoose.Schema({
     calle: {
         type: String,

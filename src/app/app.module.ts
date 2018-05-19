@@ -22,6 +22,7 @@ import {MatNativeDateModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -61,6 +62,8 @@ import { ApiService } from './core/api.service';
 
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { AdminStockComponent } from './pages/admin/admin-stock/admin-stock.component';
+import { ButtonListaNegraComponent } from './pages/admin/usuarios/button-lista-negra.component';
+import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/button-details.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +96,9 @@ import { AdminStockComponent } from './pages/admin/admin-stock/admin-stock.compo
     LoadingComponent,
     SubmittingComponent,
     ConfirmDeleteDialog,
-    AdminStockComponent
+    AdminStockComponent,
+    ButtonListaNegraComponent,
+    ButtonDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -122,11 +127,14 @@ import { AdminStockComponent } from './pages/admin/admin-stock/admin-stock.compo
     OwlModule,
     AngularMultiSelectModule,
     Ng2SmartTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule
   ],
   entryComponents: [
     CheckboxComponent,
     NumberComponent,
+    ButtonListaNegraComponent,
+    ButtonDetailsComponent,
     ConfirmPurchaseDialog,
     ProgressSpinnerDialogComponent,
     ConfirmDeleteDialog

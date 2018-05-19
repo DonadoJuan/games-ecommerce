@@ -1,0 +1,52 @@
+<button (click)="verDetalle(modalDetalle)" class="btn btn-sm btn-primary">Detalle</button>
+
+<ng-template #modalDetalle let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Detalle de {{cliente.nombre}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+          <strong>Dni: </strong> {{cliente.dni}} 
+      </div>
+      <div>
+          <strong>Email: </strong> {{cliente.email}} 
+      </div>
+      <div>
+          <strong>Faltas: </strong> 
+          <div *ngIf="faltas">
+              <div *ngFor="let f of cliente.faltas">
+                  <mat-card>
+                    <u>Fecha inicio de la falta: </u> {{f.fecha_desde | date:'dd-MM-yyyy'}} <br />
+                    <u>Falta vigente hasta: </u> {{f.fecha_hasta | date:'dd-MM-yyyy'}} <br />
+                    <u>Motivo: </u> {{f.motivo}} <br />
+                  </mat-card>
+              </div>
+          </div>
+          <div *ngIf="!faltas">
+            Este Cliente nunca tuvo una falta
+          </div>
+      </div>
+      <div>
+          <strong>Baneos: </strong> 
+          <div *ngIf="baneos">
+              <div *ngFor="let b of cliente.baneos">
+                  <mat-card>
+                    <u>Fecha inicio de la falta: </u> {{b.fecha_desde | date:'dd-MM-yyyy'}} <br />
+                    <u>Falta vigente hasta: </u> {{b.fecha_hasta | date:'dd-MM-yyyy'}} <br />
+                    <u>Motivo: </u> {{b.motivo}} <br />
+                    <u>Sigue Vigente: </u><span *ngIf="b.vigente">Si</span><span *ngIf="!b.vigente">No</span>
+                  </mat-card>
+              </div>
+          </div>
+          <div *ngIf="!baneos">
+            Este Cliente nunca tuvo un baneo
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>

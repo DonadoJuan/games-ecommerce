@@ -9,11 +9,15 @@ import { Domicilio } from "../domain/domicilio";
 import { Personal } from "../domain/personal";
 import { Sucursal } from "../domain/sucursal";
 import { Videojuego } from "../domain/videojuego";
+import { Cliente } from "../domain/cliente";
+import { Baneo } from "../domain/baneo";
 
 @Injectable()
 export class ApiService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    
+  }
 
   getSucursalesUbicacion$(): Observable<Sucursal[]> {
     return this.http
@@ -74,6 +78,22 @@ export class ApiService {
   deletePersonal$(id: string): Observable<any> {
     return this.http
       .delete(`${ENV.BASE_API}personal/${id}`)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  getClientes$(): Observable<Cliente[]> {
+    return this.http
+      .get(`${ENV.BASE_API}clientes`)
+      .pipe(
+        catchError((error) => this._handleError(error))
+      );
+  }
+
+  putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
+    return this.http
+      .put(`${ENV.BASE_API}clientes/baneo/${id}`, baneos)
       .pipe(
         catchError((error) => this._handleError(error))
       );

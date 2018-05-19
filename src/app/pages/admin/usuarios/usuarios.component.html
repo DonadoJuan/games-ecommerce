@@ -1,1 +1,7 @@
-<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+    <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+</ng-template>
+<p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> Ocurrio un error al traer datos de los clientes.
+</p>

@@ -6,6 +6,7 @@ const Domicilio = require('./models/Domicilio');
 const Personal = require('./models/Personal');
 const Sucursal = require('./models/Sucursal');
 const Videojuego = require('./models/Videojuego');
+const Cliente = require('./models/Cliente');
 
 module.exports = function(app) {
     app.get('/api/', (req, res) => {
@@ -159,6 +160,39 @@ module.exports = function(app) {
                     return res.status(500).send({message: err.message});
                 }
                 res.status(200).send({message: "Personal eliminado exitosamente"});
+            });
+        });
+    });
+
+    app.get('/api/clientes', (req, res) => {
+        Cliente.find({}, (err, clientes) => {
+            let clientesArr = [];
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(clientes) {
+                clientes.forEach(c => {
+                    clientesArr.push(c);
+                });
+            }
+            res.send(clientesArr);
+        });
+    });
+
+    app.put('/api/clientes/baneo/:id', (req, res) => {
+        Cliente.findById(req.params.id, (err, cliente) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!cliente) {
+                return res.status(400).send({message: 'Cliente no encontrado'});
+            }
+            cliente.baneos = req.body;
+            cliente.save(err => {
+                if(err){
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(cliente);
             });
         });
     });
