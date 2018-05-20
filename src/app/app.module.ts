@@ -34,6 +34,9 @@ import { UtilsService } from './core/utils.service';
 import { WrapperLoginComponent } from './pages/wrapper-login/wrapper-login.component';
 import { LoginComponent } from './pages/wrapper-login/login/login.component';
 import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
+import { FormSignupService } from './pages/wrapper-login/signup/form-signup.service';
+
+
 import { SlideshowComponent } from './pages/home/slideshow/slideshow.component';
 import { BannerComponent } from './pages/home/banner/banner.component';
 import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
@@ -141,7 +144,7 @@ import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/bu
     ConfirmDeleteDialog
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService, FormVideojuegosService,AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
+  providers: [ Title, UtilsService, FormVideojuegosService,FormSignupService,AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
