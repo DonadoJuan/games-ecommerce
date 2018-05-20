@@ -2,61 +2,95 @@
   <div class="row justify-content-center">
 
     <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">Alta de Videojuegos</h2>
-    <form class="fullwidth" id="formVideojuegos" name="videojuegos">
+    <form class="fullwidth" [formGroup]="formVideojuegos" id="videojuegos" (ngSubmit)="onSubmit()" name="videojuegos">
       <div class="md-form fullwidth">
-        <input type="text" id="titulo" class="form-control" mdbActive>
+        <input type="text" id="titulo" class="form-control" mdbActive formControlName="titulo" [maxlength]="fvs.strMax">
         <label for="titulo">Titulo</label>
       </div>
+      <div
+      *ngIf="formErrors.titulo"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.titulo">
+    </div>
 
       <div class="md-form fullwidth">
-        <input type="number" id="codigo" class="form-control" mdbActive>
+        <input type="text" id="codigo" class="form-control" formControlName="codigo" [maxlength]="fvs.strMax" mdbActive>
         <label for="codigo">Codigo</label>
       </div>
+      <div
+      *ngIf="formErrors.codigo"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.codigo">
+    </div>
 
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Genero">
+        <mat-select placeholder="Genero" formControlName="genero">
           <mat-option *ngFor="let genero of generos" [value]="genero.value">
             {{ genero.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div
+      *ngIf="formErrors.genero"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.genero">
+    </div>
+
       <br>
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Plataforma">
+        <mat-select placeholder="Plataforma"  formControlName="plataforma" >
           <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma.value">
             {{ plataforma.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div
+      *ngIf="formErrors.plataforma"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.plataforma">
+    </div>
       <br>
-      <mat-form-field class="fullwidth">
-        <mat-select placeholder="Compañia">
-          <mat-option *ngFor="let compania of companias" [value]="compania.value">
-            {{ compania.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <br>
+
       <br>
       <div class="md-form fullwidth">
-        <input type="number" id="cantMinima" class="form-control" mdbActive>
+        <input type="number" id="cantMinima" class="form-control" formControlName="cantMinima" mdbActive [maxlength]="fvs.intMax">
         <label for="cantMinima">Cantidad Min</label>
       </div>
+      <div
+      *ngIf="formErrors.cantMinima"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.cantMinima">
+    </div>
 
       <div class="md-form fullwidth">
-        <input type="number" id="cantMaxima" class="form-control" mdbActive>
+        <input type="number" id="cantMaxima" class="form-control"  formControlName="cantMaxima" [maxlength]="fvs.intMax" mdbActive>
         <label for="cantMaxima">Cantidad Max</label>
       </div>
+      <div
+      *ngIf="formErrors.cantMaxima"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.cantMaxima">
+    </div>
 
       <div class="md-form fullwidth">
-        <input type="text" id="urlVideo" class="form-control" mdbActive>
+        <input type="text" id="urlVideo" class="form-control" formControlName="urlVideo" [maxlength]="fvs.strMax" mdbActive>
         <label for="urlVideo">Video</label>
       </div>
+      <div
+      *ngIf="formErrors.urlVideo"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.urlVideo">
+    </div>
 
       <div class="md-form fullwidth">
-        <input type="number" id="precio" class="form-control" mdbActive>
+        <input type="number" id="precio" class="form-control" formControlName="precio" [maxlength]="fvs.intMax" mdbActive>
         <label for="precio">Precio</label>
       </div>
+      <div
+      *ngIf="formErrors.precio"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.precio">
+    </div>
 
       <mat-checkbox class="fullwidth">Destacado</mat-checkbox>
       <br>
@@ -72,8 +106,14 @@
       <br>
 
       <mat-form-field class="fullwidth">
-        <textarea matInput placeholder="Descripcion"></textarea>
+        <textarea matInput placeholder="Descripcion" formControlName="descripcion" [maxlength]="fvs.strMax" ></textarea>
       </mat-form-field>
+      <div
+      *ngIf="formErrors.descripcion"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.descripcion">
+    </div>
+
 
       <div class="text-center">
         <button class="btn btn-success waves-light" mdbRippleRadius>Registrar Videojuego</button>

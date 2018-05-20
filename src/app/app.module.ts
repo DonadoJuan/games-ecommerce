@@ -51,6 +51,7 @@ import { AdminEmpleadosComponent } from './pages/admin/admin-empleados/admin-emp
 import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component';
 import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
+import { FormVideojuegosService } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos-service.service';
 
 import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
 import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
@@ -140,7 +141,7 @@ import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/bu
     ConfirmDeleteDialog
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService, AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
+  providers: [ Title, UtilsService, FormVideojuegosService,AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
