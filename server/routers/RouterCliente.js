@@ -35,6 +35,8 @@ router.post('/registrar', (req, res) => {
     cliente.telefono = input.telefono;
     cliente.dni = input.dni;
     cliente.domicilio_entrega = input.domicilio_entrega;
+    cliente.baneos = [];
+    cliente.faltas = [];
     cliente.activo = true;
   
     cliente.setPassword(input.password);

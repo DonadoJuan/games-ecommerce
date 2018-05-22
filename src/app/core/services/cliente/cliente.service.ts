@@ -3,22 +3,74 @@ import { Cliente } from "../../../domain/cliente";
 import { Observable } from 'rxjs/Observable';
 import { BaseService } from '../base/base.service';
 import { Baneo } from "../../../domain/baneo";
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 
 @Injectable()
 export class ClienteService {
 
-  constructor(public baseService: BaseService) { }
+  token: string = null;
+  public isLoggedIn = new Subject();
 
-  registrarCliente(cliente: Cliente): Observable<any> {
+  constructor(private baseService: BaseService, private router: Router) { }
+
+  public login(cliente) : Observable<any>{
+    let login = new Subject();
+    this.baseService.post('clientes/login', cliente)
+      .subscribe(data => {
+        this.saveToken(data.token);
+        login.next(true);
+        this.isLoggedIn.next(true);
+
+      }),err => {
+        login.next(false);
+        this.isLoggedIn.next(false)
+      };
+    
+      return login.asObservable();
+  }
+
+  public getDatosCliente() {
+    const token = this.getToken();
+    let payload;
+    if (token) {
+      payload = token.split('.')[1];
+      payload = window.atob(payload);
+      return JSON.parse(payload);
+    } else {
+      return null;
+    }
+  }
+
+  private saveToken(token: string): void {
+    localStorage.setItem('token', token);
+    this.token = token;
+  }
+
+  private getToken(): string {
+    if (!this.token) {
+      this.token = localStorage.getItem('token');
+    }
+    return this.token;
+  }
+
+  public logout(): void {
+    this.isLoggedIn.next(false);
+    this.token = null;
+    localStorage.removeItem('token');
+    this.router.navigate(['wrapper-login']);
+  }
+
+  public registrarCliente(cliente: Cliente): Observable<any> {
     return this.baseService.post('clientes/registrar', cliente);
   }
 
-  getClientes$(): Observable<Cliente[]> {
+  public getClientes$(): Observable<Cliente[]> {
     return this.baseService.get('clientes');
   }
 
-  putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
+  public putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
     return this.baseService.put(`clientes/baneo/${id}`, baneos);
   }
 

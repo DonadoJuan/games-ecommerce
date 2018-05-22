@@ -33,7 +33,7 @@ import { FooterComponent } from './footer/footer.component';
 import { UtilsService } from './core/services/utils/utils.service';
 import { WrapperLoginComponent } from './pages/wrapper-login/wrapper-login.component';
 import { LoginComponent } from './pages/wrapper-login/login/login.component';
-import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
+import { SignupComponent, signupClientSuccessDialog } from './pages/wrapper-login/signup/signup.component';
 import { FormSignupService } from './pages/wrapper-login/signup/form-signup.service';
 
 
@@ -103,7 +103,8 @@ import { PersonalService } from './core/services/personal/personal.service';
     ConfirmDeleteDialog,
     AdminStockComponent,
     ButtonListaNegraComponent,
-    ButtonDetailsComponent
+    ButtonDetailsComponent,
+    signupClientSuccessDialog
   ],
   imports: [
     BrowserModule,
@@ -141,7 +142,8 @@ import { PersonalService } from './core/services/personal/personal.service';
     ButtonListaNegraComponent,
     ButtonDetailsComponent,
     ConfirmPurchaseDialog,
-    ConfirmDeleteDialog
+    ConfirmDeleteDialog,
+    signupClientSuccessDialog
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, 

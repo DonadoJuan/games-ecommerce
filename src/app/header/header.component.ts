@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/filter';
+import { ClienteService } from '../core/services/cliente/cliente.service';
 
 @Component({
   selector: 'app-header',
@@ -11,13 +12,21 @@ export class HeaderComponent implements OnInit {
   @Output() navToggled = new EventEmitter();
   navOpen = false;
 
-  constructor(private router: Router) { }
+  loggedIn: boolean;
+
+  constructor(private router: Router, private clienteService: ClienteService) { }
+
+  logout(){
+    this.clienteService.logout();
+  }
 
   ngOnInit() {
     // If nav is open after routing, close it
     this.router.events
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
+    
+    this.loggedIn = this.clienteService.getDatosCliente() != null; 
   }
 
   toggleNav() {

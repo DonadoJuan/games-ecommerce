@@ -3,7 +3,7 @@
       Registro
   </div>
   <div class="card-body">
-    <form  name="clientes" [formGroup]="formClientes"  (ngSubmit)="onSubmit()">
+    <form  name="clientes" [formGroup]="formClientes"  (ngSubmit)="registrarCliente()">
       <p class="h5 mb-4">Registrarse</p>
   
       <div class="md-form">
@@ -62,7 +62,7 @@
     </div>
 
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Barrio">
+        <mat-select formControlName="barrio" placeholder="Barrio">
           <mat-option *ngFor="let barrio of barrios" [value]="barrio.nombre">
             {{ barrio.nombre }}
           </mat-option>
@@ -106,7 +106,7 @@
 
   
       <div class="text-center">
-          <button class="btn btn-success waves-light" (click)="registrar()" mdbRippleRadius>Registrarse</button>
+          <button class="btn btn-success waves-light" type="submit" [disabled]="!formClientes.valid" mdbRippleRadius>Registrarse</button>
       </div>
   
     </form>
