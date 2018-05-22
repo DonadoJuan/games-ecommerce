@@ -1,4 +1,44 @@
 <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
 <div class="col-md-12 text-center"> 
-  <button class="btn btn-lg btn-primary">Confirmar</button>
+    <button type="button" class="btn btn-primary" (click)="mostrarFormulario(mostrarForm)">
+        Agregar
+      </button>
+        <button class="btn btn-lg btn-primary">Confirmar</button>
 </div>
+
+
+    
+
+
+  <ng-template #mostrarForm let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title">Agregar imagen a SlideShow</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <form>
+             
+            
+                <div class="md-form">
+                    <input type="text" id="titulo" class="form-control" mdbActive>
+                    <label for="titulo">Ingresa el titulo</label>
+                </div>
+            
+                <div class="md-form fullwidth">
+                    <div class="input-group mb-3">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01">
+                        <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+                      </div>
+                    </div>
+                  </div>
+            
+              </form>   
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+      </div>
+    </ng-template>
+  

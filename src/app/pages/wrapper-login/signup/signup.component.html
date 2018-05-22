@@ -3,37 +3,63 @@
       Registro
   </div>
   <div class="card-body">
-    <form>
+    <form  name="clientes" [formGroup]="formClientes"  (ngSubmit)="onSubmit()">
       <p class="h5 mb-4">Registrarse</p>
   
       <div class="md-form">
           <i class="fa fa-user prefix grey-text"></i>
-          <input type="text" id="nombre" class="form-control" mdbActive>
+          <input type="text" id="nombre" class="form-control"  formControlName="nombre" [maxlength]="fss.strMax" mdbActive>
           <label for="nombre">Nombre</label>
       </div>
+      <div
+      *ngIf="formErrors.nombre"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.nombre">
+    </div>
+
       <div class="md-form">
           <i class="fa fa-envelope prefix grey-text"></i>
-          <input type="email" id="email" class="form-control" mdbActive>
+          <input type="email" id="email" class="form-control" formControlName="email" [maxlength]="fss.strMax" mdbActive>
           <label for="email">Email</label>
       </div>
+      <div
+      *ngIf="formErrors.email"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.email">
+    </div>
   
       <div class="md-form">
           <i class="fa fa-lock prefix grey-text"></i>
-          <input type="password" id="pass" class="form-control" mdbActive>
-          <label for="pass">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
+          <label for="password">Password</label>
       </div>
+      <div
+      *ngIf="formErrors.password"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.password">
+    </div>
 
       <div class="md-form">
         <i class="fa fa-phone prefix grey-text" aria-hidden="true"></i>
-        <input type="number" id="telefono" class="form-control" mdbActive>
+        <input type="number" id="telefono" class="form-control" formControlName="telefono" [maxlength]="fss.telMax" mdbActive>
         <label for="telefono">Telefono</label>
       </div>
+      <div
+      *ngIf="formErrors.telefono"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.telefono">
+    </div>
 
       <div class="md-form">
         <i class="fa fa-address-card-o prefix grey-text" aria-hidden="true"></i>
-        <input type="number" id="dni" class="form-control" mdbActive>
+        <input type="number" id="dni" class="form-control" formControlName="dni" [maxlength]="fss.dniMax"mdbActive>
         <label for="dni">Dni</label>
       </div>
+      <div
+      *ngIf="formErrors.dni"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.dni">
+    </div>
 
       <mat-form-field class="fullwidth">
         <mat-select placeholder="Barrio">
@@ -42,21 +68,42 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div
+      *ngIf="formErrors.barrio"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.barrio">
+    </div>
 
       <div class="md-form fullwidth">
-          <input type="text" id="calle" class="form-control" mdbActive>
+          <input type="text" id="calle" class="form-control" formControlName="calle" [maxlength]="fss.strMax" mdbActive>
           <label for="calle">Calle</label>
       </div>
+      <div
+      *ngIf="formErrors.calle"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.calle">
+    </div>
 
       <div class="md-form fullwidth">
-          <input type="number" id="altura" class="form-control" mdbActive>
+          <input type="number" id="altura" class="form-control" formControlName="altura" [maxlength]="fss.intMax" mdbActive>
           <label for="altura">Altura</label>
       </div>
+      <div
+      *ngIf="formErrors.altura"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.altura">
+    </div>
 
       <div class="md-form fullwidth">
-          <input type="number" id="codigo_postal" class="form-control" mdbActive>
+          <input type="number" id="codigo_postal" class="form-control" formControlName="codigo_postal" [maxlength]="fss.intMax" mdbActive>
           <label for="codigo_postal">Codigo Postal</label>
-      </div>
+      </div>  
+        <div
+      *ngIf="formErrors.codigo_postal"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.codigo_postal">
+    </div>
+
   
       <div class="text-center">
           <button class="btn btn-success waves-light" (click)="registrar()" mdbRippleRadius>Registrarse</button>

@@ -34,6 +34,9 @@ import { UtilsService } from './core/services/utils/utils.service';
 import { WrapperLoginComponent } from './pages/wrapper-login/wrapper-login.component';
 import { LoginComponent } from './pages/wrapper-login/login/login.component';
 import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
+import { FormSignupService } from './pages/wrapper-login/signup/form-signup.service';
+
+
 import { SlideshowComponent } from './pages/home/slideshow/slideshow.component';
 import { BannerComponent } from './pages/home/banner/banner.component';
 import { BodyHomeComponent } from './pages/home/body-home/body-home.component';
@@ -51,6 +54,7 @@ import { AdminEmpleadosComponent } from './pages/admin/admin-empleados/admin-emp
 import { AdminEmpleadosFormComponent } from './pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.component';
 import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-negra.component';
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
+import { FormVideojuegosService } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos-service.service';
 
 import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
 import { LoadingComponent } from './core/loading.component';
@@ -143,10 +147,11 @@ import { PersonalService } from './core/services/personal/personal.service';
   providers: [ Title, 
     BaseService, 
     ClienteService,
-    SucursalService,
-    PersonalService,
     UtilsService, 
-    AdminEmpleadosFormService, 
+    AdminEmpleadosFormService,
+    FormSignupService,
+    SucursalService,
+    PersonalService, 
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })

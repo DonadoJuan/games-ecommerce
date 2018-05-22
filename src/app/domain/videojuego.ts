@@ -1,5 +1,6 @@
 export class Videojuego {
-  constructor(
+
+    constructor(
     public titulo?: string,
     public codigo?: string,
     public genero?: Array<string>,
@@ -14,5 +15,5 @@ export class Videojuego {
     public descripcion?: string,
     public stock?: number,
     public _id?: number
-  ) {}
+    ){}
 }

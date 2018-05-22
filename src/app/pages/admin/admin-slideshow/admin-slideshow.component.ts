@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CheckboxComponent } from "../checkbox.component";
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin-slideshow',
@@ -10,8 +11,9 @@ export class AdminSlideshowComponent implements OnInit {
 
   settings: any;
   data: any[];
+  formularioVisible: boolean = false;
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
     this.settings = {
@@ -61,6 +63,15 @@ export class AdminSlideshowComponent implements OnInit {
         image: '<img src="../../../../assets/slider/horizon.jpg" width="200px" height="100px"/>'
       }
     ]
+  }
+
+  mostrarFormulario(mostrarForm) {
+    this.modalService.open(mostrarForm).result.then((result) => {
+    
+      //this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 
 }
