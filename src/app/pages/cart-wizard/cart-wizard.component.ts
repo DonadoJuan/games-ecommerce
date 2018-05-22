@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
-import { ProgressSpinnerDialogComponent } from '../../progress-spinner-dialog/progress-spinner-dialog.component';
-
-
 
 @Component({
   selector: 'confirm-purchase-dialog',
@@ -22,9 +19,6 @@ export class ConfirmPurchaseDialog {
   }
 
 }
-
-
-
 
 @Component({
   selector: 'app-cart-wizard',
@@ -45,7 +39,6 @@ export class CartWizardComponent implements OnInit {
     });
 
     dialogRef.beforeClose().subscribe(result => {
-      //this.dialog.open(ProgressSpinnerDialogComponent, { panelClass: 'transparent' });
       this.router.navigate(['pedidos']);
     });
   }

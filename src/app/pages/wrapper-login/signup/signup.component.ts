@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilsService } from '../../../core/services/utils/utils.service';
+import { Barrio } from '../../../domain/barrio';
 
 @Component({
   selector: 'app-signup',
@@ -7,12 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  barrios: any[] = [];
+  barrios: Barrio[] = [];
 
-  constructor() { }
+  constructor(public utilsService: UtilsService) { }
 
   ngOnInit() {
-    this.barrios.push({value: "1", viewValue: "Barracas"});
+
+    this.utilsService.getBarrios$()
+      .subscribe(barrios => {
+        console.log(`ok al traer los barrios ${JSON.stringify(barrios)}`);
+        this.barrios = [... barrios];
+      }, error => {
+        console.log(`error al traer los barrios ${error}`);
+      });
   }
 
 }

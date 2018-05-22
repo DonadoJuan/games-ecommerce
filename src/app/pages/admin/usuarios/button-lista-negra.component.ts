@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UtilsService } from "../../../core/utils.service";
+import { UtilsService } from "../../../core/services/utils/utils.service";
 import { Cliente } from "../../../domain/cliente";
 import { Router, NavigationStart } from '@angular/router';
 

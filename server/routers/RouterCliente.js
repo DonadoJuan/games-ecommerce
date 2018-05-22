@@ -2,6 +2,54 @@ const Cliente = require('../models/Cliente');
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
+router.post('/login', (req, res) => {
+
+    let input = req.body;
+
+    Cliente.findOne({email: input.email}, (err, cliente) => {
+
+        if(err)
+            return res.status(500).json({message: err.message});
+ 
+        if(!cliente)
+            return res.status(400).json({message: 'Cliente no encontrado'});
+
+        if(!cliente.validPassword(input.password))
+            return res.status(400).json({message: 'Clave incorrecta'});
+        
+        res.status(200)
+        res.json({
+            "token" : cliente.generateJwt()
+        });
+        
+    });
+});
+
+router.post('/registrar', (req, res) => {
+
+    let input = req.body;
+    let cliente = new Cliente();
+
+    cliente.email = input.email;
+    cliente.nombre = input.nombre;
+    cliente.telefono = input.telefono;
+    cliente.dni = input.dni;
+    cliente.domicilio_entrega = input.domicilio_entrega;
+    cliente.activo = true;
+  
+    cliente.setPassword(input.password);
+  
+    cliente.save(function(err) {
+        if(err)
+            return res.status(500).json({message: err.message});
+        
+        res.status(200);
+        res.json({
+            "token" : cliente.generateJwt()
+        });
+    });
+});
+
 router.get('/', (req, res) => {
     Cliente.find({}, (err, clientes) => {
         let clientesArr = [];

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
 
 const clienteSchema = mongoose.Schema({
     nombre: {
@@ -7,10 +9,13 @@ const clienteSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        index: true,
+        unique: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
     },
     telefono: {
         type: Number,
@@ -28,13 +33,29 @@ const clienteSchema = mongoose.Schema({
         type: Array
     },
     baneos: {
-        type: Array,
-        required: true
+        type: Array
     },
     activo: {
         type: Boolean,
         required: true
     }
 }, {collection: 'clientes'});
+
+clienteSchema.methods.setPassword = function(password){
+    this.password = crypto.createHash('sha256').update(password).digest('base64');
+};
+
+clienteSchema.methods.validPassword = function(password) {
+    var hash =  crypto.createHash('sha256').update(password).digest('base64');
+    return this.password === hash;
+};
+
+clienteSchema.methods.generateJwt = function() {
+    let cliente = this; 
+    return jwt.sign({
+        payload: cliente,
+      exp: Math.floor(Date.now() / 1000) + (60 * 60),
+    }, "secret");
+};
 
 module.exports = mongoose.model('Cliente', clienteSchema);

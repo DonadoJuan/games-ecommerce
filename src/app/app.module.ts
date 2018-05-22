@@ -30,7 +30,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { UtilsService } from './core/utils.service';
+import { UtilsService } from './core/services/utils/utils.service';
 import { WrapperLoginComponent } from './pages/wrapper-login/wrapper-login.component';
 import { LoginComponent } from './pages/wrapper-login/login/login.component';
 import { SignupComponent } from './pages/wrapper-login/signup/signup.component';
@@ -53,17 +53,19 @@ import { ListaNegraComponent } from './pages/admin/usuarios/lista-negra/lista-ne
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 
 import { AdminEmpleadosFormService } from "./pages/admin/admin-empleados/admin-empleados-form/admin-empleados-form.service";
-import { ProgressSpinnerDialogComponent } from './progress-spinner-dialog/progress-spinner-dialog.component';
 import { LoadingComponent } from './core/loading.component';
 import { SubmittingComponent } from './core/submitting.component';
 import { ConfirmDeleteDialog } from "./pages/admin/admin-empleados/admin-empleados.component";
 
-import { ApiService } from './core/api.service';
 
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import { AdminStockComponent } from './pages/admin/admin-stock/admin-stock.component';
 import { ButtonListaNegraComponent } from './pages/admin/usuarios/button-lista-negra.component';
 import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/button-details.component';
+import { BaseService } from './core/services/base/base.service';
+import { ClienteService } from './core/services/cliente/cliente.service';
+import { SucursalService } from './core/services/sucursal/sucursal.service';
+import { PersonalService } from './core/services/personal/personal.service';
 
 @NgModule({
   declarations: [
@@ -92,7 +94,6 @@ import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/bu
     ListaNegraComponent,
     FormVideojuegosComponent,
     ConfirmPurchaseDialog,
-    ProgressSpinnerDialogComponent,
     LoadingComponent,
     SubmittingComponent,
     ConfirmDeleteDialog,
@@ -136,11 +137,17 @@ import { ButtonDetailsComponent } from './pages/admin/usuarios/button-details/bu
     ButtonListaNegraComponent,
     ButtonDetailsComponent,
     ConfirmPurchaseDialog,
-    ProgressSpinnerDialogComponent,
     ConfirmDeleteDialog
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
-  providers: [ Title, UtilsService, AdminEmpleadosFormService, ApiService, {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
+  providers: [ Title, 
+    BaseService, 
+    ClienteService,
+    SucursalService,
+    PersonalService,
+    UtilsService, 
+    AdminEmpleadosFormService, 
+    {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

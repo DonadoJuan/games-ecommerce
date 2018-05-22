@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UtilsService } from "../../../core/utils.service";
+import { UtilsService } from "../../../core/services/utils/utils.service";
 import { ApiService } from "../../../core/api.service";
 import { NumberComponent } from "../number.component";
 import { CheckboxComponent } from '../checkbox.component';

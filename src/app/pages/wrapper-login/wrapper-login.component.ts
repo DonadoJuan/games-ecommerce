@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { UtilsService } from "../../core/utils.service";
+import { UtilsService } from "../../core/services/utils/utils.service";
 
 @Component({
   selector: 'app-wrapper-login',

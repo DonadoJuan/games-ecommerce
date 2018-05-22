@@ -37,8 +37,8 @@
 
       <mat-form-field class="fullwidth">
         <mat-select placeholder="Barrio">
-          <mat-option *ngFor="let barrio of barrios" [value]="barrio.value">
-            {{ barrio.viewValue }}
+          <mat-option *ngFor="let barrio of barrios" [value]="barrio.nombre">
+            {{ barrio.nombre }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -59,7 +59,7 @@
       </div>
   
       <div class="text-center">
-          <button class="btn btn-success waves-light" mdbRippleRadius>Registrarse</button>
+          <button class="btn btn-success waves-light" (click)="registrar()" mdbRippleRadius>Registrarse</button>
       </div>
   
     </form>

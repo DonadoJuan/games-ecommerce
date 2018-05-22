@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UtilsService } from "../../../../core/utils.service";
+import { UtilsService } from "../../../../core/services/utils/utils.service";
 import { ApiService } from "../../../../core/api.service";
 import { Cliente } from "../../../../domain/cliente";
 import { Baneo } from "../../../../domain/baneo";

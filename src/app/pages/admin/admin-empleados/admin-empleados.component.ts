@@ -8,7 +8,7 @@ import { Barrio } from "../../../domain/barrio";
 import { Domicilio } from "../../../domain/domicilio";
 import { Sucursal } from "../../../domain/sucursal";
 import { Personal } from "../../../domain/personal";
-import { UtilsService } from "../../../core/utils.service";
+import { UtilsService } from "../../../core/services/utils/utils.service";
 import { MatDialog, MatDialogRef } from '@angular/material';
 
 
