@@ -10,7 +10,7 @@ import { Baneo } from '../../../domain/baneo';
 import { Falta } from '../../../domain/falta';
 import { Cliente } from '../../../domain/cliente';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef, MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 @Component({
@@ -53,6 +53,7 @@ export class SignupComponent implements OnInit {
     private utilsService: UtilsService,
     private clienteService: ClienteService,
     private dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private router: Router) {}
 
   ngOnInit() {
@@ -89,16 +90,19 @@ export class SignupComponent implements OnInit {
     }
 
     this.clienteService.registrarCliente(this.cliente)
-      .subscribe(token => {
-        let df = this.dialog.open(signupClientSuccessDialog, {
-          width: '300px'
-        });
-        df.beforeClose().subscribe(result => {
-          this.router.navigate(['']);
-        });
-      },
-      err => {
-        console.log(`Error registrando cliente ${err}`)
+      .subscribe(data => {
+
+        if(data.token){
+          let df = this.dialog.open(signupClientSuccessDialog, {
+            width: '300px'
+          });
+          df.beforeClose().subscribe(result => {
+            this.router.navigate(['']);
+          });
+
+        }else{
+          this.snackBar.open('Email ya en uso, elija otro','OK');
+        }
       });
   }
 

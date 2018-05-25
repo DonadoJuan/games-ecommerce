@@ -11,24 +11,19 @@ import { Subject } from 'rxjs';
 export class ClienteService {
 
   token: string = null;
-  public isLoggedIn = new Subject();
+  public isLoggedIn = new Subject<boolean>();
 
   constructor(private baseService: BaseService, private router: Router) { }
 
   public login(cliente) : Observable<any>{
-    let login = new Subject();
-    this.baseService.post('clientes/login', cliente)
-      .subscribe(data => {
-        this.saveToken(data.token);
-        login.next(true);
-        this.isLoggedIn.next(true);
 
-      }),err => {
-        login.next(false);
-        this.isLoggedIn.next(false)
-      };
-    
-      return login.asObservable();
+    return this.baseService.post('clientes/login', cliente)
+            .do(data => {
+              if(data.token){
+                this.saveToken(data.token);
+                this.isLoggedIn.next(true);
+              }
+            });
   }
 
   public getDatosCliente() {

@@ -26,7 +26,10 @@ export class HeaderComponent implements OnInit {
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
     
-    this.loggedIn = this.clienteService.getDatosCliente() != null; 
+    this.clienteService.isLoggedIn.subscribe(res => {
+      console.log(`se registro un cambio ` + res);
+      this.loggedIn = res;
+    }); 
   }
 
   toggleNav() {

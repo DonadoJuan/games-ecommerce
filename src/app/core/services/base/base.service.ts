@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/finally';
 import { ENV } from '../../env.config';
@@ -53,11 +54,17 @@ export class BaseService {
     return this.post(route, formData);
   }
 
-  private _handleError(err: HttpErrorResponse | any): Observable<any> {
+  private _handleError(err: Response): Observable<any> {
 
-    let errMsg = err.message || 'Error: No se puede completar la solicitud.'
-    return Observable.throw(errMsg);
-
+    if(err.status == 401){
+      return Observable.of(401);
+    }
+    else{
+      let errMsg = 'Error: No se puede completar la solicitud.'
+      console.log(errMsg);
+      return Observable.throw(errMsg);
+    }
+  
   }
 
 }

@@ -12,10 +12,10 @@ router.post('/login', (req, res) => {
             return res.status(500).json({message: err.message});
  
         if(!cliente)
-            return res.status(400).json({message: 'Cliente no encontrado'});
+            return res.status(401).json({message: 'Cliente no encontrado'});
 
         if(!cliente.validPassword(input.password))
-            return res.status(400).json({message: 'Clave incorrecta'});
+            return res.status(401).json({message: 'Clave incorrecta'});
         
         res.status(200)
         res.json({
@@ -42,8 +42,11 @@ router.post('/registrar', (req, res) => {
     cliente.setPassword(input.password);
   
     cliente.save(function(err) {
+
+        if(err.code == 11000)
+            return res.status(200).json({code: err.code});
         if(err)
-            return res.status(500).json({message: err.message});
+            return res.status(500).json({code: err.code});
         
         res.status(200);
         res.json({
