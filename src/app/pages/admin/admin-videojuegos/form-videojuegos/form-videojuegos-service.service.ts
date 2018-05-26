@@ -23,7 +23,8 @@ export class FormVideojuegosService {
   dniMax = 99999999;
   intMin = 1; //Legajo, Altura, Codigo Postal
   intMax = 99999;
-
+  codStr = 4;
+  reg = /^\d+$/;
 
 
   constructor() { 
@@ -35,14 +36,15 @@ export class FormVideojuegosService {
       },
       codigo: {
         required: `El codigo es <strong>requerido</strong>`,
-        minlength: `El codigo debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `El codigo debe tener ${this.strMax} caracteres o menos`
+        minlength: `El codigo debe ser de ${this.codStr} digitos`,
+        maxlength: `El codigo debe ser de ${this.codStr} digitos`,
+        pattern: `El codigo debe ser numerico`
       },
       genero: {
-        required: `El genero es <strong>requerido</strong>`
+        required: `Debe elegir al menos un <strong>Genero</strong>`
       },
       plataforma: {
-        required: `La plataforma es <strong>requerida</strong>`
+        required: `Debe elegir al menos una <strong>Plataforma</strong>`
       },
       cantMinima: {
         required: `La cantidad minima es <strong>requerida</strong>`,
@@ -56,18 +58,16 @@ export class FormVideojuegosService {
       },
       urlVideo: {
         required: `La url del video es <strong>requerida</strong>`,
-        minlength: `La url del video debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La url del video debe tener ${this.strMax} caracteres o menos`
+        minlength: `La url del video debe tener ${this.strMin} caracteres o mas`
       },
       precio: {
         required: `El precio es <strong>requerido</strong>`,
         min: `El precio debe ser ${this.intMin}$ o  mas`,
         max: `El precio debe ser ${this.intMin}$ o menos`
-      } ,
+      },
       descripcion: {
         required: `La descripcion es <strong>requerida</strong>`,
-        minlength: `La descripcion debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La descripcion debe tener ${this.strMax} caracteres o menos`
+        minlength: `La descripcion debe tener ${this.strMin} caracteres o mas`
       }
     };
   }

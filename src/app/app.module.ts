@@ -156,6 +156,7 @@ import { AuthService } from './core/services/auth/auth.service';
     UtilsService, 
     AdminEmpleadosFormService,
     FormSignupService,
+    VideojuegoService,
     SucursalService,
     PersonalService, 
     AuthService,

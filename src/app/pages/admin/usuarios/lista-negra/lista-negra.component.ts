@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UtilsService } from "../../../../core/services/utils/utils.service";
-import { ApiService } from "../../../../core/api.service";
 import { Cliente } from "../../../../domain/cliente";
 import { Baneo } from "../../../../domain/baneo";
 import { Router, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { ClienteService } from "../../../../core/services/cliente/cliente.service";
+
 
 @Component({
   selector: 'app-lista-negra',
@@ -27,7 +28,7 @@ export class ListaNegraComponent implements OnInit, OnDestroy {
   error: boolean;
   errorMsg: string;
 
-  constructor(private us: UtilsService, private router: Router, private api: ApiService, private modalService: NgbModal) { }
+  constructor(private us: UtilsService, private router: Router, private modalService: NgbModal, private clienteService: ClienteService) { }
 
   ngOnInit() {
     this.loading = true;
@@ -78,7 +79,7 @@ export class ListaNegraComponent implements OnInit, OnDestroy {
     this.cliente.baneos.push(baneo);
     //console.log(this.cliente);
     this.submitting = true;
-    this.baneoClienteSub = this.api.putBaneoCliente$(this.cliente._id, this.cliente.baneos)
+    this.baneoClienteSub = this.clienteService.putBaneoCliente$(this.cliente._id, this.cliente.baneos)
       .subscribe(data => {
         this.submitting = false;
         this.modalService.open(modalExito).result.then((result) => {

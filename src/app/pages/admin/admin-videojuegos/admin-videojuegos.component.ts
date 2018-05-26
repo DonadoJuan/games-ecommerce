@@ -1,21 +1,39 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { CheckboxComponent } from "../checkbox.component";
 import { NumberComponent } from "../number.component";
 import { Router, NavigationStart } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { UtilsService } from "../../../core/services/utils/utils.service";
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Videojuego } from "../../../domain/videojuego";
+import { VideojuegoService } from "../../../core/services/videojuego/videojuego.service";
 
 @Component({
   selector: 'app-admin-videojuegos',
   templateUrl: './admin-videojuegos.component.html',
   styleUrls: ['./admin-videojuegos.component.scss']
 })
-export class AdminVideojuegosComponent implements OnInit {
+export class AdminVideojuegosComponent implements OnInit, OnDestroy {
 
   settings: any;
   data: any[];
+  videojuegoSub: Subscription;
+  deleteVideojuegoSub: Subscription;
+  videojuegos: Videojuego[] = [];
+  dataVideojuegos: any[] = [];
+  loading: boolean;
+  error: boolean;
 
-  constructor(router: Router) { }
+  constructor(
+    private router: Router, 
+    private us: UtilsService,
+    private videojuegoService: VideojuegoService,
+    private sanitization: DomSanitizer
+  ) { }
 
   ngOnInit() {
+    this.initializeGrid();
     this.settings = {
       actions: {
         add: false, edit: false, delete: false, position: 'right', custom:
@@ -53,12 +71,17 @@ export class AdminVideojuegosComponent implements OnInit {
           type: 'custom',
           renderComponent: NumberComponent
         },
-        checkbox: {
+        destacado: {
           title: 'Destacado',
           type: 'custom',
           renderComponent: CheckboxComponent,
           filter: false,
           width: "10%"
+        },
+        imagen: {
+          title: 'Imagen',
+          type: 'html',
+          valuePrepareFunction: (imagen:string) => { return this.sanitization.bypassSecurityTrustHtml(`<img width="100px" src="${imagen}" />`); },
         }
       },
       defaultStyle: true,
@@ -67,7 +90,7 @@ export class AdminVideojuegosComponent implements OnInit {
       }
     }
 
-    this.data = [
+    /*this.data = [
       {
         titulo: 'Ni No Kuni II',
         genero: 'Rol',
@@ -108,9 +131,10 @@ export class AdminVideojuegosComponent implements OnInit {
         descuento: 15,
         checkbox: false
       }
-    ]
+    ]*/
 
   }
+
   onCustom(event) {
     if (`'${event.action}'` == "'eliminar'") {
 
@@ -118,6 +142,61 @@ export class AdminVideojuegosComponent implements OnInit {
     } else {
       //agregar accion  para editar
     }
+  }
+
+  initializeGrid() {
+    this.loading = true;
+    this.videojuegos = [];
+    this.dataVideojuegos = [];
+    this.videojuegoSub = this.videojuegoService.getVideojuegos$()
+      .subscribe(data => {
+        data.forEach(d => {
+          this.videojuegos.push(d);
+          let generos = "";
+          let plataformas = "";
+          d.genero.forEach(g => {
+            generos = generos.concat(g + ", ");
+          });
+          d.plataforma.forEach(p => {
+            plataformas = plataformas.concat(p + ", ");
+          });
+          //console.log("generos pusheado", generos);
+          generos = generos.substring(0, generos.length - 2);
+          plataformas = plataformas.substring(0, plataformas.length - 2);
+          //console.log("generos final", generos);
+          let image = (d.imagen) ? "..\\..\\..\\.." + d.imagen : "..\\..\\..\\..\\assets\\img\\no-image.png";
+          console.log("image: ", image);
+          this.dataVideojuegos.push({
+            titulo: d.titulo,
+            genero: generos,
+            plataforma: plataformas,
+            min: d.cantidadMinima,
+            max: d.cantidadMaxima,
+            precio: d.precio,
+            descuento: d.descuento,
+            destacado: d.destacado,
+            imagen: image
+          });
+        });
+        this.fillData();
+      }, 
+      error => {
+        console.error(error);
+        this.loading = false;
+        this.error = true;
+      });
+  }
+
+  fillData() {
+    this.data = this.dataVideojuegos;
+    this.loading = false;
+  }
+
+  ngOnDestroy() {
+    if(this.deleteVideojuegoSub) {
+      this.deleteVideojuegoSub.unsubscribe();
+    }
+    this.videojuegoSub.unsubscribe();
   }
 
 }

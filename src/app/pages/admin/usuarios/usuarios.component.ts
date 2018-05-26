@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UtilsService } from "../../../core/services/utils/utils.service";
-import { ApiService } from "../../../core/api.service";
 import { NumberComponent } from "../number.component";
 import { CheckboxComponent } from '../checkbox.component';
 import { Router, NavigationStart } from '@angular/router';
@@ -11,6 +10,7 @@ import { Baneo } from "../../../domain/baneo";
 import { Cliente } from "../../../domain/cliente";
 import { ButtonListaNegraComponent } from "./button-lista-negra.component";
 import { ButtonDetailsComponent } from "./button-details/button-details.component";
+import { ClienteService } from "../../../core/services/cliente/cliente.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -28,7 +28,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   clientes: Cliente[] = [];
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  constructor(private us: UtilsService, private api: ApiService) { }
+  constructor(private us: UtilsService, private clienteService: ClienteService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -88,7 +88,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.clientes = [];
     this.dataClientes = [];
-    this.clienteSub = this.api.getClientes$()
+    this.clienteSub = this.clienteService.getClientes$()
       .subscribe(dataClientes => {
         dataClientes.forEach(c => {
           console.log(c);
