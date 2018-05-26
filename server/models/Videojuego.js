@@ -5,6 +5,10 @@ const videojuegoSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    titulo_lower: {
+        type: String,
+        required: true
+    },
     codigo: {
         type: String,
         required: true
@@ -50,6 +54,13 @@ const videojuegoSchema = mongoose.Schema({
     },
     stock: {
         type: Number
+    },
+    file: {
+        type: Object
+    },
+    activo: {
+        type: Boolean,
+        required: true
     }
 }, {collection: 'videojuegos'});
 

@@ -1,7 +1,7 @@
 <div class="container layout-view">
   <div class="row justify-content-center">
 
-    <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">Alta de Videojuegos</h2>
+    <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">{{tituloForm}}</h2>
     <form class="fullwidth" [formGroup]="formVideojuegos" id="videojuegos" (ngSubmit)="onSubmit()" name="videojuegos">
       <div class="md-form fullwidth">
         <input type="text" id="titulo" class="form-control" mdbActive formControlName="titulo" [maxlength]="fvs.strMax">
@@ -14,7 +14,7 @@
     </div>
 
       <div class="md-form fullwidth">
-        <input type="text" id="codigo" class="form-control" formControlName="codigo" [maxlength]="fvs.strMax" mdbActive>
+        <input type="text" id="codigo" class="form-control" formControlName="codigo" [maxlength]="fvs.codStr" mdbActive>
         <label for="codigo">Codigo</label>
       </div>
       <div
@@ -24,32 +24,28 @@
     </div>
 
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Genero" formControlName="genero">
-          <mat-option *ngFor="let genero of generos" [value]="genero.value">
-            {{ genero.viewValue }}
-          </mat-option>
+        <mat-select placeholder="Genero" formControlName="genero" multiple required>
+          <mat-option *ngFor="let gen of generos" [value]="gen">{{gen}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div
       *ngIf="formErrors.genero"
       class="small text-danger formErrors"
       [innerHTML]="formErrors.genero">
-    </div>
+      </div>
 
       <br>
+      
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Plataforma"  formControlName="plataforma" >
-          <mat-option *ngFor="let plataforma of plataformas" [value]="plataforma.value">
-            {{ plataforma.viewValue }}
-          </mat-option>
+        <mat-select placeholder="Plataforma" formControlName="plataforma" multiple required>
+          <mat-option *ngFor="let plat of plataformas" [value]="plat">{{plat}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div
       *ngIf="formErrors.plataforma"
       class="small text-danger formErrors"
       [innerHTML]="formErrors.plataforma">
-    </div>
-      <br>
+      </div>
 
       <br>
       <div class="md-form fullwidth">
@@ -73,8 +69,8 @@
     </div>
 
       <div class="md-form fullwidth">
-        <input type="text" id="urlVideo" class="form-control" formControlName="urlVideo" [maxlength]="fvs.strMax" mdbActive>
-        <label for="urlVideo">Video</label>
+        <input type="text" id="urlVideo" class="form-control" formControlName="urlVideo" mdbActive>
+        <label for="urlVideo"> URL Video</label>
       </div>
       <div
       *ngIf="formErrors.urlVideo"
@@ -92,21 +88,24 @@
       [innerHTML]="formErrors.precio">
     </div>
 
-      <mat-checkbox class="fullwidth">Destacado</mat-checkbox>
+      <mat-checkbox class="fullwidth" formControlName="destacado">Destacado</mat-checkbox>
       <br>
        <br>
       <div class="md-form fullwidth">
         <div class="input-group mb-3">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01">
-            <label class="custom-file-label" for="inputGroupFile01">Seleccionar imagen</label>
+            <input type="file" class="custom-file-input" (change)="onFileSelected($event)" #fileInput required>
+            <label class="custom-file-label">{{selectedFile.name}}</label>
           </div>
         </div>
+      </div>
+      <div class="small text-danger formErrors" *ngIf="selectedFile.name == 'Seleccione Imagen'">
+        Debe seleccionar una <strong>imagen</strong>
       </div>
       <br>
 
       <mat-form-field class="fullwidth">
-        <textarea matInput placeholder="Descripcion" formControlName="descripcion" [maxlength]="fvs.strMax" ></textarea>
+        <textarea matInput placeholder="Descripcion" formControlName="descripcion" rows="2"></textarea>
       </mat-form-field>
       <div
       *ngIf="formErrors.descripcion"
@@ -116,8 +115,14 @@
 
 
       <div class="text-center">
-        <button class="btn btn-success waves-light" mdbRippleRadius>Registrar Videojuego</button>
+        <button class="btn btn-success waves-light" mdbRippleRadius [disabled]="formVideojuegos.invalid || !seleccionoArchivo || submitting ? true : null" [innerText]="submitBtnText"></button>
       </div>
+
+      <app-submitting *ngIf="submitting"></app-submitting>
+
+      <p *ngIf="error" class="mt-3 alert alert-danger">
+        <strong>Error:</strong> Hubo un problema al intentar enviar los datos. Por favor, reintente.
+      </p>
     </form>
 
 

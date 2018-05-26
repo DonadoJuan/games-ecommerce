@@ -70,6 +70,7 @@ import { BaseService } from './core/services/base/base.service';
 import { ClienteService } from './core/services/cliente/cliente.service';
 import { SucursalService } from './core/services/sucursal/sucursal.service';
 import { PersonalService } from './core/services/personal/personal.service';
+import { VideojuegoService } from './core/services/videojuego/videojuego.service'
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { PersonalService } from './core/services/personal/personal.service';
     UtilsService, 
     AdminEmpleadosFormService,
     FormSignupService,
+    VideojuegoService,
     SucursalService,
     PersonalService, 
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/finally';
 import { ENV } from '../../env.config';
@@ -43,13 +44,14 @@ export class BaseService {
   }
 
 
-  upload(route: string, file: File) {
-
+  upload(route: string, file: File, videojuego) {
     const formData: FormData = new FormData();
     if (file) {
-      formData.append('files', file, file.name);
+      formData.append('imagen', file, file.name);
+      formData.append('videojuego', JSON.stringify(videojuego));
     }
     //this.helperService.addContentTypeHeader = false;
+    console.log("formData: ", formData);
     return this.post(route, formData);
   }
 

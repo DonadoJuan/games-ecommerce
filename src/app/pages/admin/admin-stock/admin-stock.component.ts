@@ -3,10 +3,10 @@ import { Subscription } from 'rxjs/Subscription';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Sucursal } from '../../../domain/sucursal';
 import { Videojuego } from "../../../domain/videojuego";
-import { ApiService } from "../../../core/api.service";
 import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { SucursalService } from "../../../core/services/sucursal/sucursal.service";
 
 @Component({
   selector: 'app-admin-stock',
@@ -26,11 +26,11 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   errorMsg: string;
   videojuegosStock: any[] = [];
 
-  constructor(private _formBuilder: FormBuilder, private api: ApiService, private modalService: NgbModal, private router: Router) { }
+  constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService) { }
 
   ngOnInit() {
     this.sucursalId = "5af78c88a4616c223463102a";
-    this.sucursalSub = this.api.getSucursalById$(this.sucursalId)
+    this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
         .subscribe(
           data => {this.sucursal = data[0];},
           err => this._handleSubmitError(err)
@@ -131,7 +131,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
         }
       });
     });
-    this.updateSucursalSub = this.api.updateSucursalStock$(this.sucursal._id, this.sucursal.videojuegos)
+    this.updateSucursalSub = this.sucursalService.updateSucursalStock$(this.sucursal._id, this.sucursal.videojuegos)
       .subscribe(
         data => {
           console.log(data);

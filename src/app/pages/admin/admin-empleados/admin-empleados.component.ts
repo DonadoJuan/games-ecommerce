@@ -3,13 +3,13 @@ import { NumberComponent } from "../number.component";
 import { CheckboxComponent } from '../checkbox.component';
 import { Router, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { ApiService } from "../../../core/api.service";
 import { Barrio } from "../../../domain/barrio";
 import { Domicilio } from "../../../domain/domicilio";
 import { Sucursal } from "../../../domain/sucursal";
 import { Personal } from "../../../domain/personal";
 import { UtilsService } from "../../../core/services/utils/utils.service";
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { PersonalService } from "../../../core/services/personal/personal.service";
 
 
 //declare var $: any;
@@ -52,7 +52,7 @@ export class AdminEmpleadosComponent implements OnInit, OnDestroy {
   loading: boolean;
   error: boolean;
 
-  constructor(private router: Router, private api: ApiService, private us: UtilsService, public dialog: MatDialog) { }
+  constructor(private router: Router, private us: UtilsService, public dialog: MatDialog, private personalService: PersonalService) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -157,7 +157,7 @@ export class AdminEmpleadosComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.personal = [];
     this.dataPersonal = [];
-    this.personalSub = this.api.getPersonal$()
+    this.personalSub = this.personalService.getPersonal$()
       .subscribe(
         data => {
           data.forEach(d => {
@@ -198,7 +198,7 @@ export class AdminEmpleadosComponent implements OnInit, OnDestroy {
         if(result == "Confirmado") {
           this.personal.forEach(p => {
             if(p.dni == event.data.dni) {
-              this.deletePersonalSub = this.api.deletePersonal$(p._id)
+              this.deletePersonalSub = this.personalService.deletePersonal$(p._id)
                 .subscribe(
                   data => {
                     this.initializeGrid();

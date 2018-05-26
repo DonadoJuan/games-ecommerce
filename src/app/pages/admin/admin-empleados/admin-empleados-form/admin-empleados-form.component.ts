@@ -8,10 +8,11 @@ import { FormEmpleadosModel } from "../../../../core/models/form-empleados.model
 import { AdminEmpleadosFormService } from "./admin-empleados-form.service";
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { Personal } from "../../../../domain/personal";
-import { ApiService } from "../../../../core/api.service";
 import { UtilsService } from "../../../../core/services/utils/utils.service";
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { SucursalService } from "../../../../core/services/sucursal/sucursal.service";
+import { PersonalService } from "../../../../core/services/personal/personal.service";
 
 @Component({
   selector: 'app-admin-empleados-form',
@@ -54,16 +55,17 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private aes: AdminEmpleadosFormService,
     private router: Router,
-    private api: ApiService,
     private adapter: DateAdapter<any>,
-    private us: UtilsService) { }
+    private us: UtilsService,
+    private sucursalService: SucursalService,
+    private personalService: PersonalService) { }
 
   ngOnInit() {
     if(this.us.personal) {
       this.personal = this.us.personal;
       this.us.personal = null;
     }
-    this.sucursalesSub = this.api.getSucursalesUbicacion$()
+    this.sucursalesSub = this.sucursalService.getSucursalesUbicacion$()
       .subscribe(
         data => {
           data.forEach(d => {
@@ -74,7 +76,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
         err => this._handleSubmitError(err)
       );
 
-    this.barriosSub = this.api.getBarrios$()
+    this.barriosSub = this.us.getBarrios$()
       .subscribe(
         data => {
           data.forEach(d => {
@@ -238,14 +240,14 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     this.submitPersonalObj = this._getSubmitObj();
 
     if(!this.isEdit) {
-      this.submitPersonalSub = this.api
+      this.submitPersonalSub = this.personalService
         .postPersonal$(this.submitPersonalObj)
         .subscribe(
           data => this._handleSubmitSuccess(data),
           err => this._handleSubmitError(err)
         );
     } else {
-      this.submitPersonalSub = this.api
+      this.submitPersonalSub = this.personalService
         .putPersonal$(this.personal._id, this.submitPersonalObj)
         .subscribe(
           data => this._handleSubmitSuccess(data),
