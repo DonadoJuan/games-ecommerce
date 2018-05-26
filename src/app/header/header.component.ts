@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/filter';
-import { ClienteService } from '../core/services/cliente/cliente.service';
+import { AuthService } from '../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -14,10 +14,10 @@ export class HeaderComponent implements OnInit {
 
   loggedIn: boolean;
 
-  constructor(private router: Router, private clienteService: ClienteService) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   logout(){
-    this.clienteService.logout();
+    this.authService.logout();
   }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
     
-    this.clienteService.isLoggedIn.subscribe(res => {
+    this.authService.isLoggedIn.subscribe(res => {
       console.log(`se registro un cambio ` + res);
       this.loggedIn = res;
     }); 

@@ -43,7 +43,7 @@ router.post('/registrar', (req, res) => {
   
     cliente.save(function(err) {
 
-        if(err.code == 11000)
+        if(err && err.code == 11000)
             return res.status(200).json({code: err.code});
         if(err)
             return res.status(500).json({code: err.code});
@@ -86,6 +86,26 @@ router.put('/baneo/:id', (req, res) => {
             res.send(cliente);
         });
     });
+});
+
+router.post('/pedido', (req, res) => {
+
+    let input = req.body;
+    let cliente_id = input.cliente_id;
+    let nuevoPedido = input.nuevoPedido;
+
+    Cliente.update(
+        { _id: cliente_id }, 
+        { $push: { pedidos: nuevoPedido }},
+        { runValidators: true },
+         err =>{
+        if(err)
+            res.status(500).json({message: err.message});
+        else
+            res.status(200).json();
+        
+    });
+
 });
 
 module.exports = router;

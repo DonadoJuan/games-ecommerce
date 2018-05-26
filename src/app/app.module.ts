@@ -71,6 +71,7 @@ import { BaseService } from './core/services/base/base.service';
 import { ClienteService } from './core/services/cliente/cliente.service';
 import { SucursalService } from './core/services/sucursal/sucursal.service';
 import { PersonalService } from './core/services/personal/personal.service';
+import { AuthService } from './core/services/auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -157,6 +158,7 @@ import { PersonalService } from './core/services/personal/personal.service';
     FormSignupService,
     SucursalService,
     PersonalService, 
+    AuthService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })

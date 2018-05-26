@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const PedidoSchema = require('./Pedido');
+const DomicilioSchema = require('./Domicilio');
 
 const clienteSchema = mongoose.Schema({
     nombre: {
@@ -25,10 +27,6 @@ const clienteSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    domicilio_entrega: {
-        type: Array,
-        required: true
-    },
     faltas: {
         type: Array
     },
@@ -38,6 +36,12 @@ const clienteSchema = mongoose.Schema({
     activo: {
         type: Boolean,
         required: true
+    },
+    domicilio_entrega: {
+        type: [DomicilioSchema]
+    },
+    pedidos: {
+        type: [PedidoSchema]
     }
 }, {collection: 'clientes'});
 

@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 const domicilioSchema = mongoose.Schema({
     calle: {
         type: String,
@@ -11,7 +10,7 @@ const domicilioSchema = mongoose.Schema({
         required: true
     },
     barrio: {
-        type: Object,
+        type: String,
         required: true
     },
     codigo_postal: {
@@ -20,4 +19,4 @@ const domicilioSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Domicilio', domicilioSchema);
+module.exports = domicilioSchema;

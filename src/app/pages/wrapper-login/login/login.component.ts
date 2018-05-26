@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,13 @@ export class LoginComponent implements OnInit {
   cliente: Object = {};
 
   constructor(
-    private clienteService: ClienteService,
+    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
 
   login(){
-    this.clienteService.login(this.cliente)
+    this.authService.loginCliente(this.cliente)
       .subscribe(data => {
         if(data.token)
           this.router.navigate(['']);
