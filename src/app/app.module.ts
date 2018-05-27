@@ -70,7 +70,8 @@ import { BaseService } from './core/services/base/base.service';
 import { ClienteService } from './core/services/cliente/cliente.service';
 import { SucursalService } from './core/services/sucursal/sucursal.service';
 import { PersonalService } from './core/services/personal/personal.service';
-import { VideojuegoService } from './core/services/videojuego/videojuego.service'
+import { VideojuegoService } from './core/services/videojuego/videojuego.service';
+import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component'
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { VideojuegoService } from './core/services/videojuego/videojuego.service
     AdminStockComponent,
     ButtonListaNegraComponent,
     ButtonDetailsComponent,
-    signupClientSuccessDialog
+    signupClientSuccessDialog,
+    FormUsuariosComponent
   ],
   imports: [
     BrowserModule,
