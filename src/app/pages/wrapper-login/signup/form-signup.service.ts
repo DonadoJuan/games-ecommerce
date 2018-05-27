@@ -8,6 +8,7 @@ export class FormSignupService {
     nombre: '',
     email: '',
     password: '',
+    verificar_password: '',
     telefono: '',
     dni: '',
     barrio: '',
@@ -37,6 +38,12 @@ export class FormSignupService {
         required: `La contraseña es <strong>requerida</strong>`,
         minlength: `La contraseña debe tener ${this.strMin} caracteres o mas`,
         maxlength: `La contraseña debe tener ${this.strMax} caracteres o menos`
+      },
+      verificar_password: {
+        required: `Reingrese la contraseña por favor</strong>`,
+        minlength: `La contraseña debe tener ${this.strMin} caracteres o mas`,
+        maxlength: `La contraseña debe tener ${this.strMax} caracteres o menos`,
+        passwordConfirming: "Deben ser iguales las contraseñas"
       },
       dni: {
         required: `El Dni es <strong>requerido</strong>`,

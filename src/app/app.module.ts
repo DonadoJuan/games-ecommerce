@@ -108,6 +108,7 @@ import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form
     ButtonDetailsComponent,
     signupClientSuccessDialog,
     FormUsuariosComponent
+    
   ],
   imports: [
     BrowserModule,

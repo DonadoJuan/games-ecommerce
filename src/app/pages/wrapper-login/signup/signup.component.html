@@ -38,6 +38,18 @@
       class="small text-danger formErrors"
       [innerHTML]="formErrors.password">
     </div>
+    <div class="md-form">
+        <i class="fa fa-lock prefix grey-text"></i>
+
+        <input type="password" id="verificar_password" class="form-control" formControlName="verificar_password"  [maxlength]="fss.strMax" mdbActive>
+        <label for="verificar_password">Reingrese password</label>
+    </div>
+    <div
+    *ngIf="formErrors.verificar_password"
+    class="small text-danger formErrors"
+    [innerHTML]="formErrors.verificar_password">
+  </div>
+
 
       <div class="md-form">
         <i class="fa fa-phone prefix grey-text" aria-hidden="true"></i>

@@ -24,7 +24,7 @@
         [innerHTML]="formErrors.email">
       </div>
       <div class="md-form fullwidth">
-          <input type="password" id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
+          <input type="password" id="password" class="form-control" formControlName="password"  [maxlength]="fss.strMax" mdbActive>
           <label for="password">Password</label>
       </div>
       <div
@@ -33,8 +33,21 @@
       [innerHTML]="formErrors.password">
     </div>
 
-      
     <div class="md-form fullwidth">
+        <input type="password" id="verificar_password" class="form-control" formControlName="verificar_password"  [maxlength]="fss.strMax" mdbActive>
+        <label for="verificar_password">Reingrese password</label>
+    </div>
+    <div
+    *ngIf="formErrors.verificar_password"
+    class="small text-danger formErrors"
+    [innerHTML]="formErrors.verificar_password">
+  </div>
+
+
+
+
+
+      <div class="md-form fullwidth">
         <input type="number" id="telefono" class="form-control" formControlName="telefono" [maxlength]="fss.telMax" mdbActive>
         <label for="telefono">Telefono</label>
       </div>
