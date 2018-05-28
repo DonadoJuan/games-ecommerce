@@ -6,6 +6,7 @@ import { FormVideojuegosService } from './form-videojuegos-service.service';
 import { Subscription } from 'rxjs';
 import { FormVideojuegosModel } from '../../../../core/models/form-videojuegos.model';
 import { VideojuegoService } from "../../../../core/services/videojuego/videojuego.service";
+import { UtilsService } from "../../../../core/services/utils/utils.service";
 
 
 @Component({
@@ -43,14 +44,19 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
     private fb: FormBuilder, 
     private fvs: FormVideojuegosService,
     private router: Router,
-    private videojuegoService: VideojuegoService
+    private videojuegoService: VideojuegoService,
+    private us: UtilsService
   ) { }
 
    ngOnInit() {
+    if(this.us.videojuego) {
+      this.videojuego = this.us.videojuego;
+      this.us.videojuego = null;
+    }
     this.generos = ['Accion', 'Aventura', 'Deportes', 'Mundo Abierto', 'Plataformas', 'RPG'];
     this.plataformas = ['PS4', 'Xbox One', 'Nintendo Switch'];
-//debugger;
     this.formErrors = this.fvs.formErrors;
+    this.isEdit = !!this.videojuego;
     this.formVideojuegosModel = this._setFormVideojuegos();
     this._buildForm();
     if(!this.isEdit) {
@@ -60,6 +66,13 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
     } else {
       this.tituloForm = "Modificion de Videojuegos";
       this.submitBtnText = "Modificar Videojuego";
+      this.selectedFile = (this.videojuego.file) ? this.videojuego.file : {name: "Seleccione Imagen"};
+      console.log(this.selectedFile);
+      this.seleccionoArchivo = (this.videojuego.file) ? true : false;
+      this.formVideojuegos.controls['genero'].setValue(this.videojuego.genero);
+      this.formVideojuegos.controls['plataforma'].setValue(this.videojuego.plataforma);
+      this.formVideojuegos.controls['titulo'].disable();
+      this.formVideojuegos.controls['codigo'].disable();
     }
   } 
 
@@ -67,6 +80,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
     if(!this.isEdit) {
       return new FormVideojuegosModel(null, null, null, null, null, null, null, null, null, null);
     } else {
+      console.log("this.videojuego: ", this.videojuego);
       return new FormVideojuegosModel(
         this.videojuego.titulo,
         this.videojuego.codigo,
@@ -157,7 +171,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
   onFileSelected(event) {
     if(event.target.files[0] != undefined) {
       this.selectedFile = <File>event.target.files[0];
-      console.log(this.selectedFile);
+      //console.log(this.selectedFile);
       this.seleccionoArchivo = true;
     }
   }
@@ -193,6 +207,15 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
           this._handleSubmitSuccess(res);
         }, err => {
           console.log(err);
+          this._handleSubmitError(err);
+        });
+    } else {
+      this.submitVideojuegoObj.imagen = this.videojuego.imagen;
+      this.submitVideojuegoObj.file = this.videojuego.file;
+      this.videojuegoSub = this.videojuegoService.putVideojuego$(this.videojuego._id, this.selectedFile, this.submitVideojuegoObj)
+        .subscribe(res => {
+          this._handleSubmitSuccess(res);
+        }, err => {
           this._handleSubmitError(err);
         });
     }    

@@ -10,8 +10,8 @@ router.post('/new', (req, res) => {
     let vj = JSON.parse(req.body.videojuego);
     let i = 0;
     req.files.imagen.name = vj.titulo + ".jpg";
-    let rutaImagen = path.join("/assets/img/" + req.files.imagen.name);
-    let rutaAbsoluta = path.join(__dirname + "/../../src/assets/img/" + req.files.imagen.name);
+    let rutaImagen = "http://localhost:3000/img/" + req.files.imagen.name;
+    let rutaAbsoluta = path.join(__dirname + "/../public/img/" + req.files.imagen.name);
     Videojuego.findOne({
         $or: [
             {titulo_lower: vj.titulo.toLowerCase()},
@@ -83,6 +83,146 @@ router.post('/new', (req, res) => {
                 });
             }
             res.send(videojuegosArr);
+        });
+    });
+
+    router.put('/:id', (req, res) => {
+        let vj = JSON.parse(req.body.videojuego);
+        let i = 0;
+        let rutaImagen;
+        Videojuego.findById(req.params.id, (err, videojuego) => {
+            if(err) {
+                console.log("primer error interno");
+                return res.status(500).send({message: err.message});
+            }
+                
+            if(!videojuego) {
+                console.log("error interno no encontre videjuego");
+                return res.status(400).send({message: 'Videojuego no encontrado'});
+            }
+
+            if(req.files) {
+                req.files.imagen.name = vj.titulo + ".jpg";
+                rutaImagen = "http://localhost:3000/img/" + req.files.imagen.name;
+                //videojuego.imagen = rutaImagen;
+                //videojuego.file = req.files.imagen;
+                let rutaAbsoluta = path.join(__dirname + "/../public/img/" + req.files.imagen.name);
+                req.files.imagen.mv(rutaAbsoluta, (err) => {
+                    if(err){
+                        console.log('Error imagen');
+                        return res.status(400).send({message: 'Ocurrio un error al copiar imagen'});
+                    }
+                });
+            }
+
+            videojuego.titulo = vj.titulo;
+            videojuego.titulo_lower = vj.titulo.toLowerCase();
+            videojuego.codigo = vj.codigo;
+            videojuego.genero = vj.genero;
+            videojuego.plataforma = vj.plataforma;
+            videojuego.cantidadMinima = vj.cantidadMinima;
+            videojuego.cantidadMaxima = vj.cantidadMaxima;
+            videojuego.imagen = (req.files) ? rutaImagen : vj.imagen;
+            videojuego.urlVideo = vj.urlVideo;
+            videojuego.precio = vj.precio;
+            videojuego.descuento = vj.descuento;
+            videojuego.destacado = vj.destacado;
+            videojuego.descripcion = vj.descripcion;
+            videojuego.stock = vj.stock;
+            videojuego.file = (req.files) ? req.files.imagen : vj.file;
+            videojuego.activo = true;
+
+            videojuego.save((err) => {
+                if(err) {
+                    console.log("segundo error interno");
+                    return res.status(500).send({message: err.message});
+                }
+                    
+                Sucursal.find({}, (err, sucursales) => {
+                    if(err) {
+                        console.log("tercer error interno");
+                        return res.status(500).send({message: err.message});
+                    }
+                    sucursales.forEach(sucursal => {
+                        sucursal.videojuegos.forEach(function(v, index) {
+                            if(v.codigo === videojuego.codigo) {
+                                v.titulo_lower = videojuego.titulo_lower;
+                                v.genero = videojuego.genero;
+                                v.plataforma = videojuego.plataforma;
+                                v.cantidadMinima = videojuego.cantidadMinima;
+                                v.cantidadMaxima = videojuego.cantidadMaxima;
+                                v.imagen = videojuego.imagen;
+                                v.urlVideo = videojuego.urlVideo;
+                                v.precio = videojuego.precio;
+                                v.destacado = videojuego.destacado;
+                                v.descripcion = videojuego.descripcion;
+                                v.file = videojuego.file;
+                                v.activo = true;
+                                sucursal.videojuegos.splice(index, 1);
+                                sucursal.videojuegos.splice(index, 0, v);
+                            }
+                        });
+                        sucursal.save((err) => {
+                            if(err) {
+                                console.log("Cuarto error interno");
+                                return res.status(500).send({message: err.message});
+                            }  
+                            i++;
+                            if(i == sucursales.length - 1) {
+                                return res.status(200).send(videojuego);
+                            }
+                        });
+                    });
+                });
+            });
+        });
+        
+    });
+
+    router.delete('/:id', (req, res) => {
+        let i = 0;
+        Videojuego.findById(req.params.id, (err, videojuego) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(!videojuego) {
+                return res.status(400).send({message: 'Videojuego no encontrado'});
+            }
+            videojuego.activo = false;
+            console.log("videojuego._id: ", videojuego._id);
+            console.log("videojuego.codigo: ", videojuego.codigo);
+            console.log("videojuego.titulo: ", videojuego.titulo);
+            videojuego.save((err) => {
+                if(err) {
+                    console.log("segundo error interno");
+                    return res.status(500).send({message: err.message});
+                }
+                Sucursal.find({}, (err, sucursales) => {
+                    if(err) {
+                        console.log("tercer error interno");
+                        return res.status(500).send({message: err.message});
+                    }
+                    sucursales.forEach(sucursal => {
+                        sucursal.videojuegos.forEach(function(v, index) {
+                            if(v.codigo === videojuego.codigo) {
+                                v.activo = false;
+                                console.log("v.codigo: ", v.codigo);
+                                console.log("videojuego.codigo: ", videojuego.codigo);
+                            }
+                        });
+                        sucursal.save((err) => {
+                            if(err) {
+                                console.log("Cuarto error interno");
+                                return res.status(500).send({message: err.message});
+                            }  
+                            i++;
+                            if(i == sucursales.length - 1) {
+                                return res.status(200).send({message: 'Videojuego eliminado exitosamente'});
+                            }
+                        });
+                    });
+                });
+            });
         });
     });
 

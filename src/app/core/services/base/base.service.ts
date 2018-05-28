@@ -44,15 +44,23 @@ export class BaseService {
   }
 
 
-  upload(route: string, file: File, videojuego) {
+  upload(route: string, file: File, videojuego, queHago: string) {
     const formData: FormData = new FormData();
+    console.log(file);
     if (file) {
       formData.append('imagen', file, file.name);
       formData.append('videojuego', JSON.stringify(videojuego));
     }
     //this.helperService.addContentTypeHeader = false;
-    console.log("formData: ", formData);
-    return this.post(route, formData);
+    //console.log("formData: ", formData);
+    if(queHago == "post") {
+      return this.post(route, formData);
+    }
+
+    if(queHago == "put") {
+      return this.put(route, formData);
+    }
+    
   }
 
   private _handleError(err: HttpErrorResponse | any): Observable<any> {

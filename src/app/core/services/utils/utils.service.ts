@@ -13,6 +13,7 @@ export class UtilsService {
 
   public personal: Personal;
   public cliente: Cliente;
+  public videojuego: Videojuego;
 
   constructor(public baseService: BaseService) { }
 
