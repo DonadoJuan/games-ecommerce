@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationStart } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 import { Videojuego } from '../../domain/videojuego';
+import { VideojuegoService } from "../../core/services/videojuego/videojuego.service";
+import { UtilsService } from "../../core/services/utils/utils.service";
 
 
 @Component({
@@ -8,45 +12,48 @@ import { Videojuego } from '../../domain/videojuego';
   styleUrls: ['./videojuegos.component.scss'],
 })
 
-export class VideojuegosComponent implements OnInit {
+export class VideojuegosComponent implements OnInit, OnDestroy {
 
-  private videojuego1 : Videojuego = new Videojuego();
-  private videojuego2 : Videojuego = new Videojuego();
-  private listaVideoJuegos : Videojuego[] = new Array();
-     dropdownList = [];
+    private listaVideoJuegos : Videojuego[] = new Array();
+    videojuegosSub: Subscription;
+    dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
+    loading: boolean;
+    error: boolean;
+    myStyles = {};
 
-  constructor() { }
+  constructor(
+      private videojuegoService: VideojuegoService,
+      private us: UtilsService,
+      private router: Router
+    ) { }
 
   ngOnInit() {
-    
+        this.loading = true;
+        this.error = false;
+        this.videojuegosSub = this.videojuegoService.getVideojuegos$()
+            .subscribe(data => {
+                this.loading = false;
+                data.forEach(d => {
+                    this.listaVideoJuegos.push(d);
+                    let descCorta = d.descripcion.substring(0, 200) + "...";
+                    this.dropdownList.push({
+                        "id": d._id,
+                        "itemName": d.titulo,
+                        "titulo": d.titulo,
+                        "codigo": d.codigo,
+                        "descripcion": descCorta,
+                        "imagen": d.imagen,
+                        "plataforma": d.plataforma
+                    });
+                });
+            }, error => {
+                this.loading = false;
+                this.error = true;
+                console.error(error);
+            });        
 
-    this.videojuego1._id = "1";
-    this.videojuego1.titulo = "Mario";
-        this.videojuego2._id = "2";
-    this.videojuego2.titulo = "Nino";
-    
-
-    this.listaVideoJuegos.push(this.videojuego1);
-    this.listaVideoJuegos.push(this.videojuego2);
-      
-    console.log(this.listaVideoJuegos);
-
-        this.dropdownList = [
-                              {"id":1,"itemName":"Crash Remastered", gender: 'Playstation' },
-                              {"id":2,"itemName":"God of war 4", gender: 'Playstation' },
-                              {"id":3,"itemName":"Mario Odyssey", gender: 'Nintendo' },
-                              {"id":4,"itemName":"Pokemon", gender: 'Nintendo' },
-                              {"id":5,"itemName":"Gears of war 5", gender: 'Xbox One' },
-                              {"id":6,"itemName":"HALO 4", gender: 'Xbox One' }
-                            ];
-        this.selectedItems = [
-                              {"id":2,"itemName":"God of war 4", gender: 'Playstation' },
-                              {"id":3,"itemName":"Mario Odyssey", gender: 'Nintendo' },
-                              {"id":4,"itemName":"Pokemon", gender: 'Nintendo' },
-                              {"id":5,"itemName":"Gears of war 5", gender: 'Xbox One' },
-                            ];
         this.dropdownSettings = { 
                                   singleSelection: false, 
                                   text:"Seleccionar categoria",
@@ -54,7 +61,7 @@ export class VideojuegosComponent implements OnInit {
                                   unSelectAllText:'Deseleccionar todo',
                                   enableSearchFilter: true,
                                   classes:"myclass custom-class",
-                                   groupBy:"gender",
+                                  groupBy:"plataforma",
                                 }; 
 
   }
@@ -65,7 +72,7 @@ export class VideojuegosComponent implements OnInit {
         console.log(item);
         console.log(this.selectedItems);
     }
-    OnItemDeSelect(item:any){
+    onItemDeSelect(item:any){
         console.log(item);
         console.log(this.selectedItems);
     }
@@ -74,6 +81,10 @@ export class VideojuegosComponent implements OnInit {
     }
     onDeSelectAll(items: any){
         console.log(items);
+    }
+
+    ngOnDestroy() {
+        this.videojuegosSub.unsubscribe();
     }
 
 }

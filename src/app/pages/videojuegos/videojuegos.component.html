@@ -1,33 +1,48 @@
-<br>
-<angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" group-by="gender" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
-    (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
-</angular2-multiselect>
-<br>
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+    <br>
+    <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" group-by="plataforma" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)">
+    </angular2-multiselect>
+    <br>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let product of selectedItems">
-            <div class="card wow fadeInUp">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let product of selectedItems">
+                <div class="card wow fadeInUp">
 
-                <!--Card image-->
-                <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                    <img src="../../../assets/slider/mario_odyssey.jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                    <a>
-                        <div class="mask"></div>
-                    </a>
+                    <!--Card image-->
+                    <div class="view hm-white-slight waves-light" mdbRippleRadius>
+                        <!--<img src={{product.imagen}} height="60px" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                        <div id="yourElement" [ngStyle]="{
+                            'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                            '-webkit-background-size': '100% 100%',
+                            '-moz-background-size': '100% 100%',
+                            '-o-background-size': '100% 100%',
+                            'background-size': '100% 100%',
+                            'background-repeat': 'no-repeat',
+                            'height': '200px'
+                        }"></div>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+
+                    <!--Card content-->
+                    <div class="card-body">
+                        <!--Title-->
+                        <h4 class="card-title">{{product.titulo}}</h4>
+                        <!--Text-->
+                        <p class="card-text">{{product.descripcion}}</p>
+                        <a class="btn btn-primary waves-light" mdbRippleRadius>Detalles</a>
+                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    </div>
                 </div>
-
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">{{product.itemName}}</h4>
-                    <!--Text-->
-                    <p class="card-text">El juego mas reciente de nuestro amigo plomero mata hongos.</p>
-                    <a class="btn btn-primary waves-light" mdbRippleRadius>Detalles</a>
-                    <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </div>
+                <br>
             </div>
-            <br>
         </div>
     </div>
-</div>
+</ng-template>
+<p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> Ocurrio un error al traer datos de videojuegos. Por favor, intente recargar la pagina.
+</p>
