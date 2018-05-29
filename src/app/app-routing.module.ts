@@ -14,6 +14,7 @@ import { AdminEmpleadosFormComponent } from "./pages/admin/admin-empleados/admin
 import { ListaNegraComponent } from "./pages/admin/usuarios/lista-negra/lista-negra.component";
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 import { AdminStockComponent } from "./pages/admin/admin-stock/admin-stock.component";
+import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component';
 
 const routes: Routes = [
   {
@@ -67,6 +68,10 @@ const routes: Routes = [
   {
     path: 'admin-videojuegos-form',
     component: FormVideojuegosComponent
+  },
+  {
+    path: 'admin-usuarios-form',
+    component: FormUsuariosComponent
   },
   {
     path: 'admin-stock',

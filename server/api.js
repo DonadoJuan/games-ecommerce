@@ -15,6 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(express.static(__dirname + '/public'));
 app.use(fileupload());
 app.use(cors());
 

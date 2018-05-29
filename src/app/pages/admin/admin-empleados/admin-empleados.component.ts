@@ -203,8 +203,11 @@ export class AdminEmpleadosComponent implements OnInit, OnDestroy {
                   data => {
                     this.initializeGrid();
                   },
-                  err => console.error(err)
-                );
+                  err => {
+                    console.error(err);
+                    this.loading = false;
+                    this.error = true;
+                  });
             }
           });
         }

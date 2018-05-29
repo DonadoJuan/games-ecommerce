@@ -8,6 +8,7 @@ import { UtilsService } from "../../../core/services/utils/utils.service";
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Videojuego } from "../../../domain/videojuego";
 import { VideojuegoService } from "../../../core/services/videojuego/videojuego.service";
+import { ConfirmDeleteDialog } from "../../admin/admin-empleados/admin-empleados.component";
 
 @Component({
   selector: 'app-admin-videojuegos',
@@ -29,19 +30,28 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
     private router: Router, 
     private us: UtilsService,
     private videojuegoService: VideojuegoService,
-    private sanitization: DomSanitizer
+    private sanitization: DomSanitizer,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.initializeGrid();
     this.settings = {
       actions: {
-        add: false, edit: false, delete: false, position: 'right', custom:
-          [{ name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
-          { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }]
+        add: false, edit: false, delete: false, position: 'right', 
+        custom:
+          [
+            { name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
+            { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }
+          ]
       },
 
       columns: {
+        codigo: {
+          title: 'Codigo',
+          type: 'custom',
+          renderComponent: NumberComponent
+        },
         titulo: {
           title: 'Titulo'
         },
@@ -137,10 +147,33 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
 
   onCustom(event) {
     if (`'${event.action}'` == "'eliminar'") {
+      let dialogRef = this.dialog.open(ConfirmDeleteDialog, {
+        width: '300px'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result === "Confirmado") {
+          this.videojuegos.forEach(v => {
+            if(v.codigo === event.data.codigo) {
+              this.deleteVideojuegoSub = this.videojuegoService.deleteVideojuego$(v._id)
+                .subscribe(data => {
+                  this.initializeGrid();
+                }, error => {
+                  console.error(error);
+                  this.loading = false;
+                  this.error = true;
+                });
+            }
+          });
+        }
+      });
 
-      //agregar accion para eliminar
     } else {
-      //agregar accion  para editar
+      this.videojuegos.forEach(v => {
+        if(v.codigo == event.data.codigo) {
+          this.us.videojuego = v;
+          this.router.navigate(['admin-videojuegos-form']);
+        }
+      });
     }
   }
 
@@ -164,9 +197,10 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
           generos = generos.substring(0, generos.length - 2);
           plataformas = plataformas.substring(0, plataformas.length - 2);
           //console.log("generos final", generos);
-          let image = (d.imagen) ? "..//..//..//.." + d.imagen : "..//..//..//..//assets//img//no-image.png";
-          console.log("image: ", image);
+          let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
+          //console.log("image: ", image);
           this.dataVideojuegos.push({
+            codigo: d.codigo,
             titulo: d.titulo,
             genero: generos,
             plataforma: plataformas,
