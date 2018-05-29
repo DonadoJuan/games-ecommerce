@@ -21,13 +21,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // If nav is open after routing, close it
     this.router.events
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
     
     this.authService.isLoggedIn.subscribe(res => {
-      console.log(`se registro un cambio ` + res);
       this.loggedIn = res;
     }); 
   }

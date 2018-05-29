@@ -8,16 +8,47 @@
         <div class="row pt-5">
           <div class="col-8">
 
-            <h5>CARRITO DE COMPRAS</h5>
+            <h5>CARRITO</h5>
             <mat-divider class="mb-3"></mat-divider>
+            
+            <div *ngIf="this.pedido.videojuegos.length == 0" 
+            class="alert alert-secondary">
+                Aun no agregaste ningun articulo al carrito.
+            </div>
+            <table *ngIf="this.pedido.videojuegos.length != 0" class="table">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">IMAGEN</th>
+                  <th scope="col">TITULO</th>
+                  <th scope="col">PRECIO</th>
+                  <th scope="col">CANTIDAD</th>
+                  <th scope="col">SUBTOTAL</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let vj of pedido.videojuegos, index as i">
+                  <td><button (click)="removeItem(i)" class="btn btn-danger btn-xsm"> 
+                    <i class="material-icons">
+                      delete
+                      </i></button></td>
+                  <td><img width="112px" height="130px" class="align-center"[src]="vj.videojuego.imagen"></td>
+                  <td>{{vj.videojuego.titulo}}</td>
+                  <td>$ {{vj.videojuego.precio}}</td>
+                  <td><input class="w-50" type="number" (change)="updateTotal(i)" 
+                    [(ngModel)]="vj.cantidad"></td>
+                  <td>$ {{vj.subtotal}}</td>
+                </tr>
+              </tbody>
+            </table>
 
-            <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
           </div>
+
           <div class="col-4">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Subtotal:</label>
-                <span>$ 2000.00</span>
+                <span>$ {{pedido.total}}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Costo de envio:</label>
@@ -33,7 +64,7 @@
               </div>
             </div>
             <div class="row justify-content-center mt-5">
-              <button matStepperNext type="button" class="btn btn-block btn-elegant waves-light font-weight-bold">
+              <button [disabled]="this.pedido.videojuegos.length == 0" matStepperNext type="button" class="btn btn-block btn-elegant waves-light font-weight-bold">
                 CONTINUAR
               </button>
             </div>
@@ -67,20 +98,20 @@
 
               <div *ngIf="formaEntrega == 1">
                 <mat-form-field class="w-75">
-                  <mat-select placeholder="Selecciona una sucursal">
-                    <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.id">
-                      {{ sucursal.name }}
+                  <mat-select [(ngModel)]="sucursalSelect" (change)="updateDeliveryOption()" placeholder="Selecciona una sucursal">
+                    <mat-option *ngFor="let s of sucursales" [value]="s">
+                      {{ s.ubicacion.calle }} {{ s.ubicacion.altura }}, {{ s.ubicacion.barrio.nombre }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
 
               <div *ngIf="formaEntrega == 2">
-
+                
                 <mat-form-field class="w-75">
-                  <mat-select [(ngModel)]="domicilioSelect" placeholder="Seleccione un domicilio">
-                    <mat-option *ngFor="let sucursal of sucursales" [value]="sucursal.id">
-                      {{ sucursal.name }}
+                  <mat-select [(ngModel)]="domicilioSelect" (change)="updateDeliveryOption()" placeholder="Seleccione un domicilio">
+                    <mat-option *ngFor="let d of cliente.domicilio_entrega" [value]="d">
+                      {{ d.calle}} {{d.altura}}, {{d.barrio}} 
                     </mat-option>
                     <mat-option [value]="'domicForm'">
                       Otro domicilio
@@ -99,25 +130,32 @@
                       </mat-panel-description>
                     </mat-expansion-panel-header>
 
-                    <div class="d-flex flex-column">
+                    <form class="d-flex flex-column" [formGroup]="formDomicilio"> 
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Barrio">
-                      </mat-form-field>
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Calle y altura">
-                      </mat-form-field>
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Codigo postal">
-                      </mat-form-field>
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Piso y departamento">
-                      </mat-form-field>
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Observaciones">
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                            <mat-select placeholder="Barrio" formControlName="barrio">
+                                <mat-option *ngFor="let barrio of barrios" [value]="barrio">
+                                  {{barrio.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
 
-                    </div>
+                        <mat-form-field floatLabel="never">
+                          <input matInput placeholder="Calle" formControlName="calle" required>
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field floatLabel="never">
+                          <input matInput placeholder="Altura" formControlName="altura">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field floatLabel="never">
+                            <input matInput placeholder="Codigo postal" formControlName="codigo_postal">
+                            <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
+
+                  </form>
 
                   </mat-expansion-panel>
                 </mat-accordion>
@@ -129,11 +167,11 @@
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
-                <span>$ 2000.00</span>
+                <span>$ {{pedido.total}}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Costo de envio:</label>
-                <span> $ 200 </span>
+                <span> $ {{pedido.totalEnvio}} </span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Descuentos:</label>
@@ -145,7 +183,7 @@
               </div>
             </div>
             <div class="row justify-content-center mt-5">
-              <button matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
+              <button [disabled]="!updateDeliveryOption()" matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
                 CONTINUAR
               </button>
             </div>

@@ -164,7 +164,7 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
           generos = generos.substring(0, generos.length - 2);
           plataformas = plataformas.substring(0, plataformas.length - 2);
           //console.log("generos final", generos);
-          let image = (d.imagen) ? "..\\..\\..\\.." + d.imagen : "..\\..\\..\\..\\assets\\img\\no-image.png";
+          let image = (d.imagen) ? "..//..//..//.." + d.imagen : "..//..//..//..//assets//img//no-image.png";
           console.log("image: ", image);
           this.dataVideojuegos.push({
             titulo: d.titulo,

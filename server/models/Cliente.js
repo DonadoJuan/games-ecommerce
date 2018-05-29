@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const PedidoSchema = require('./Pedido');
 const DomicilioSchema = require('./Domicilio');
+const tarjetaSchema = require('./Tarjeta');
 
 const clienteSchema = mongoose.Schema({
     nombre: {
@@ -40,9 +41,14 @@ const clienteSchema = mongoose.Schema({
     domicilio_entrega: {
         type: [DomicilioSchema]
     },
+    tarjetas: {
+        type: [tarjetaSchema]
+    },
     pedidos: {
         type: [PedidoSchema]
     }
+
+
 }, {collection: 'clientes'});
 
 clienteSchema.methods.setPassword = function(password){

@@ -94,16 +94,11 @@ router.post('/pedido', (req, res) => {
     let cliente_id = input.cliente_id;
     let nuevoPedido = input.nuevoPedido;
 
-    Cliente.update(
-        { _id: cliente_id }, 
-        { $push: { pedidos: nuevoPedido }},
-        { runValidators: true },
-         err =>{
+    Cliente.update({ _id: cliente_id }, { $push: { pedidos: nuevoPedido }},{ runValidators: true }, err =>{
         if(err)
             res.status(500).json({message: err.message});
         else
             res.status(200).json();
-        
     });
 
 });

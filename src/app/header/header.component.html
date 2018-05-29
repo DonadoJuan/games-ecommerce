@@ -18,7 +18,7 @@
         <li *ngIf="loggedIn" class="nav-item">
             <a class="nav-link text-white" routerLink="/wrapper-login" (click)="logout()" routerLinkActive="active">Logout</a>
         </li>
-            <li class="nav-item btn-group" dropdown>
+            <li *ngIf="loggedIn" class="nav-item btn-group" dropdown>
         <!--<li *ngIf="loggedIn" class="nav-item btn-group" dropdown>-->
                 <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
                     Perfil
@@ -40,7 +40,7 @@
                 <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
         <!--<li *ngIf="loggedIn" class="nav-item">-->
-        <li class="nav-item">
+        <li *ngIf="loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
                     <i class="material-icons align-middle">shopping_cart</i>
                 </a>

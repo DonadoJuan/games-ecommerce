@@ -13,7 +13,11 @@ export class AuthService {
   token: string = null;
   public isLoggedIn = new Subject<boolean>();
 
-  constructor(private baseService: BaseService, private router: Router) { }
+  constructor(private baseService: BaseService, private router: Router) { 
+    if(this.getToken()){
+      this.isLoggedIn.next(true);
+    }
+  }
 
   public loginCliente(cliente) : Observable<any>{
 

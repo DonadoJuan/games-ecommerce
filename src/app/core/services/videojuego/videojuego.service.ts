@@ -5,7 +5,7 @@ import { Videojuego } from "../../../domain/videojuego";
 
 @Injectable()
 export class VideojuegoService {
-
+  
   constructor(public baseService: BaseService) { }
 
   postVideojuego$(file: File, videojuego: Videojuego): Observable<Videojuego> {

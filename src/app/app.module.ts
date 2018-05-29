@@ -72,6 +72,7 @@ import { ClienteService } from './core/services/cliente/cliente.service';
 import { SucursalService } from './core/services/sucursal/sucursal.service';
 import { PersonalService } from './core/services/personal/personal.service';
 import { AuthService } from './core/services/auth/auth.service';
+import { VideojuegoService } from './core/services/videojuego/videojuego.service';
 
 @NgModule({
   declarations: [

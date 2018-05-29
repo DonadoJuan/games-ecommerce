@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
+import { SucursalService } from '../../core/services/sucursal/sucursal.service';
+import { AuthService } from '../../core/services/auth/auth.service';
+import { UtilsService } from '../../core/services/utils/utils.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'confirm-purchase-dialog',
@@ -27,11 +31,13 @@ export class ConfirmPurchaseDialog {
 })
 export class CartWizardComponent implements OnInit {
 
+  formDomicilio: FormGroup;
+  cliente: object;
+  barrios: object[];
   formaEntrega: String;
   tarjetas: any;
   sucursales: any;
-  settings: any;
-  data: any[];
+  pedido: any;
 
   confirmPurchase(): void {
     let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
@@ -42,55 +48,98 @@ export class CartWizardComponent implements OnInit {
       this.router.navigate(['pedidos']);
     });
   }
-  
-  constructor (public dialog: MatDialog, public router: Router) { 
+  removeItem(i: number){
+    let vglist = this.pedido.videojuegos;
+    let total = 0; 
+    vglist.splice(i,1);
+    vglist.forEach(item => {
+      total += item.subtotal;
+    });
+    this.pedido.total = total;
+
   }
+
+  updateTotal(i: number){
+    let total = 0;
+    let vglist = this.pedido.videojuegos; 
+    vglist[i].subtotal =  vglist[i].cantidad * vglist[i].videojuego.precio;
+    vglist.forEach(item => {
+      total += item.subtotal;
+    });
+    this.pedido.total = total;
+  }
+
+  updateDeliveryOption(){
+    if(this.formaEntrega == '1' && this.pedido.sucursal_entrega != undefined){
+      this.pedido.domicilio_entrega = undefined; 
+      return true;
+    }
+    if(this.formaEntrega == '2' && this.pedido.domicilio_entrega != undefined){
+      this.pedido.sucursal_entrega = undefined; 
+      return true;
+    }
+    return false;
+  }
+
+  _buildForm(){
+
+      this.formDomicilio = this.fb.group({
+        barrio: ['', [Validators.required]],
+        calle: ['', [Validators.required]],
+        altura: ['', [Validators.required]],
+        codigo_postal: ['', [Validators.required]]
+      });
+  }
+
+  _getServiceData(){
+    this.sucursalService.getSucursalesUbicacion$()
+      .subscribe(data => this.sucursales = data);
+    this.utilService.getBarrios$()
+      .subscribe(data => this.barrios = data);
+    this.cliente = this.authService.getDatosCliente().payload;
+  }
+  
+  constructor (
+    private dialog: MatDialog, 
+    private router: Router,
+    private sucursalService: SucursalService,
+    private authService: AuthService,
+    private utilService: UtilsService,
+    private fb: FormBuilder) {}
 
   
   ngOnInit() {
+    this._buildForm();
+    this._getServiceData();
 
-    this.formaEntrega = "1";
-    this.settings = {
-      actions: false,
-      hideSubHeader: true,
-      columns: {
-        image: {
-          title: 'IMAGEN',
-          type: 'html'
+    this.pedido = {
+      total: 200,
+      totalEnvio: 0,
+      cupon:{
+        codigo:23123,
+        descuento: 20
+      },
+      videojuegos:[
+        {
+          videojuego:{
+            titulo: 'SOUL CALIBUR VI',
+            imagen: '../../../../assets/slider/gd-calibur.jpg',
+            precio: 100
+          },
+          cantidad: 1,
+          subtotal: 100
         },
-        product: {
-          title: 'PRODUCTO'
-        },
-        quantity: {
-          title: 'CANTIDAD'
-        },
-        retailPrice:{
-          title: '$ UNITARIO'
-        },
-        subtotal:{
-          title: '$ SUBTOTAL'
+        {
+          videojuego:{
+            titulo: 'SOUL CALIBUR VI',
+            imagen: '../../../../assets/slider/gd-calibur.jpg',
+            precio: 100
+          },
+          cantidad: 1,
+          subtotal: 100
         }
-      },
-      defaultStyle: true,
-      attr: {
-        class: 'table'
-      }
-    }
-
-    this.sucursales = [
-      {
-        id: "3212354",
-        name: "Microcentro - Paraguay 1050"
-      },
-      {
-        id: "3219632",
-        name: "Paternal - av. Sarmiento 720"
-      },
-      {
-        id: "945725",
-        name: "Puerto Madero - Juana Manso 1240"
-      }
-    ]
+      ]
+    };   
 
     this.tarjetas = [
       {
@@ -102,30 +151,6 @@ export class CartWizardComponent implements OnInit {
         id: "634521",
         marca: "Visa",
         num:"..7492"
-      }
-    ]
-
-    this.data = [
-      {
-        product: 'SOUL CALIBUR VI',
-        image: '<img src="../../../../assets/slider/gd-calibur.jpg" class="align-center" width="112px" height="130px"/>',
-        quantity: "1",
-        retailPrice: "$2000",
-        subtotal:"$2000"
-      },
-      {
-        product: 'MARIO ODYSSEY',
-        image: '<img src="../../../../assets/slider/gd-gta.jpg" class="align-center" width="112px" height="130px"/>',
-        quantity: "1",
-        retailPrice: "$2000",
-        subtotal:"$2000"
-      },
-      {
-        product: 'FAR CRY 5',
-        image: '<img src="../../../../assets/slider/gd-farcry5.jpg" class="align-center" width="112px" height="130px"/>',
-        quantity: "1",
-        retailPrice: "$2000",
-        subtotal:"$2000"
       }
     ]
   }
