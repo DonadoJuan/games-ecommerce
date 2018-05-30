@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, FormControl, FormArray, Validators, AbstractCon
 import { Videojuego } from '../../../../domain/videojuego';
 import { FormVideojuegosService } from './form-videojuegos-service.service';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import {map, startWith} from 'rxjs/operators';
 import { FormVideojuegosModel } from '../../../../core/models/form-videojuegos.model';
 import { VideojuegoService } from "../../../../core/services/videojuego/videojuego.service";
 import { UtilsService } from "../../../../core/services/utils/utils.service";
@@ -40,6 +42,10 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
     name: "Seleccione Imagen"
   };
 
+  options = [];
+
+  filteredOptions: Observable<string[]>;
+
   constructor(
     private fb: FormBuilder, 
     private fvs: FormVideojuegosService,
@@ -53,8 +59,18 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
       this.videojuego = this.us.videojuego;
       this.us.videojuego = null;
     }
+    this.videojuegoSub = this.videojuegoService.getVideojuegos$()
+      .subscribe(data => {
+        data.forEach(d => {
+          this.options.push(d.titulo);
+        });
+      }, err => {
+        console.log(err);
+        this._handleSubmitError(err);
+      });
+    this.submitting = false;
     this.generos = ['Accion', 'Aventura', 'Deportes', 'Mundo Abierto', 'Plataformas', 'RPG'];
-    this.plataformas = ['PS4', 'Xbox One', 'Nintendo Switch'];
+    this.plataformas = [{value: 'PS4', viewValue: 'PS4'}, {value: 'Xbox One', viewValue: 'Xbox One'}, {value: 'Nintendo Switch', viewValue: 'Nintendo Switch'}];
     this.formErrors = this.fvs.formErrors;
     this.isEdit = !!this.videojuego;
     this.formVideojuegosModel = this._setFormVideojuegos();
@@ -67,14 +83,34 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
       this.tituloForm = "Modificion de Videojuegos";
       this.submitBtnText = "Modificar Videojuego";
       this.selectedFile = (this.videojuego.file) ? this.videojuego.file : {name: "Seleccione Imagen"};
-      console.log(this.selectedFile);
       this.seleccionoArchivo = (this.videojuego.file) ? true : false;
       this.formVideojuegos.controls['genero'].setValue(this.videojuego.genero);
       this.formVideojuegos.controls['plataforma'].setValue(this.videojuego.plataforma);
-      this.formVideojuegos.controls['titulo'].disable();
       this.formVideojuegos.controls['codigo'].disable();
     }
-  } 
+    this.filteredOptions = this.formVideojuegos.controls['titulo'].valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val))
+      );
+    //this.findInvalidControls();
+  }
+
+  filter(val: string): string[] {
+    return this.options.filter(option =>
+      option.toLowerCase().includes(val.toLowerCase()));
+  }
+  
+  /*public findInvalidControls() {
+    const invalid = [];
+    const controls = this.formVideojuegos.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    console.log(invalid);
+  }*/
 
   private _setFormVideojuegos() {
     if(!this.isEdit) {
@@ -103,7 +139,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
       titulo: [this.formVideojuegosModel.titulo, [
         Validators.required,
         Validators.minLength(this.fvs.strMin),
-        Validators.maxLength(this.fvs.strMax)
+        Validators.maxLength(this.fvs.titleMax)
       ]],
       codigo: [this.formVideojuegosModel.codigo, [
         Validators.required,

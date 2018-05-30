@@ -34,7 +34,7 @@
                         <h4 class="card-title">{{product.titulo}}</h4>
                         <!--Text-->
                         <p class="card-text">{{product.descripcion}}</p>
-                        <a class="btn btn-primary waves-light" mdbRippleRadius>Detalles</a>
+                        <a class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
                         <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 </div>

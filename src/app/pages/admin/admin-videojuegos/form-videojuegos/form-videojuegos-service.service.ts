@@ -19,6 +19,7 @@ export class FormVideojuegosService {
 
   strMin = 3; // Nombre, Calle, Email
   strMax = 30;
+  titleMax = 200;
   dniMin = 1000000;
   dniMax = 99999999;
   intMin = 1; //Legajo, Altura, Codigo Postal
@@ -32,7 +33,7 @@ export class FormVideojuegosService {
       titulo: {
         required: `El Titulo es <strong>requerido</strong>`,
         minlength: `El Titulo debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `El Titulo debe tener ${this.strMax} caracteres o menos`
+        maxlength: `El Titulo debe tener ${this.titleMax} caracteres o menos`
       },
       codigo: {
         required: `El codigo es <strong>requerido</strong>`,
@@ -44,7 +45,7 @@ export class FormVideojuegosService {
         required: `Debe elegir al menos un <strong>Genero</strong>`
       },
       plataforma: {
-        required: `Debe elegir al menos una <strong>Plataforma</strong>`
+        required: `Debe elegir una <strong>Plataforma</strong>`
       },
       cantMinima: {
         required: `La cantidad minima es <strong>requerida</strong>`,

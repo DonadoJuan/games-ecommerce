@@ -9,19 +9,21 @@ router.post('/new', (req, res) => {
     //console.log('req.body.videojuego: ', JSON.parse(req.body.videojuego));
     let vj = JSON.parse(req.body.videojuego);
     let i = 0;
-    req.files.imagen.name = vj.titulo + ".jpg";
+    req.files.imagen.name = vj.codigo + ".jpg";
     let rutaImagen = "http://localhost:3000/img/" + req.files.imagen.name;
     let rutaAbsoluta = path.join(__dirname + "/../public/img/" + req.files.imagen.name);
     Videojuego.findOne({
         $or: [
-            {titulo_lower: vj.titulo.toLowerCase()},
-            {codigo: vj.codigo}
+            {codigo: vj.codigo},
+           {
+               $and: [{titulo_lower: vj.titulo_lower}, {plataforma: vj.plataforma}]
+           }
         ]
     }, (err, videojuegoExistente) => {
         if(err)
             return res.status(500).send({message: err.message});
         if(videojuegoExistente)
-            return res.status(500).send({message: 'Ya existe un videojuego con ese titulo'});
+            return res.status(500).send({message: 'Ya existe un videojuego con ese codigo o con ese titulo y plataforma'});
         
         let videojuego = new Videojuego({
             titulo: vj.titulo,
@@ -102,7 +104,7 @@ router.post('/new', (req, res) => {
             }
 
             if(req.files) {
-                req.files.imagen.name = vj.titulo + ".jpg";
+                req.files.imagen.name = vj.codigo + ".jpg";
                 rutaImagen = "http://localhost:3000/img/" + req.files.imagen.name;
                 //videojuego.imagen = rutaImagen;
                 //videojuego.file = req.files.imagen;

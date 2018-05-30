@@ -3,7 +3,7 @@ export class FormVideojuegosModel {
         public titulo: string,
         public codigo: string,
         public genero: Array<string>,
-        public plataforma : Array<string>,
+        public plataforma : string,
         public cantMinima : number,
         public cantMaxima : number,
         public urlVideo : string,

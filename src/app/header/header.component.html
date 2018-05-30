@@ -6,7 +6,7 @@
             <a class="nav-link text-white" routerLink="/videojuegos" routerLinkActive="active">Juegos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/game-details" href="#">Ofertas</a>
+            <a class="nav-link text-white" href="#">Ofertas</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-white">Preventa</a>
@@ -18,7 +18,7 @@
         <li *ngIf="loggedIn" class="nav-item">
             <a class="nav-link text-white" routerLink="/wrapper-login" (click)="logout()" routerLinkActive="active">Logout</a>
         </li>
-            <li *ngIf="loggedIn" class="nav-item btn-group" dropdown>
+            <li class="nav-item btn-group" dropdown>
         <!--<li *ngIf="loggedIn" class="nav-item btn-group" dropdown>-->
                 <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
                     Perfil

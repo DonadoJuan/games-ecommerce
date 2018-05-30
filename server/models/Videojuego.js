@@ -18,7 +18,7 @@ const videojuegoSchema = mongoose.Schema({
         required: true
     },
     plataforma: {
-        type: Array,
+        type: String,
         required: true
     },
     cantidadMinima: {

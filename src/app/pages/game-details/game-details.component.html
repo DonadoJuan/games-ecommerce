@@ -5,7 +5,7 @@
   <div class="row">
 
     <!-- SLIDER FOTOS JUEGO -->
-    <div class="col-4">
+    <!--<div class="col-4">
       <mdb-carousel [isControls]="true">
         <mdb-slide>
           <img class="d-block w-100" src="../../../../assets/slider/gd-farcry5.jpg" alt="First slide">
@@ -19,21 +19,21 @@
           <img class="d-block w-100" src="../../../../assets/slider/gd-gta.jpg" alt="Third slide">
         </mdb-slide>
       </mdb-carousel>
-    </div>
+    </div>-->
 
-    <div class="col-8 border rounded">
+    <div class="col-12 border rounded">
       <!-- NOMBRE -->
       <div class="row justify-content-center">
-        <h1>Soul Calibur VI</h1>
+        <h1>{{videojuego.titulo}}</h1>
       </div>
       <!-- PRECIO -->
       <div class="row justify-content-center mt-2">
-        <h4>$ 1499.99</h4>
+        <h4>${{videojuego.precio}}</h4>
       </div>
       <!-- RESUMEN -->
       <div class="row justify-content-center mt-2">
         <div class="col-6">
-            <p>Toma el papel de Aiden Pearce, un brillante hacker y antiguo matón, que usa la ciudad de Chicago para vengarse de aquellos que hicieron daño a su familia.</p>
+          <img src={{videojuego.imagen}} width="700px" class="img-fluid" alt={{videojuego.titulo}}>
         </div>
       </div>
       <!-- INPUT CANTIDAD -->
@@ -65,12 +65,15 @@
               <ng-template mat-tab-label>
                   <span>Descripcion</span><i class="material-icons align-middle ml-2">subject</i>
               </ng-template>
-            <p class="m-4 font-weight-light">
+            <!--<p class="m-4 font-weight-light">
               La historia principal se centra en la ciudad de Chicago, en el año 2010, y nos lleva al entrono de un hombre llamado Aiden Pearce, 
               quien ha hackeado la "CtOS" (Central Operating System) de Chicago, la cual es un sistema informatico centralizado que controla casi todos los dispositivos tecnológicos de toda la ciudad, 
               y contiene información detallada de los habitantes, la cual puede ser utilizada para distintos propósitos.<br>El juego consiste en el hackeo de varios dispositivos electrónicos como teléfonos celulares, cámaras y semáforos para lograr el objetivo de la misión.<br>
               También se podrá bloquear las comunicaciones y escuchar conversaciones telefónicas, todo esto, desde el dispositivo del personaje.<br>Se puede acceder también a la información de la base de datos central de los personajes no jugables como información personal, 
               salud y su probabilidad de violencia.El juego contiene textos y voces en español.
+            </p>-->
+            <p class="m-4 font-weight-light">
+              {{videojuego.descripcion}}
             </p>
           </mat-tab>
           <!-- FICHA TECNICA -->
@@ -81,16 +84,16 @@
               <ul class="m-4 list-group">
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                       Plataforma
-                      <h4><span class="badge badge-secondary">Playstation 4</span></h4>
+                      <h4><span class="badge badge-secondary">{{videojuego.plataforma}}</span></h4>
                   </li>
                   <li class="list-group-item d-flex justify-content-between align-items-center">
                       Genero
-                      <h4><span class="badge badge-secondary">Accion</span></h4>
+                      <h4><span class="badge badge-secondary">{{videojuego.genero}}</span></h4>
                   </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <!--<li class="list-group-item d-flex justify-content-between align-items-center">
                       Fecha de lanzamiento
                       <h4><span class="badge badge-secondary">8 - 11 - 2014</span></h4>
-                  </li>
+                  </li>-->
               </ul>              
           </mat-tab>
           <!-- TRAILER -->
@@ -99,7 +102,7 @@
                   <span>Trailer</span><i class="material-icons align-middle ml-2">movie</i>
                 </ng-template>
               <div class="embed-responsive embed-responsive-16by9 mt-4 mb-4">
-                  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/LLHftrd9K4U"></iframe>
+                  <iframe class="embed-responsive-item" [src]='safeUrl' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
               </div>
           </mat-tab>
           

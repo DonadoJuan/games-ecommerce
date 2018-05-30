@@ -4,7 +4,7 @@ export class Videojuego {
     public titulo?: string,
     public codigo?: string,
     public genero?: Array<string>,
-    public plataforma?: Array<string>,
+    public plataforma?: string,
     public cantidadMinima?: number,
     public cantidadMaxima?: number,
     public imagen?: string,

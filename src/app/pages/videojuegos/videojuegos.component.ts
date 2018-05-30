@@ -83,6 +83,15 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
         console.log(items);
     }
 
+    verDetalles(product: any) {
+        this.listaVideoJuegos.forEach(v => {
+            if(v.codigo === product.codigo) {
+                this.us.videojuego = v;
+                this.router.navigate(["game-details"]);
+            }
+        });
+    }
+
     ngOnDestroy() {
         this.videojuegosSub.unsubscribe();
     }

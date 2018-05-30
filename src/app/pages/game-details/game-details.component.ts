@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UtilsService } from "../../core/services/utils/utils.service";
+import { Videojuego } from "../../domain/videojuego";
+import { SafeResourceUrl, DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-game-details',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameDetailsComponent implements OnInit {
 
-  constructor() { }
+  videojuego: Videojuego;
+  url: string;
+  safeUrl: SafeResourceUrl
+
+  constructor(private us: UtilsService, private sanitization: DomSanitizer) { }
 
   ngOnInit() {
+    if(this.us.videojuego) {
+      this.videojuego = this.us.videojuego;
+      this.us.videojuego = null;
+      this.safeUrl = this.sanitization.bypassSecurityTrustResourceUrl(this.videojuego.urlVideo.replace("watch?v=", "embed/"));
+      //this.url = this.videojuego.urlVideo.replace("watch?v=", "v/");
+    }
   }
 
 }

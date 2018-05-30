@@ -3,10 +3,15 @@
 
     <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">{{tituloForm}}</h2>
     <form class="fullwidth" [formGroup]="formVideojuegos" id="videojuegos" (ngSubmit)="onSubmit()" name="videojuegos">
-      <div class="md-form fullwidth">
-        <input type="text" id="titulo" class="form-control" mdbActive formControlName="titulo" [maxlength]="fvs.strMax">
-        <label for="titulo">Titulo</label>
-      </div>
+      <mat-form-field  class="fullwidth">
+        <input id="titulo" matInput placeholder="Titulo" formControlName="titulo" [maxlength]="fvs.titleMax" [matAutocomplete]="auto">
+        <!--<label for="titulo">Titulo</label>-->
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field >
       <div
       *ngIf="formErrors.titulo"
       class="small text-danger formErrors"
@@ -37,8 +42,8 @@
       <br>
       
       <mat-form-field class="fullwidth">
-        <mat-select placeholder="Plataforma" formControlName="plataforma" multiple required>
-          <mat-option *ngFor="let plat of plataformas" [value]="plat">{{plat}}</mat-option>
+        <mat-select placeholder="Plataforma" formControlName="plataforma" required>
+          <mat-option *ngFor="let plat of plataformas" [value]="plat.value">{{plat.viewValue}}</mat-option>
         </mat-select>
       </mat-form-field>
       <div

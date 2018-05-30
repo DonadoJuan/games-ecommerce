@@ -186,16 +186,16 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
         data.forEach(d => {
           this.videojuegos.push(d);
           let generos = "";
-          let plataformas = "";
+          //let plataformas = "";
           d.genero.forEach(g => {
             generos = generos.concat(g + ", ");
           });
-          d.plataforma.forEach(p => {
+          /*d.plataforma.forEach(p => {
             plataformas = plataformas.concat(p + ", ");
-          });
+          });*/
           //console.log("generos pusheado", generos);
           generos = generos.substring(0, generos.length - 2);
-          plataformas = plataformas.substring(0, plataformas.length - 2);
+          //plataformas = plataformas.substring(0, plataformas.length - 2);
           //console.log("generos final", generos);
           let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
           //console.log("image: ", image);
@@ -203,7 +203,7 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
             codigo: d.codigo,
             titulo: d.titulo,
             genero: generos,
-            plataforma: plataformas,
+            plataforma: d.plataforma,
             min: d.cantidadMinima,
             max: d.cantidadMaxima,
             precio: d.precio,

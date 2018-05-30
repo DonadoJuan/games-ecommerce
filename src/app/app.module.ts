@@ -23,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCardModule} from '@angular/material/card';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
@@ -72,7 +73,6 @@ import { ClienteService } from './core/services/cliente/cliente.service';
 import { SucursalService } from './core/services/sucursal/sucursal.service';
 import { PersonalService } from './core/services/personal/personal.service';
 import { AuthService } from './core/services/auth/auth.service';
-import { VideojuegoService } from './core/services/videojuego/videojuego.service';
 import { VideojuegoService } from './core/services/videojuego/videojuego.service';
 import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component'
 
@@ -137,6 +137,7 @@ import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form
     MatNativeDateModule,
     MatButtonModule,
     MatDialogModule,
+    MatAutocompleteModule,
     OwlModule,
     AngularMultiSelectModule,
     Ng2SmartTableModule,
