@@ -1,3 +1,5 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
 <div class="container-fluid blue-gradient">
   <div class="blue-gradient">
     <h2 class="h1-responsive title-playstation white-text">Productos destacados PS4</h2>
@@ -7,182 +9,36 @@
             [options]="{items: 4, margin: 10, dots: false, nav: true, loop: true, autoplay: true}"
             [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
             [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
-        <div class="card wow fadeInUp">
+            <div *ngFor="let product of listVideojuegosPlay" style="height: 500px;">
+                <div class="card wow fadeInUp h-100 d-inline-block">
 
-              <!--Card image-->
-              <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                  <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                  <a>
-                      <div class="mask"></div>
-                  </a>
-              </div>
-          
-              <!--Card content-->
-              <div class="card-body">
-                  <!--Title-->
-                  <h4 class="card-title">Card title</h4>
-                  <!--Text-->
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                  <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-              </div>
-          
-        </div>
+                    <div class="view hm-white-slight waves-light" mdbRippleRadius>
+                        <!--<img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                        <div id="yourElement" [ngStyle]="{
+                            'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                            '-webkit-background-size': '100% 100%',
+                            '-moz-background-size': '100% 100%',
+                            '-o-background-size': '100% 100%',
+                            'background-size': '100% 100%',
+                            'background-repeat': 'no-repeat',
+                            'height': '200px'
+                            }"></div>
+                        <a>
+                            <div class="mask"></div>
+                        </a>
+                    </div>
+                
+                    <div class="card-body">
 
-          <div class="card wow fadeInUp">
+                        <h4 class="card-title">{{product.titulo}}</h4>
 
-              <!--Card image-->
-              <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                  <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                  <a>
-                      <div class="mask"></div>
-                  </a>
-              </div>
-          
-              <!--Card content-->
-              <div class="card-body">
-                  <!--Title-->
-                  <h4 class="card-title">Card title</h4>
-                  <!--Text-->
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                  <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <p class="card-text">{{product.descripcion}}</p>
+                        <a class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
+                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    </div>
+                
                 </div>
-          
-          </div>
-
-          <div class="card wow fadeInUp">
-
-              <!--Card image-->
-              <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                  <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                  <a>
-                      <div class="mask"></div>
-                  </a>
-              </div>
-          
-              <!--Card content-->
-              <div class="card-body">
-                  <!--Title-->
-                  <h4 class="card-title">Card title</h4>
-                  <!--Text-->
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                  <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-              </div>
-          
-          </div>
-
-          <div class="card wow fadeInUp">
-
-              <!--Card image-->
-              <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                  <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                  <a>
-                      <div class="mask"></div>
-                  </a>
-              </div>
-          
-              <!--Card content-->
-              <div class="card-body">
-                  <!--Title-->
-                  <h4 class="card-title">Card title</h4>
-                  <!--Text-->
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                  <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-              </div>
-          
-          </div>
-
-          <div class="card wow fadeInUp">
-
-            <!--Card image-->
-            <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                <a>
-                    <div class="mask"></div>
-                </a>
             </div>
-        
-            <!--Card content-->
-            <div class="card-body">
-                <!--Title-->
-                <h4 class="card-title">Card title</h4>
-                <!--Text-->
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-            </div>
-        
-      </div>
-
-        <div class="card wow fadeInUp">
-
-            <!--Card image-->
-            <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
-        
-            <!--Card content-->
-            <div class="card-body">
-                <!--Title-->
-                <h4 class="card-title">Card title</h4>
-                <!--Text-->
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-              </div>
-        
-        </div>
-
-        <div class="card wow fadeInUp">
-
-            <!--Card image-->
-            <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
-        
-            <!--Card content-->
-            <div class="card-body">
-                <!--Title-->
-                <h4 class="card-title">Card title</h4>
-                <!--Text-->
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-            </div>
-        
-        </div>
-
-        <div class="card wow fadeInUp">
-
-            <!--Card image-->
-            <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                <a>
-                    <div class="mask"></div>
-                </a>
-            </div>
-        
-            <!--Card content-->
-            <div class="card-body">
-                <!--Title-->
-                <h4 class="card-title">Card title</h4>
-                <!--Text-->
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a class="btn btn-primary waves-light" mdbRippleRadius>Button</a>
-                <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-            </div>
-        
-        </div>
-
         </owl-carousel>
     </div>
   </div>
@@ -197,111 +53,35 @@
             [options]="{items: 4, margin: 10, dots: false, nav: true, loop: true, autoplay: true}"
             [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
             [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
-            <div class="card wow fadeInUp">
-  
-                <!--Card image-->
-                <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                    <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-            
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Card title</h4>
-                    <!--Text-->
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-nintendo waves-light" mdbRippleRadius>Button</a>
-                    <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </div>
-            
-            </div>
-            <div class="card wow fadeInUp">
-  
-                <!--Card image-->
-                <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                    <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-            
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Card title</h4>
-                    <!--Text-->
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-nintendo waves-light" mdbRippleRadius>Button</a>
-                    <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </div>
-            
-            </div>
-            <div class="card wow fadeInUp">
-  
-                <!--Card image-->
-                <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                    <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-            
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Card title</h4>
-                    <!--Text-->
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-nintendo waves-light" mdbRippleRadius>Button</a>
-                    <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </div>
-            
-            </div>
-            <div class="card wow fadeInUp">
-  
-                <!--Card image-->
-                <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                    <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                    <a>
-                        <div class="mask"></div>
-                    </a>
-                </div>
-            
-                <!--Card content-->
-                <div class="card-body">
-                    <!--Title-->
-                    <h4 class="card-title">Card title</h4>
-                    <!--Text-->
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-nintendo waves-light" mdbRippleRadius>Button</a>
-                    <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                </div>
-            
-            </div>
-
-            <div class="card wow fadeInUp">
-  
-                    <!--Card image-->
+            <div *ngFor="let product of listVideojuegosNintendo" style="height: 500px;">
+                <div class="card wow fadeInUp h-100 d-inline-block">
+    
                     <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                        <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
+                        <!--<img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                        <div id="yourElement" [ngStyle]="{
+                            'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                            '-webkit-background-size': '100% 100%',
+                            '-moz-background-size': '100% 100%',
+                            '-o-background-size': '100% 100%',
+                            'background-size': '100% 100%',
+                            'background-repeat': 'no-repeat',
+                            'height': '200px'
+                            }"></div>
                         <a>
                             <div class="mask"></div>
                         </a>
                     </div>
                 
-                    <!--Card content-->
                     <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title">Card title</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-nintendo waves-light" mdbRippleRadius>Button</a>
+
+                        <h4 class="card-title">{{product.titulo}}</h4>
+
+                        <p class="card-text">{{product.descripcion}}</p>
+                        <a class="btn btn-nintendo waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
                         <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 
+                </div>
             </div>
         </owl-carousel>
       </div>
@@ -317,109 +97,41 @@
                 [options]="{items: 4, margin: 10, dots: false, autoplay: true, nav: true, loop: true}"
                 [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'owl-nav', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
                 [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
-              <div class="card wow fadeInUp">
+            <div *ngFor="let product of listVideojuegosXbox" style="height: 500px;">
+              <div class="card wow fadeInUp h-100 d-inline-block">
     
-                  <!--Card image-->
                   <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                      <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
+                      <!--<img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                      <div id="yourElement" [ngStyle]="{
+                        'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                        '-webkit-background-size': '100% 100%',
+                        '-moz-background-size': '100% 100%',
+                        '-o-background-size': '100% 100%',
+                        'background-size': '100% 100%',
+                        'background-repeat': 'no-repeat',
+                        'height': '200px'
+                        }"></div>
                       <a>
                           <div class="mask"></div>
                       </a>
                   </div>
               
-                  <!--Card content-->
                   <div class="card-body">
-                      <!--Title-->
-                      <h4 class="card-title">Card title</h4>
-                      <!--Text-->
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a class="btn btn-xbox waves-light" mdbRippleRadius>Button</a>
+
+                      <h4 class="card-title">{{product.titulo}}</h4>
+
+                      <p class="card-text">{{product.descripcion}}</p>
+                      <a class="btn btn-xbox waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
                       <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                   </div>
               
               </div>
-              <div class="card wow fadeInUp">
-    
-                  <!--Card image-->
-                  <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                      <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                      <a>
-                          <div class="mask"></div>
-                      </a>
-                  </div>
-              
-                  <!--Card content-->
-                  <div class="card-body">
-                      <!--Title-->
-                      <h4 class="card-title">Card title</h4>
-                      <!--Text-->
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a class="btn btn-xbox waves-light" mdbRippleRadius>Button</a>
-                      <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                  </div>
-              </div>
-              <div class="card wow fadeInUp">
-    
-                  <!--Card image-->
-                  <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                      <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                      <a>
-                          <div class="mask"></div>
-                      </a>
-                  </div>
-              
-                  <!--Card content-->
-                  <div class="card-body">
-                      <!--Title-->
-                      <h4 class="card-title">Card title</h4>
-                      <!--Text-->
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a class="btn btn-xbox waves-light" mdbRippleRadius>Button</a>
-                      <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                  </div>
-              </div>
-              <div class="card wow fadeInUp">
-    
-                  <!--Card image-->
-                  <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                      <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                      <a>
-                          <div class="mask"></div>
-                      </a>
-                  </div>
-              
-                  <!--Card content-->
-                  <div class="card-body">
-                      <!--Title-->
-                      <h4 class="card-title">Card title</h4>
-                      <!--Text-->
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      <a class="btn btn-xbox waves-light" mdbRippleRadius>Button</a>
-                      <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                  </div>
-              </div>
-              <div class="card wow fadeInUp">
-    
-                    <!--Card image-->
-                    <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                        <img src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).jpg" class="img-fluid" alt="Card image with a tree in a middle of a lake.">
-                        <a>
-                            <div class="mask"></div>
-                        </a>
-                    </div>
-                
-                    <!--Card content-->
-                    <div class="card-body">
-                        <!--Title-->
-                        <h4 class="card-title">Card title</h4>
-                        <!--Text-->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-xbox waves-light" mdbRippleRadius>Button</a>
-                        <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                    </div>
             </div>
         </owl-carousel>
         </div>
       </div>
     </div>
-
+    </ng-template>
+    <p *ngIf="error" class="alert alert-danger">
+        <strong>Oops!</strong> Ocurrio un error al traer datos de videojuegos.
+    </p>

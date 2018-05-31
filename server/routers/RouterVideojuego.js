@@ -16,7 +16,7 @@ router.post('/new', (req, res) => {
         $or: [
             {codigo: vj.codigo},
            {
-               $and: [{titulo_lower: vj.titulo_lower}, {plataforma: vj.plataforma}]
+               $and: [{titulo_lower: vj.titulo_lower}, {plataforma: vj.plataforma}, {activo: true}]
            }
         ]
     }, (err, videojuegoExistente) => {

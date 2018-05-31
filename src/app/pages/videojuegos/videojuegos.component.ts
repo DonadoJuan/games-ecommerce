@@ -37,13 +37,18 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 data.forEach(d => {
                     this.listaVideoJuegos.push(d);
-                    let descCorta = d.descripcion.substring(0, 200) + "...";
+                    let desc;
+                    if(d.titulo.length > 24) {
+                        desc = d.descripcion.substring(0, 150) + "..."
+                      } else {
+                        desc = d.descripcion.substring(0, 200) + "..."
+                      }
                     this.dropdownList.push({
                         "id": d._id,
                         "itemName": d.titulo,
                         "titulo": d.titulo,
                         "codigo": d.codigo,
-                        "descripcion": descCorta,
+                        "descripcion": desc,
                         "imagen": d.imagen,
                         "plataforma": d.plataforma
                     });
