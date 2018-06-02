@@ -15,6 +15,9 @@ export class Videojuego {
     public descripcion?: string,
     public stock?: number,
     public file?: File,
+    public activo?: boolean,
+    public inicioDescuento?: Date,
+    public finDescuento?: Date,
     public _id?: string
     ){}
 }

@@ -17,8 +17,26 @@ router.get('/ubicacion', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    Sucursal.find({}, (err, sucursales) => {
+        let sucursalesArr = [];
+        if(err) {
+            return res.status(500).send({message: err.message});
+        }
+        if(!sucursales) {
+            return res.status(400).send({message: 'No pudo identificarse a que sucursal pertenece.'});
+        }
+        if(sucursales) {
+            sucursales.forEach(s => {
+                sucursalesArr.push(s);
+            });
+        }
+        res.json(sucursalesArr);
+    });
+});
+
 router.get('/:id', (req, res) => {
-    Sucursal.find({_id: req.params.id}, (err, sucursal) => {
+    Sucursal.findById({_id: req.params.id}, (err, sucursal) => {
         if(err) {
             return res.status(500).send({message: err.message});
         }
@@ -29,7 +47,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.put('/stock/:id', (req, res) => {
+router.put('/videojuegos/:id', (req, res) => {
     Sucursal.findById(req.params.id, (err, sucursal) => {
         if(err) {
             return res.status(500).send({message: err.message});

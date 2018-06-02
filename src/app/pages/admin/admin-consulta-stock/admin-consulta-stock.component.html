@@ -1,0 +1,53 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+<div class="example-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+</div>
+<div class="example-container mat-elevation-z8">
+
+    <mat-table [dataSource]="dataSource" matSort>
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="codigo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Codigo </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.codigo}} </mat-cell>
+      </ng-container>
+  
+      <!-- Progress Column -->
+      <ng-container matColumnDef="titulo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Titulo </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.titulo}} </mat-cell>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="plataforma">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Plataforma </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.plataforma}} </mat-cell>
+      </ng-container>
+  
+      <!-- Color Column -->
+      <ng-container matColumnDef="stock">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Stock </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.stock}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="reponer">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Es Necesario Reponer? </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.reponer}} </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns" class="mdb-color darken-3"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
+  </div>
+  </ng-template>
+  <p *ngIf="error" class="alert alert-danger">
+      <strong>Oops!</strong> Ocurrio un error al traer datos de videojuegos.
+  </p>
+
+

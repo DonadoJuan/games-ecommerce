@@ -14,12 +14,16 @@ export class SucursalService {
   }
 
   getSucursalById$(id: string): Observable<Sucursal> {
-    return this.baseService.get(`sucursales/${id}`)
+    return this.baseService.get(`sucursales/${id}`);
 
   }
 
-  updateSucursalStock$(id: string, videojuegos: Videojuego[]): Observable<Sucursal> {
-    return this.baseService.put(`sucursales/stock/${id}`, videojuegos);
+  getSucursales(): Observable<Sucursal[]> {
+    return this.baseService.get(`sucursales`);
+  }
+
+  updateSucursalVideojuegos$(id: string, videojuegos: Videojuego[]): Observable<Sucursal> {
+    return this.baseService.put(`sucursales/videojuegos/${id}`, videojuegos);
   }
 
 }

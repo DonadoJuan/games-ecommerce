@@ -40,7 +40,6 @@ router.post('/new', (req, res) => {
             destacado: vj.destacado,
             descripcion: vj.descripcion,
             stock: vj.stock,
-            file: req.files.imagen,
             activo: true
         });
         console.log(rutaImagen);
@@ -131,7 +130,6 @@ router.post('/new', (req, res) => {
             videojuego.destacado = vj.destacado;
             videojuego.descripcion = vj.descripcion;
             videojuego.stock = vj.stock;
-            videojuego.file = (req.files) ? req.files.imagen : vj.file;
             videojuego.activo = true;
 
             videojuego.save((err) => {
@@ -158,7 +156,6 @@ router.post('/new', (req, res) => {
                                 v.precio = videojuego.precio;
                                 v.destacado = videojuego.destacado;
                                 v.descripcion = videojuego.descripcion;
-                                v.file = videojuego.file;
                                 v.activo = true;
                                 sucursal.videojuegos.splice(index, 1);
                                 sucursal.videojuegos.splice(index, 0, v);
@@ -208,8 +205,11 @@ router.post('/new', (req, res) => {
                         sucursal.videojuegos.forEach(function(v, index) {
                             if(v.codigo === videojuego.codigo) {
                                 v.activo = false;
+                                sucursal.videojuegos.splice(index, 1);
+                                sucursal.videojuegos.splice(index, 0, v);
                                 console.log("v.codigo: ", v.codigo);
                                 console.log("videojuego.codigo: ", videojuego.codigo);
+                                console.log("v.activo: ", v.activo);
                             }
                         });
                         sucursal.save((err) => {

@@ -1,0 +1,177 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+  <ngb-panel title="Cargar Descuentos">
+    <ng-template ngbPanelContent>
+        <br>
+        <angular2-multiselect [data]="dropdownCargarList" [(ngModel)]="selectedCargarItems" group-by="plataforma" [settings]="dropdownSettings">
+        </angular2-multiselect>
+        <br>
+        <form #frmDescuento="ngForm" (ngSubmit)="onSubmit(modalExito)">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let product of selectedCargarItems" style="height: 420px; width: 70px;">
+                      <div class="card wow fadeInUp h-100 w-100 d-inline-block">
+      
+                          <!--Card image-->
+                          <div class="view hm-white-slight waves-light" mdbRippleRadius>
+                              <!--<img src={{product.imagen}} height="60px" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                              <div id="yourElement" [ngStyle]="{
+                                  'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                                  '-webkit-background-size': '100% 100%',
+                                  '-moz-background-size': '100% 100%',
+                                  '-o-background-size': '100% 100%',
+                                  'background-size': '100% 100%',
+                                  'background-repeat': 'no-repeat',
+                                  'height': '200px'
+                              }"></div>
+                              <a>
+                                  <div class="mask"></div>
+                              </a>
+                          </div>
+      
+                          <!--Card content-->
+                          <div class="card-body">
+                              <!--Title-->
+                              <h4 class="card-title">{{product.titulo}}</h4>
+                              <!--Text-->
+                              <p class="card-text">Codigo: {{product.codigo}}</p>
+                              <p class="card-text">Plataforma: {{product.plataforma}}</p>
+                              <p class="card-text">Precio: {{product.precio}}</p>
+                          </div>
+                      </div>
+                      <br>
+                  </div>
+              </div>
+          </div>
+          <div *ngIf="selectedCargarItems.length === 0" class="small text-danger formErrors">
+            Debe Seleccionar al menos un juego.
+          </div>
+          <div>
+            <mat-form-field class="fullwidth">
+                <input matInput type="number" name="descuento" #descuento="ngModel" [(ngModel)]="frmDesc.descuento" placeholder="Ingrese porcentaje de Descuento" min="1" max="100" required>
+            </mat-form-field>
+            <div *ngIf="descuento.invalid && (descuento.dirty || descuento.touched)"
+              class="small text-danger formErrors">
+              <div *ngIf = "descuento.errors?.required">
+                  Debe ingresar un porcentaje de Descuento
+              </div>
+              <div *ngIf = "(descuento.errors?.min || descuento.errors?.min) && descuento.touched">
+                  El descuento debe ser entre 1 y 100.
+              </div>
+            </div>
+            <mat-form-field class="fullwidth">
+              <input matInput [matDatepicker]="iDescuento" [min]="minDate" #inicioDescuento="ngModel" [(ngModel)]="frmDesc.inicioDescuento" name="inicioDescuento" placeholder="Fecha inicio del descuento" readonly required>
+              <mat-datepicker-toggle matSuffix [for]="iDescuento"></mat-datepicker-toggle>
+              <mat-datepicker #iDescuento disabled="false" touchUi="true" mdbActive></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="inicioDescuento.invalid && (inicioDescuento.dirty || inicioDescuento.touched)"
+              class="small text-danger formErrors">
+              <div *ngIf = "inicioDescuento.errors?.required">
+                  Debe ingresar una fecha de inicio.
+              </div>
+            </div>
+            <mat-form-field class="fullwidth">
+              <input matInput [matDatepicker]="fDescuento" [min]="minDate" #finDescuento="ngModel" [(ngModel)]="frmDesc.finDescuento" name="finDescuento" placeholder="Fecha fin del descuento" readonly required>
+              <mat-datepicker-toggle matSuffix [for]="fDescuento"></mat-datepicker-toggle>
+              <mat-datepicker #fDescuento disabled="false" touchUi="true" mdbActive></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="finDescuento.invalid && (finDescuento.dirty || finDescuento.touched)"
+              class="small text-danger formErrors">
+              <div *ngIf = "finDescuento.errors?.required">
+                  Debe ingresar una fecha de fin.
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button class="btn btn-danger waves-light" [disabled]="!frmDescuento.form.valid || submitting ? true : null || selectedCargarItems.length === 0" mdbRippleRadius>Confirmar</button>
+            </div>
+          </div>
+        </form>
+    </ng-template>
+  </ngb-panel>
+  
+  <ngb-panel title="Quitar Descuentos">
+    <ng-template ngbPanelContent>
+        <br>
+        <angular2-multiselect [data]="dropdownQuitarList" [(ngModel)]="selectedQuitarItems" group-by="plataforma" [settings]="dropdownSettings">
+        </angular2-multiselect>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let product of selectedQuitarItems" style="height: 540px; width: 70px;">
+                    <div class="card wow fadeInUp h-100 w-100 d-inline-block">
+    
+                        <!--Card image-->
+                        <div class="view hm-white-slight waves-light" mdbRippleRadius>
+                            <!--<img src={{product.imagen}} height="60px" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
+                            <div id="yourElement" [ngStyle]="{
+                                'background-image': 'url(&quot;' + product.imagen + '&quot;)',
+                                '-webkit-background-size': '100% 100%',
+                                '-moz-background-size': '100% 100%',
+                                '-o-background-size': '100% 100%',
+                                'background-size': '100% 100%',
+                                'background-repeat': 'no-repeat',
+                                'height': '200px'
+                            }"></div>
+                            <a>
+                                <div class="mask"></div>
+                            </a>
+                        </div>
+    
+                        <!--Card content-->
+                        <div class="card-body">
+                            <!--Title-->
+                            <h4 class="card-title">{{product.titulo}}</h4>
+                            <!--Text-->
+                            <p class="card-text">Codigo: {{product.codigo}}</p>
+                            <p class="card-text">Plataforma: {{product.plataforma}}</p>
+                            <p class="card-text">Precio: {{product.precio}}</p>
+                            <p class="card-text">Descuento: {{product.descuento}}%</p>
+                            <p class="card-text">Inicio: {{product.inicioDescuento | date:'dd-MM-yyyy'}}</p>
+                            <p class="card-text">Fin: {{product.finDescuento | date:'dd-MM-yyyy'}}</p>
+                            <a class="btn btn-danger btn-circle btn-lg btn-block waves-light zoom" mdbRippleRadius (click)="removerDescuento(product, modalRemover)">Remover Descuento</a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+</ng-template>
+
+<ng-template #modalExito let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Exito</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Los descuentos fueron aplicados con &eacute;xito&hellip;</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalRemover let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Exito</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Descuento removido con &eacute;xito&hellip;</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+    </div>
+</ng-template>
+
+<p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> Ocurrio un error al traer datos de videojuegos. Por favor, intente recargar la pagina.
+</p>

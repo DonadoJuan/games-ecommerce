@@ -15,6 +15,8 @@ import { ListaNegraComponent } from "./pages/admin/usuarios/lista-negra/lista-ne
 import { FormVideojuegosComponent } from './pages/admin/admin-videojuegos/form-videojuegos/form-videojuegos.component';
 import { AdminStockComponent } from "./pages/admin/admin-stock/admin-stock.component";
 import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component';
+import { AdminConsultaStockComponent } from "./pages/admin/admin-consulta-stock/admin-consulta-stock.component";
+import { AdminDescuentosComponent } from "./pages/admin/admin-descuentos/admin-descuentos.component";
 
 const routes: Routes = [
   {
@@ -76,6 +78,14 @@ const routes: Routes = [
   {
     path: 'admin-stock',
     component: AdminStockComponent
+  },
+  {
+    path: 'admin-consulta-stock',
+    component: AdminConsultaStockComponent
+  },
+  {
+    path: 'admin-descuentos',
+    component: AdminDescuentosComponent
   }
 ];
 

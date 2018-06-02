@@ -131,7 +131,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
         }
       });
     });
-    this.updateSucursalSub = this.sucursalService.updateSucursalStock$(this.sucursal._id, this.sucursal.videojuegos)
+    this.updateSucursalSub = this.sucursalService.updateSucursalVideojuegos$(this.sucursal._id, this.sucursal.videojuegos)
       .subscribe(
         data => {
           console.log(data);

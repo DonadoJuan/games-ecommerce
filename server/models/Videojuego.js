@@ -55,12 +55,15 @@ const videojuegoSchema = mongoose.Schema({
     stock: {
         type: Number
     },
-    file: {
-        type: Object
-    },
     activo: {
         type: Boolean,
         required: true
+    },
+    inicioDescuento: {
+        type: Date
+    },
+    finDescuento: {
+        type: Date
     }
 }, {collection: 'videojuegos'});
 
