@@ -76,7 +76,8 @@ import { AuthService } from './core/services/auth/auth.service';
 import { VideojuegoService } from './core/services/videojuego/videojuego.service';
 import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component';
 import { AdminConsultaStockComponent } from './pages/admin/admin-consulta-stock/admin-consulta-stock.component';
-import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component'
+import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
+import { OfertasComponent } from './pages/ofertas/ofertas.component'
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-d
     signupClientSuccessDialog,
     FormUsuariosComponent,
     AdminConsultaStockComponent,
-    AdminDescuentosComponent
+    AdminDescuentosComponent,
+    OfertasComponent
     
   ],
   imports: [

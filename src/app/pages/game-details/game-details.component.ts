@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UtilsService } from "../../core/services/utils/utils.service";
 import { Videojuego } from "../../domain/videojuego";
+import { Sucursal } from "../../domain/sucursal";
 import { SafeResourceUrl, DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
@@ -11,6 +12,7 @@ import { SafeResourceUrl, DomSanitizer, SafeUrl } from '@angular/platform-browse
 export class GameDetailsComponent implements OnInit {
 
   videojuego: Videojuego;
+  sucursal: Sucursal;
   url: string;
   safeUrl: SafeResourceUrl
 
@@ -22,6 +24,10 @@ export class GameDetailsComponent implements OnInit {
       this.us.videojuego = null;
       this.safeUrl = this.sanitization.bypassSecurityTrustResourceUrl(this.videojuego.urlVideo.replace("watch?v=", "embed/"));
       //this.url = this.videojuego.urlVideo.replace("watch?v=", "v/");
+    }
+    if(this.us.sucursal) {
+      this.sucursal = this.us.sucursal;
+      this.us.sucursal = null;
     }
   }
 
