@@ -80,8 +80,8 @@ export class FormUsuariosComponent implements OnInit {
       });
 
     this.formErrors = this.fss.formErrors;
+    
     this.isEdit = !!this.cliente;
-    console.log("cliente "+ this.cliente.nombre);
     this.tituloForm = this.isEdit ?  "Modificacion de Cliente" : "Alta Cliente";
     this.submitBtnText = this.isEdit ? 'Modificar Cliente' : 'Crear Cliente';
     this.formClientesModel = this._setformClientes();
@@ -306,7 +306,6 @@ export class FormUsuariosComponent implements OnInit {
   onSubmit() {
     this.submitting = true;
     this.submitClienteObj = this._getSubmitObj();
-    console.log(this.submitClienteObj);
     if(!this.isEdit) {
       this.submitClienteSub = this.clienteService
         .registrarCliente(this.submitClienteObj)
