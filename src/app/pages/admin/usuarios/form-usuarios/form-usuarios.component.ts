@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Cliente } from '../../../../domain/cliente';
 import { FormClientesModel } from '../../../../core/models/form-clientes.model';
@@ -12,6 +12,7 @@ import { signupClientSuccessDialog } from '../../../wrapper-login/signup/signup.
 import { Falta } from '../../../../domain/falta';
 import { Baneo } from '../../../../domain/baneo';
 import { Domicilio } from '../../../../domain/domicilio';
+import { Barrio } from '../../../../domain/barrio';
 
 
 function passwordConfirming(c: AbstractControl):any {
@@ -39,6 +40,9 @@ export class FormUsuariosComponent implements OnInit {
   @Input()
   cliente : Cliente;
 
+  submitClienteObj: Cliente;
+  submitClienteSub: Subscription;
+
   formClientes: FormGroup;
   formPassword : FormGroup;
   formClientesModel: FormClientesModel;
@@ -46,7 +50,12 @@ export class FormUsuariosComponent implements OnInit {
   formChangeSub: Subscription;
   barrios: any[] = [];
   esValido : boolean = true;
- 
+  isEdit :boolean;
+  error: boolean;
+  submitting: boolean;
+  submitBtnText : String;
+  tituloForm : String;
+
   get cpwd() {
     return this.formClientes.get('verificar_password');
    }
@@ -59,6 +68,10 @@ export class FormUsuariosComponent implements OnInit {
 
   ngOnInit() {
 
+    if(this.utilsService.cliente) {
+      this.cliente = this.utilsService.cliente;
+      this.utilsService.cliente = null;
+    }
     this.utilsService.getBarrios$()
       .subscribe(barrios => {
         this.barrios = [... barrios];
@@ -67,11 +80,22 @@ export class FormUsuariosComponent implements OnInit {
       });
 
     this.formErrors = this.fss.formErrors;
+    this.isEdit = !!this.cliente;
+    console.log("cliente "+ this.cliente.nombre);
+    this.tituloForm = this.isEdit ?  "Modificacion de Cliente" : "Alta Cliente";
+    this.submitBtnText = this.isEdit ? 'Modificar Cliente' : 'Crear Cliente';
     this.formClientesModel = this._setformClientes();
     this._buildForm();
+    
+
+    if(this.isEdit){
+      this.formClientes.controls['barrio'].setValue(this.cliente.domicilio_entrega[0].barrio);
+    }
+
   }
 
-  registrarCliente(){
+  /*
+  private _getSubmitObj(){
     let nuevoCliente = this.formClientes.value;
     this.cliente = {
       nombre: nuevoCliente.nombre,
@@ -90,6 +114,7 @@ export class FormUsuariosComponent implements OnInit {
       activo: true
     }
 
+  
     this.clienteService.registrarCliente(this.cliente)
       .subscribe(token => {
         let df = this.dialog.open(signupClientSuccessDialog, {
@@ -102,11 +127,93 @@ export class FormUsuariosComponent implements OnInit {
       err => {
         console.log(`Error registrando cliente ${err}`)
       });
+  }*/
+
+  private _getSubmitObj() {
+    let barrio = new Barrio(this.formClientes.get('barrio').value);
+    let domicilio = new Domicilio(
+      this.formClientes.get('calle').value,
+      this.formClientes.get('altura').value,
+      barrio,
+      this.formClientes.get('codigo_postal').value
+    );
+
+    let c;
+    let c1;
+    if(this.isEdit){
+      /*
+       c = new Cliente(
+        this.formClientes.get('nombre').value,
+        this.formClientes.get('email').value,
+        this.cliente.password,
+        this.formClientes.get('telefono').value,
+        this.formClientes.get('dni').value,
+        this.cliente.domicilio_entrega,
+        this.cliente.faltas ? this.cliente.faltas : null,
+        this.cliente.baneos ? this.cliente.baneos : null,
+        this.cliente.activo ? this.cliente.activo : null,
+        this.cliente ? this.cliente._id : null
+       );
+      let nuevoCliente = this.formClientes.value;
+     */
+    let nuevoCliente = this.formClientes.value;
+
+      c = {
+        nombre: nuevoCliente.nombre,
+        email: nuevoCliente.email,
+        telefono: nuevoCliente.telefono,
+        password: this.cliente.password,
+        dni: nuevoCliente.dni,
+        baneos: this.cliente.baneos ? this.cliente.baneos : null,
+        faltas:  this.cliente.faltas ? this.cliente.faltas : null,
+        domicilio_entrega: this.cliente.domicilio_entrega ? this.cliente.domicilio_entrega : null,
+        activo: this.cliente.activo ? this.cliente.activo : null,
+        id: this.cliente ? this.cliente._id : null
+      }
+
+      
+    }else{
+      let nuevoCliente = this.formClientes.value;
+      c = {
+        nombre: nuevoCliente.nombre,
+        email: nuevoCliente.email,
+        telefono: nuevoCliente.telefono,
+        password: nuevoCliente.password,
+        dni: nuevoCliente.dni,
+        baneos: [],
+        faltas: [],
+        domicilio_entrega: [{
+          barrio: nuevoCliente.barrio,
+          calle: nuevoCliente.calle,
+          altura: nuevoCliente.altura,
+          codigo_postal: nuevoCliente.codigo_postal
+        }],
+        activo: true
+      }
+    }
+    return c;
   }
 
   private _setformClientes() {
-      return new FormClientesModel(null, null, null, null, null, null,new Domicilio(null,null,null,null),
-      new Falta(null,null,null,null),new Baneo(null,null,null,null),null);
+    if(!this.isEdit){
+      return new FormClientesModel(null, null, null, null, null, null, new Domicilio(null,null,null,null),
+      new Falta(null,null,null,null),new Baneo(null,null,null,null,null),null);
+    }else{
+          return new FormClientesModel(
+          this.cliente.nombre,
+          this.cliente.email,
+          "password",
+          "password",
+          this.cliente.telefono,
+          this.cliente.dni,
+          this.cliente.domicilio_entrega[0],
+        this.cliente.faltas[0],
+          this.cliente.baneos[0],
+          this.cliente.activo,
+          this.cliente._id
+        );
+      
+    }
   }
 
   private _buildForm() {
@@ -195,6 +302,43 @@ export class FormUsuariosComponent implements OnInit {
       }
     }
   }
+  
+  onSubmit() {
+    this.submitting = true;
+    this.submitClienteObj = this._getSubmitObj();
+    console.log(this.submitClienteObj);
+    if(!this.isEdit) {
+      this.submitClienteSub = this.clienteService
+        .registrarCliente(this.submitClienteObj)
+        .subscribe(
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
+        );
+    } else {
+      console.log(this.cliente);
+      this.submitClienteSub = this.clienteService
+        .putCliente$(this.cliente._id,this.submitClienteObj)
+        .subscribe(
+          data => this._handleSubmitSuccess(data),
+          err => this._handleSubmitError(err)
+        );
+    }
+
+  }
+  
+  private _handleSubmitSuccess(res) {
+    this.error = false;
+    this.submitting = false;
+    this.router.navigate(['usuarios']);
+  }
+
+  private _handleSubmitError(err) {
+    console.error(err);
+    this.submitting = false;
+    this.error = true;
+  }
+
+
 
     
 

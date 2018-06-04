@@ -13,15 +13,19 @@ export class ClienteService {
 
   constructor(private baseService: BaseService, private router: Router) { }
 
-  public registrarCliente(cliente: Cliente): Observable<any> {
+  registrarCliente(cliente: Cliente): Observable<any> {
     return this.baseService.post('clientes/registrar', cliente);
   }
 
-  public getClientes$(): Observable<Cliente[]> {
+  putCliente$(id: string, cliente: Cliente): Observable<Cliente> {
+    return this.baseService.put(`clientes/${id}`, cliente)
+  }
+
+  getClientes$(): Observable<Cliente[]> {
     return this.baseService.get('clientes');
   }
 
-  public putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
+  putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
     return this.baseService.put(`clientes/baneo/${id}`, baneos);
   }
 

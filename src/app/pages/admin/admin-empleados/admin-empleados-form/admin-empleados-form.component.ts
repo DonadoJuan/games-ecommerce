@@ -63,6 +63,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if(this.us.personal) {
       this.personal = this.us.personal;
+      console.log(this.us.personal);
       this.us.personal = null;
     }
     this.sucursalesSub = this.sucursalService.getSucursalesUbicacion$()
@@ -247,6 +248,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
           err => this._handleSubmitError(err)
         );
     } else {
+      console.log(this.personal);
       this.submitPersonalSub = this.personalService
         .putPersonal$(this.personal._id, this.submitPersonalObj)
         .subscribe(

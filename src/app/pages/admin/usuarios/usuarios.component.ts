@@ -28,7 +28,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   clientes: Cliente[] = [];
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  constructor(private us: UtilsService, private clienteService: ClienteService) { }
+  constructor(private us: UtilsService, private clienteService: ClienteService, private router: Router) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -145,7 +145,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   
     return Math.floor((utc2 - utc1) / this._MS_PER_DAY);
   }
-  
+  onCustom(event){
+    if(`'${event.action}'` == "'editar'"){
+    this.clientes.forEach(c => {
+      if(c.dni == event.data.dni) {
+        this.us.cliente = c;
+        this.router.navigate(['admin-usuarios-form']);
+      }
+    });
+    }
+  }
 
   ngOnDestroy() {
     this.clienteSub.unsubscribe();
