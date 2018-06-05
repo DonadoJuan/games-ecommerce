@@ -97,6 +97,7 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   verDetalles(product: any) {
+    console.log(product);
     this.listVideojuegos.forEach(v => {
         if(v.codigo === product.codigo) {
             this.us.videojuego = v;

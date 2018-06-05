@@ -79,8 +79,7 @@ import { AdminConsultaStockComponent } from './pages/admin/admin-consulta-stock/
 import { ConfirmarItemCarritoComponent } from './core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component';
 import { CarritoService } from './core/services/carrito/carrito.service';
 import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
-import { OfertasComponent } from './pages/ofertas/ofertas.component'
-import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
+import { OfertasComponent } from './pages/ofertas/ofertas.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +118,7 @@ import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-d
     FormUsuariosComponent,
     AdminConsultaStockComponent,
     AdminDescuentosComponent,
-    ConfirmarItemCarritoComponent
+    ConfirmarItemCarritoComponent,
     OfertasComponent
     
   ],
