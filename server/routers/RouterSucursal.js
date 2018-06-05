@@ -65,4 +65,22 @@ router.put('/videojuegos/:id', (req, res) => {
     });
 });
 
+router.post('/stock', (req, res) => {
+
+    let input = req.body;
+    
+
+    Sucursal.find({ _id: input.sucursal_id, "videojuegos": { $elemMatch: { codigo: {$in: codigo},stock: { $lt: 1} } } }, 
+    (err, sucursal) => {
+        if(err) {
+            return res.status(500).send({message: err.message});
+        }
+        if(!sucursal) {
+            return res.status(400).send({message: 'No pudo identificarse a que sucursal pertenece.'});
+        }
+
+        sucursal.videojuegos.forEach()
+    });
+});
+
 module.exports = router;

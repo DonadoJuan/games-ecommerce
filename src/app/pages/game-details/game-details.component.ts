@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UtilsService } from "../../core/services/utils/utils.service";
 import { Videojuego } from "../../domain/videojuego";
 import { SafeResourceUrl, DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ConfirmarItemCarritoComponent } from '../../core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-game-details',
@@ -14,7 +16,11 @@ export class GameDetailsComponent implements OnInit {
   url: string;
   safeUrl: SafeResourceUrl
 
-  constructor(private us: UtilsService, private sanitization: DomSanitizer) { }
+  constructor(
+    private us: UtilsService, 
+    private sanitization: DomSanitizer,
+    private cartDialog: MatDialog
+  ) { }
 
   ngOnInit() {
     if(this.us.videojuego) {
@@ -23,6 +29,13 @@ export class GameDetailsComponent implements OnInit {
       this.safeUrl = this.sanitization.bypassSecurityTrustResourceUrl(this.videojuego.urlVideo.replace("watch?v=", "embed/"));
       //this.url = this.videojuego.urlVideo.replace("watch?v=", "v/");
     }
+  }
+
+  agregarAlCarrito(){
+    let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
+        width: '600px',
+        data: this.videojuego
+      });
   }
 
 }

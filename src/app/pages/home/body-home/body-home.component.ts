@@ -6,6 +6,8 @@ import { UtilsService } from "../../../core/services/utils/utils.service";
 import { Subscription } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
 import { Videojuego } from "../../../domain/videojuego";
+import { ConfirmarItemCarritoComponent } from '../../../core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-body-home',
@@ -29,7 +31,8 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private videojuegoService: VideojuegoService, 
     private us: UtilsService,
-    private router: Router
+    private router: Router,
+    private cartDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -57,7 +60,8 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
             titulo: v.titulo,
             imagen: v.imagen,
             plataforma: v.plataforma,
-            destacado: v.destacado
+            destacado: v.destacado,
+            precio: v.precio
           }
           switch(elemento.plataforma) {
             case "PS4":
@@ -99,6 +103,13 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.router.navigate(["game-details"]);
         }
     });
+  }
+
+  agregarAlCarrito(videojuego){
+    let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
+        width: '600px',
+        data: videojuego
+      });
   }
 
   ngOnDestroy() {

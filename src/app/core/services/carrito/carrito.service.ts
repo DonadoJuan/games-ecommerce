@@ -5,10 +5,19 @@ import { Router } from '@angular/router';
 @Injectable()
 export class CarritoService {
 
-  videojuegosCarrito: Object[];
+  private videojuegosCarrito: any[] = [];
 
-  constructor(private baseService: BaseService, private router: Router) { }
+  constructor(
+    private baseService: BaseService, 
+    private router: Router) { }
+  
+    agregarItem(item){
+      this.videojuegosCarrito.push(item);
+    }
 
+    getVideojuegosCarrito(){
+      return this.videojuegosCarrito;
+    }
 
 
 }

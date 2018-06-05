@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { AuthService } from '../core/services/auth/auth.service';
+import { CarritoService } from '../core/services/carrito/carrito.service';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +14,12 @@ export class HeaderComponent implements OnInit {
   navOpen = false;
 
   loggedIn: boolean;
+  videojuegosCarrito: any[];
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(
+    private router: Router, 
+    private authService: AuthService,
+    private carritoService: CarritoService) { }
 
   logout(){
     this.authService.logout();
@@ -27,7 +32,9 @@ export class HeaderComponent implements OnInit {
     
     this.authService.isLoggedIn.subscribe(res => {
       this.loggedIn = res;
-    }); 
+    });
+    this.loggedIn = this.authService.getDatosCliente() != null; 
+    this.videojuegosCarrito = this.carritoService.getVideojuegosCarrito();
   }
 
   toggleNav() {

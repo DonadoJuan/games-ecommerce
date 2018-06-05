@@ -9,7 +9,7 @@
 
     <!-- CONTENT -->
     <div id="layout-view" class="layout-view">
-      <router-outlet></router-outlet>
+      <router-outlet (deactivate)="onDeactivate()" ></router-outlet>
     </div>
 
     <!-- FOOTER -->

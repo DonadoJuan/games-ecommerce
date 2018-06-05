@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { Videojuego } from '../../domain/videojuego';
 import { VideojuegoService } from "../../core/services/videojuego/videojuego.service";
 import { UtilsService } from "../../core/services/utils/utils.service";
+import { MatDialog } from '@angular/material';
+import { ConfirmarItemCarritoComponent } from "../../core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component";
 
 
 @Component({
@@ -26,7 +28,8 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
   constructor(
       private videojuegoService: VideojuegoService,
       private us: UtilsService,
-      private router: Router
+      private router: Router,
+      private cartDialog: MatDialog
     ) { }
 
   ngOnInit() {
@@ -50,7 +53,8 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
                         "codigo": d.codigo,
                         "descripcion": desc,
                         "imagen": d.imagen,
-                        "plataforma": d.plataforma
+                        "plataforma": d.plataforma,
+                        "precio": d.precio   
                     });
                 });
             }, error => {
@@ -95,6 +99,13 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
                 this.router.navigate(["game-details"]);
             }
         });
+    }
+
+    agregarAlcarrito(vj: Videojuego){
+        let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
+            width: '600px',
+            data: vj
+          });
     }
 
     ngOnDestroy() {

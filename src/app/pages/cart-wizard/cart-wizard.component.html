@@ -6,7 +6,7 @@
     <mat-step label="MI COMPRA">
       <div class="container">
         <div class="row pt-5">
-          <div class="col-8">
+          <div class="col-9">
 
             <h5>CARRITO</h5>
             <mat-divider class="mb-3"></mat-divider>
@@ -27,24 +27,24 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let vj of pedido.videojuegos, index as i">
+                <tr *ngFor="let item of pedido.videojuegos, index as i">
                   <td><button (click)="removeItem(i)" class="btn btn-danger btn-xsm"> 
                     <i class="material-icons">
                       delete
                       </i></button></td>
-                  <td><img width="112px" height="130px" class="align-center"[src]="vj.videojuego.imagen"></td>
-                  <td>{{vj.videojuego.titulo}}</td>
-                  <td>$ {{vj.videojuego.precio}}</td>
-                  <td><input class="w-50" type="number" (change)="updateTotal(i)" 
-                    [(ngModel)]="vj.cantidad"></td>
-                  <td>$ {{vj.subtotal}}</td>
+                  <td><img width="180px" height="90px" class="align-center"[src]="item.videojuego.imagen"></td>
+                  <td>{{item.videojuego.titulo}}</td>
+                  <td>$ {{item.videojuego.precio}}</td>
+                  <td><input min="1" max="10" class="w-50" type="number" (change)="updateTotal()" 
+                    [(ngModel)]="item.cantidad"></td>
+                  <td>$ {{item.subtotal}}</td>
                 </tr>
               </tbody>
             </table>
 
           </div>
 
-          <div class="col-4">
+          <div class="col-3">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Subtotal:</label>
@@ -80,7 +80,7 @@
 
         <div class="row pt-5">
 
-          <div class="col-12 col-lg-8 d-flex flex-column">
+          <div class="col-12 col-lg-9 d-flex flex-column">
 
             <div class="container">
               <h5>FORMA DE ENTREGA</h5>
@@ -113,13 +113,13 @@
                     <mat-option *ngFor="let d of cliente.domicilio_entrega" [value]="d">
                       {{ d.calle}} {{d.altura}}, {{d.barrio}} 
                     </mat-option>
-                    <mat-option [value]="'domicForm'">
+                    <mat-option [value]="'otro'">
                       Otro domicilio
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
 
-                <mat-accordion *ngIf="domicilioSelect == 'domicForm'">
+                <mat-accordion *ngIf="domicilioSelect == 'otro'">
                   <mat-expansion-panel class="w-75">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -163,7 +163,7 @@
             </div>
 
           </div>
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-lg-3">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
@@ -200,7 +200,7 @@
 
         <div class="row pt-5">
 
-          <div class="col-12 col-lg-8 d-flex flex-column">
+          <div class="col-12 col-lg-9 d-flex flex-column">
 
             <div class="container">
               <h5>MEDIO DE PAGO</h5>
@@ -319,7 +319,7 @@
             </div>
 
           </div>
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-lg-3">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
@@ -355,7 +355,7 @@
         
         <div class="row pt-5">
 
-          <div class="col-12 col-lg-8 d-flex flex-column">
+          <div class="col-12 col-lg-9 d-flex flex-column">
             <section class="mb-3 mt-3">
               <h6>CARRITO</h6>
               <mat-divider class="mb-4"></mat-divider>
@@ -389,7 +389,7 @@
             </section>
           </div>
 
-          <div class="col-12 col-lg-4 sticky-top">
+          <div class="col-12 col-lg-3 sticky-top">
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>

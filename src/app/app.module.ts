@@ -76,7 +76,9 @@ import { AuthService } from './core/services/auth/auth.service';
 import { VideojuegoService } from './core/services/videojuego/videojuego.service';
 import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component';
 import { AdminConsultaStockComponent } from './pages/admin/admin-consulta-stock/admin-consulta-stock.component';
-import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component'
+import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
+import { ConfirmarItemCarritoComponent } from './core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component';
+import { CarritoService } from './core/services/carrito/carrito.service';
 
 @NgModule({
   declarations: [
@@ -114,7 +116,8 @@ import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-d
     signupClientSuccessDialog,
     FormUsuariosComponent,
     AdminConsultaStockComponent,
-    AdminDescuentosComponent
+    AdminDescuentosComponent,
+    ConfirmarItemCarritoComponent
     
   ],
   imports: [
@@ -157,7 +160,8 @@ import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-d
     ButtonDetailsComponent,
     ConfirmPurchaseDialog,
     ConfirmDeleteDialog,
-    signupClientSuccessDialog
+    signupClientSuccessDialog,
+    ConfirmarItemCarritoComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, 
@@ -170,6 +174,7 @@ import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-d
     SucursalService,
     PersonalService, 
     AuthService,
+    CarritoService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
 })

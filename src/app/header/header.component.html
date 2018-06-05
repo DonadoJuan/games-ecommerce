@@ -5,25 +5,13 @@
         <li class="nav-item">
             <a class="nav-link text-white" routerLink="/videojuegos" routerLinkActive="active">Juegos</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link text-white" href="#">Ofertas</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white">Preventa</a>
-        </li>
     </ul>
-
     <ul class="navbar-nav d-flex d-row">
-
-        <li *ngIf="loggedIn" class="nav-item">
-            <a class="nav-link text-white" routerLink="/wrapper-login" (click)="logout()" routerLinkActive="active">Logout</a>
-        </li>
-            <li class="nav-item btn-group" dropdown>
+        <li class="nav-item btn-group" dropdown>
         <!--<li *ngIf="loggedIn" class="nav-item btn-group" dropdown>-->
                 <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
                     Perfil
                 </a>
-            
                 <div class="dropdown-menu">
                     <a class="nav-link font-weight-bold" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
                     <a class="nav-link font-weight-bold" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
@@ -36,18 +24,18 @@
                     <a class="nav-link font-weight-bold" routerLink="/admin-stock" routerLinkActive="active">Reponer Stock</a>
                     <a class="nav-link font-weight-bold" routerLink="/admin-consulta-stock" routerLinkActive="active">Consultar Stock</a>
                     <a class="nav-link font-weight-bold" routerLink="/admin-descuentos" routerLinkActive="active">Gestionar Descuentos</a>
-
                 </div>
         </li>
         <li *ngIf="!loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
-        <!--<li *ngIf="loggedIn" class="nav-item">-->
         <li *ngIf="loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
-                    <i class="material-icons align-middle">shopping_cart</i>
+                    <i class="material-icons align-middle">shopping_cart</i><span>({{videojuegosCarrito.length}})</span>
                 </a>
         </li>
-
+        <li *ngIf="loggedIn" class="nav-item">
+                <a class="nav-link text-white" routerLink="/wrapper-login" (click)="logout()" routerLinkActive="active">Logout</a>
+        </li>
     </ul>
 </nav>

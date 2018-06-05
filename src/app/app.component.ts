@@ -32,4 +32,8 @@ export class AppComponent implements OnInit {
     const winHeight: number = e ? e.target.innerHeight : this._initWinHeight;
     this.minHeight = `${winHeight}px`;
   }
+
+  onDeactivate() {
+    window.scrollTo(0, 0);
+  }
 }

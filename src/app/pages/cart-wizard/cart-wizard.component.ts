@@ -5,6 +5,7 @@ import { SucursalService } from '../../core/services/sucursal/sucursal.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { UtilsService } from '../../core/services/utils/utils.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CarritoService } from '../../core/services/carrito/carrito.service';
 
 @Component({
   selector: 'confirm-purchase-dialog',
@@ -31,6 +32,8 @@ export class ConfirmPurchaseDialog {
 })
 export class CartWizardComponent implements OnInit {
 
+  domicilioSelect: any;
+  sucursalSelect: any;
   formDomicilio: FormGroup;
   cliente: object;
   barrios: object[];
@@ -38,6 +41,36 @@ export class CartWizardComponent implements OnInit {
   tarjetas: any;
   sucursales: any;
   pedido: any;
+
+  constructor (
+    private dialog: MatDialog, 
+    private router: Router,
+    private sucursalService: SucursalService,
+    private authService: AuthService,
+    private utilService: UtilsService,
+    private carritoService: CarritoService,
+    private fb: FormBuilder) {}
+
+  
+  ngOnInit() {
+    this._buildForm();
+    this._getServiceData();
+    this.pedido = {};
+    this.pedido.videojuegos = this.carritoService.getVideojuegosCarrito();
+    this.updateTotal();
+    this.tarjetas = [
+      {
+          id: "234562",
+          marca: "Mastercard",
+          num:"..5314"
+      },
+      {
+          id: "634521",
+          marca: "Visa",
+          num:"..7492"
+      }
+    ]
+  }
 
   confirmPurchase(): void {
     let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
@@ -59,24 +92,43 @@ export class CartWizardComponent implements OnInit {
 
   }
 
-  updateTotal(i: number){
+  updateTotal(){
     let total = 0;
-    let vglist = this.pedido.videojuegos; 
-    vglist[i].subtotal =  vglist[i].cantidad * vglist[i].videojuego.precio;
-    vglist.forEach(item => {
+    this.pedido.totalEnvio = 0;
+    this.pedido.videojuegos.forEach(item => {
+      if(item.cantidad < 1 || item.cantidad > 10){
+        item.cantidad = 1;
+      }
+      item.subtotal =  item.cantidad * item.videojuego.precio;
       total += item.subtotal;
     });
     this.pedido.total = total;
   }
 
   updateDeliveryOption(){
-    if(this.formaEntrega == '1' && this.pedido.sucursal_entrega != undefined){
-      this.pedido.domicilio_entrega = undefined; 
+    
+    if(this.formaEntrega == '1' && this.sucursalSelect != undefined){
+      this.pedido.domicilio_entrega = undefined;
+      this.pedido.totalEnvio
+      this.pedido.sucursal_entrega = this.sucursalSelect;
       return true;
     }
-    if(this.formaEntrega == '2' && this.pedido.domicilio_entrega != undefined){
-      this.pedido.sucursal_entrega = undefined; 
-      return true;
+
+    if(this.formaEntrega == '2' && this.domicilioSelect != undefined){
+      
+      this.pedido.sucursal_entrega = undefined;
+
+      if(this.domicilioSelect != 'otro'){
+
+        this.pedido.domicilio_entrega = this.domicilioSelect;
+        return true;
+      }
+      
+      if(this.domicilioSelect == 'otro' && this.formDomicilio.valid){
+
+        this.pedido.domicilio_entrega = this.formDomicilio.value;
+        return true;
+      }
     }
     return false;
   }
@@ -97,62 +149,6 @@ export class CartWizardComponent implements OnInit {
     this.utilService.getBarrios$()
       .subscribe(data => this.barrios = data);
     this.cliente = this.authService.getDatosCliente().payload;
-  }
-  
-  constructor (
-    private dialog: MatDialog, 
-    private router: Router,
-    private sucursalService: SucursalService,
-    private authService: AuthService,
-    private utilService: UtilsService,
-    private fb: FormBuilder) {}
-
-  
-  ngOnInit() {
-    this._buildForm();
-    this._getServiceData();
-
-    this.pedido = {
-      total: 200,
-      totalEnvio: 0,
-      cupon:{
-        codigo:23123,
-        descuento: 20
-      },
-      videojuegos:[
-        {
-          videojuego:{
-            titulo: 'SOUL CALIBUR VI',
-            imagen: '../../../../assets/slider/gd-calibur.jpg',
-            precio: 100
-          },
-          cantidad: 1,
-          subtotal: 100
-        },
-        {
-          videojuego:{
-            titulo: 'SOUL CALIBUR VI',
-            imagen: '../../../../assets/slider/gd-calibur.jpg',
-            precio: 100
-          },
-          cantidad: 1,
-          subtotal: 100
-        }
-      ]
-    };   
-
-    this.tarjetas = [
-      {
-        id: "234562",
-        marca: "Mastercard",
-        num:"..5314"
-      },
-      {
-        id: "634521",
-        marca: "Visa",
-        num:"..7492"
-      }
-    ]
   }
 
 }

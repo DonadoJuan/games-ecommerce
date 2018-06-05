@@ -13,7 +13,6 @@
 
                     <!--Card image-->
                     <div class="view hm-white-slight waves-light" mdbRippleRadius>
-                        <!--<img src={{product.imagen}} height="60px" class="img-fluid" alt="Card image with a tree in a middle of a lake.">-->
                         <div id="yourElement" [ngStyle]="{
                             'background-image': 'url(&quot;' + product.imagen + '&quot;)',
                             '-webkit-background-size': '100% 100%',
@@ -35,7 +34,7 @@
                         <!--Text-->
                         <p class="card-text">{{product.descripcion}}</p>
                         <a class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
-                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" (click)="agregarAlcarrito(product)" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <br>
