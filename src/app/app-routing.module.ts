@@ -17,6 +17,7 @@ import { AdminStockComponent } from "./pages/admin/admin-stock/admin-stock.compo
 import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form-usuarios.component';
 import { AdminConsultaStockComponent } from "./pages/admin/admin-consulta-stock/admin-consulta-stock.component";
 import { AdminDescuentosComponent } from "./pages/admin/admin-descuentos/admin-descuentos.component";
+import { OfertasComponent } from "./pages/ofertas/ofertas.component";
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
   {
     path: 'usuarios',
     component: UsuariosComponent
+  },
+  {
+    path: 'ofertas',
+    component: OfertasComponent
   },
   {
     path: 'lista-negra',

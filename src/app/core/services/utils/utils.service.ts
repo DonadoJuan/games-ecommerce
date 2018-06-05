@@ -14,6 +14,7 @@ export class UtilsService {
   public personal: Personal;
   public cliente: Cliente;
   public videojuego: Videojuego;
+  public sucursal: Sucursal;
 
   constructor(public baseService: BaseService) { }
 

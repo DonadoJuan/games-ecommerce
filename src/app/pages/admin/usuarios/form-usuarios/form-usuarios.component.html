@@ -1,8 +1,8 @@
 <div class="container layout-view">
     <div class="row justify-content-center">
   
-      <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">Alta de Cliente</h2>
-      <form class="fullwidth" [formGroup]="formClientes" (ngSubmit)="registrarCliente()" name="clientes">
+      <h2 style="margin-bottom: 5%; font-family: Verdana, Geneva, Tahoma, sans-serif">{{tituloForm}}</h2>
+      <form class="fullwidth" [formGroup]="formClientes" (ngSubmit)="onSubmit()" name="clientes">
   
       <div class="md-form fullwidth">
         <input type="text" id="nombre" class="form-control" mdbActive formControlName="nombre" [maxlength]="fss.strMax">
@@ -13,39 +13,29 @@
         class="small text-danger formErrors"
         [innerHTML]="formErrors.nombre">
       </div>
-  
+      
       <div class="md-form fullwidth">
         <input type="email" id="email" class="form-control" formControlName="email" [maxlength]="fss.strMax" mdbActive>
         <label for="email">Email</label>
       </div>
-      <div
-        *ngIf="formErrors.email"
-        class="small text-danger formErrors"
-        [innerHTML]="formErrors.email">
+      <div *ngIf="formErrors.email" class="small text-danger formErrors" [innerHTML]="formErrors.email">
       </div>
-      <div class="md-form fullwidth">
-          <input type="password" id="password" class="form-control" formControlName="password"  [maxlength]="fss.strMax" mdbActive>
+      <div *ngIf="!isEdit">
+        <div class="md-form fullwidth">
+          <input type="password" id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
           <label for="password">Password</label>
+        </div>
+        <div *ngIf="formErrors.password" class="small text-danger formErrors" [innerHTML]="formErrors.password">
+        </div>
+      
+        <div class="md-form fullwidth">
+          <input type="password" id="verificar_password" class="form-control" formControlName="verificar_password" [maxlength]="fss.strMax"
+            mdbActive>
+          <label for="verificar_password">Reingrese password</label>
+        </div>
+        <div *ngIf="formErrors.verificar_password" class="small text-danger formErrors" [innerHTML]="formErrors.verificar_password">
+        </div>
       </div>
-      <div
-      *ngIf="formErrors.password"
-      class="small text-danger formErrors"
-      [innerHTML]="formErrors.password">
-    </div>
-
-    <div class="md-form fullwidth">
-        <input type="password" id="verificar_password" class="form-control" formControlName="verificar_password"  [maxlength]="fss.strMax" mdbActive>
-        <label for="verificar_password">Reingrese password</label>
-    </div>
-    <div
-    *ngIf="formErrors.verificar_password"
-    class="small text-danger formErrors"
-    [innerHTML]="formErrors.verificar_password">
-  </div>
-
-
-
-
 
       <div class="md-form fullwidth">
         <input type="number" id="telefono" class="form-control" formControlName="telefono" [maxlength]="fss.telMax" mdbActive>
@@ -67,7 +57,7 @@
       </div>
 
 
-  
+        <div *ngIf="!isEdit">
       <mat-form-field class="fullwidth">
           <mat-select formControlName="barrio" placeholder="Barrio">
             <mat-option *ngFor="let barrio of barrios" [value]="barrio.nombre">
@@ -111,11 +101,11 @@
         class="small text-danger formErrors"
         [innerHTML]="formErrors.codigo_postal">
       </div>
-  
+    </div>
       <div class="text-center">
-        <button class="btn btn-success waves-light" [disabled]="!formClientes.valid" mdbRippleRadius>Agregar</button>
+        <button class="btn btn-success waves-light" [disabled]="!formClientes.valid || submitting ? true : null" [innerText]="submitBtnText" mdbRippleRadius></button>
       </div>
-  
+
       <app-submitting *ngIf="submitting"></app-submitting>
   
       <p *ngIf="error" class="mt-3 alert alert-danger">
