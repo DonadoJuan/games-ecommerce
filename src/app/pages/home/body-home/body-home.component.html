@@ -6,7 +6,8 @@
     <hr class="my-2">
     <div class="row blue-gradient wrapper">
         <owl-carousel #owlElementPlaystation
-            [options]="{items: 4, margin: 10, dots: false, nav: true, loop: true, autoplay: false}"
+            [options]="carouselOptions"
+            [items]="listVideojuegosPlay"
             [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
             [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
             <div *ngFor="let product of listVideojuegosPlay" style="height: 500px;">
@@ -33,7 +34,7 @@
                         <h4 class="card-title">{{product.titulo}}</h4>
 
                         <p class="card-text">{{product.descripcion}}</p>
-                        <button class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</button>
+                        <button class="btn btn-primary waves-light" mdbRippleRadius #btnDetalle (click)="verDetalles(product)">Detalles</button>
                         <a class="btn btn-primary btn-circle btn-lg waves-light zoom" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
                     </div>
                 
@@ -50,7 +51,8 @@
       <hr class="my-2">
       <div class="row red-gradient wrapper">
             <owl-carousel #owlElementNintendo
-            [options]="{items: 4, margin: 10, dots: false, nav: true, loop: true, autoplay: false}"
+            [options]="carouselOptions"
+            [items]="listVideojuegosNintendo"
             [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
             [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
             <div *ngFor="let product of listVideojuegosNintendo" style="height: 500px;">
@@ -94,7 +96,8 @@
         <hr class="my-2">
         <div class="row green-gradient wrapper">
             <owl-carousel #owlElementXbox
-                [options]="{items: 4, margin: 10, dots: false, autoplay: false, nav: true, loop: true}"
+                [options]="carouselOptions"
+                [items]="listVideojuegosXbox"
                 [carouselClasses]="['owl-carousel', 'owl-theme', 'owl-loaded', 'owl-stage-outer', 'owl-stage', 'owl-nav', 'row', 'sliding', 'owl-nav', 'owl-prev', 'owl-next']"
                 [ngStyle]="{'overflow': 'hidden', 'margin-left': '10px'}">
             <div *ngFor="let product of listVideojuegosXbox" style="height: 500px;">

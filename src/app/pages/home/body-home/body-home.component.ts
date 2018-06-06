@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewChildren, OnDestroy, ElementRef, Renderer2 } from '@angular/core';
 import { WOW } from 'wowjs/dist/wow.min';
 import { OwlCarousel } from 'ngx-owl-carousel';
 import { VideojuegoService } from "../../../core/services/videojuego/videojuego.service";
@@ -15,9 +15,15 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./body-home.component.scss']
 })
 export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('owlElementPlaystation') owlElementPlaystation: OwlCarousel
-  @ViewChild('owlElementNintendo') owlElementNintendo: OwlCarousel
-  @ViewChild('owlElementXbox') owlElementXbox: OwlCarousel
+  @ViewChildren('owlElementPlaystation') owlElementPlaystation: OwlCarousel;
+  @ViewChildren('owlElementNintendo') owlElementNintendo: OwlCarousel;
+  @ViewChildren('owlElementXbox') owlElementXbox: OwlCarousel;
+
+  carouselOptions: any = {
+    items: 4, margin: 10, dots: false, nav: true, rewind: true, autoplay: true, mouseDrag: false, touchDrag: false, pullDrag: false, freeDrag: false,
+    //onInitialized : this.cambioAlgo.bind(this),
+    //onTranslated: this.tanslado.bind(this) 
+  }
 
   videojuegoSub: Subscription;
   listVideojuegosPlay: any[] = [];
@@ -26,20 +32,25 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   listVideojuegos: Videojuego[] = [];
   loading: boolean = false;
   error: boolean = false;
+  //carouselPlay: any;
 
 
   constructor(
     private videojuegoService: VideojuegoService, 
     private us: UtilsService,
     private router: Router,
-    private cartDialog: MatDialog
-  ) { }
+    private cartDialog: MatDialog,
+    //private renderer: Renderer2
+  ) {
+    
+   }
 
   ngOnInit() {
     var n = document.getElementsByClassName("owl-nav");
     for(var i=0;i<n.length;i++){
       n[i].removeAttribute("disabled");
     }
+    
     this.loading = true;
     this.error = false;
     this.videojuegoSub = this.videojuegoService.getVideojuegos$()
@@ -94,7 +105,37 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     new WOW({
       live: false
     }).init();
+    //console.log(this.owlElementPlaystation);
+    /*this.owlElementPlaystation.options = {
+      onInitialized: this.cambioAlgo.bind(this),
+      onTranslated: this.cambioAlgo.bind(this)
+    }*/
+    /*this.listenFunc = this.renderer.listen(this.btnDetalle.nativeElement, 'click', (event) => {
+      console.log(event);
+      console.log('Element clicked');
+    });*/
   }
+
+  /*tanslado() {
+    //console.log("translado");
+    console.log(this.owlElementPlaystation);
+    if(this.owlElementPlaystation.first.$owlChild.currentSlideIndex === 5) {
+      //this.owlElementPlaystation.first.$owlChild.currentSlideIndex = 1;
+      //this.owlElementPlaystation = null;
+      //this.owlElementPlaystation.first.$owlChild.destroyOwl();
+      //this.owlElementPlaystation.first.$owlChild.initOwl();
+      //this.owlElementPlaystation.first.$owlChild.trigger('remove.owl.carousel', [6]);
+      //this.owlElementPlaystation.first.$owlChild.trigger('to.owl.carousel', [0,200,true]);
+      //this.owlElementPlaystation.first = this.carouselPlay.first;
+      //this.owlElementPlaystation.remove();
+    }
+  }*/
+
+  /*cambioAlgo() {
+    //console.log("cambio algo");
+    this.carouselPlay = this.owlElementPlaystation;
+    console.log(this.carouselPlay);
+  }*/
 
   verDetalles(product: any) {
     console.log(product);
