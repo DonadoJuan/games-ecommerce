@@ -16,8 +16,10 @@ export class OfertasComponent implements OnInit, OnDestroy {
 
   sucursales: Sucursal[];
   sucursalesSub: Subscription;
+  sucursalesChangeSub: Subscription;
   loading: boolean;
   error: boolean;
+  fechaDelDia: Date;
 
   constructor(
     private us: UtilsService,
@@ -26,6 +28,7 @@ export class OfertasComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.fechaDelDia = new Date();
     this.loading = true;
     this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(data => {
@@ -44,7 +47,40 @@ export class OfertasComponent implements OnInit, OnDestroy {
     this.router.navigate(["game-details"]);
   }
 
+  checkOffert(sucursal: Sucursal, product: Videojuego): boolean {
+    if(product.activo && product.descuento != 0 && new Date(product.inicioDescuento) <= this.fechaDelDia) {
+      if(new Date(product.finDescuento) >= this.fechaDelDia) {
+        return true;
+      } else {
+        this.sucursales.forEach(s => {
+          if(s._id == sucursal._id) {
+            s.videojuegos.forEach(v => {
+              if(v.codigo == product.codigo) {
+                v.descuento = 0;
+                v.inicioDescuento = null;
+                v.finDescuento = null;
+              }
+            });
+          }
+        });
+        this.sucursalesChangeSub = this.sucursalService.updateSucursalVideojuegos$(sucursal._id, sucursal.videojuegos)
+          .subscribe(data => {
+
+          }, err => {
+            console.error(err);
+            this.error = true;
+          });
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
   ngOnDestroy() {
+    if(this.sucursalesChangeSub) {
+      this.sucursalesChangeSub.unsubscribe();
+    } 
     this.sucursalesSub.unsubscribe();
   }
 

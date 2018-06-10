@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
+import { VideojuegoService } from "../../core/services/videojuego/videojuego.service";
 
 @Component({
   selector: 'app-checkbox',
@@ -18,7 +19,7 @@ export class CheckboxComponent implements ViewCell, OnInit {
 
   checked: boolean;
 
-  constructor() { }
+  constructor(private videojuegoService: VideojuegoService) { }
 
   ngOnInit() {
     this.checked = this.value;
@@ -26,6 +27,23 @@ export class CheckboxComponent implements ViewCell, OnInit {
 
   changeBoolean() {
     this.checked = !this.checked;
+    
+    if(this.rowData.codigo) {
+      console.log(this.rowData);
+      let obj = {
+        codigo: this.rowData.codigo,
+        destacado: this.checked
+      }
+      this.videojuegoService.putDestacadoVideojuego$(obj)
+        .subscribe(data => {
+
+        }, err => {
+          console.error(err);
+        });
+    } else {
+      console.log(this.checked);
+    }
+    
   }
 
 }

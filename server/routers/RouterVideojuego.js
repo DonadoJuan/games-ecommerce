@@ -87,6 +87,25 @@ router.post('/new', (req, res) => {
         });
     });
 
+    router.put('/destacado', (req, res) => {
+        //console.log('Llegue: ', req.body);
+        Videojuego.findOne({codigo: req.body.codigo}, (err, videojuego) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            if(videojuego) {
+               videojuego.destacado = req.body.destacado;
+
+               videojuego.save((err) => {
+                    if(err) {
+                        return res.status(500).send({message: err.message});
+                    }
+                    res.send(videojuego);
+                });
+            }
+        });
+    });
+
     router.put('/:id', (req, res) => {
         let vj = JSON.parse(req.body.videojuego);
         let i = 0;

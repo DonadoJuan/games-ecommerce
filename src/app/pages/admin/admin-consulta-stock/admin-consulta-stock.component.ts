@@ -48,18 +48,18 @@ export class AdminConsultaStockComponent implements OnInit {
               console.log(v.activo);
               if(v.activo) {
                 this.videojuegos.push(v);
-                let reposicion = "";
+                let reposicion = 0;
                 if(v.stock >= v.cantidadMaxima - 10) {
-                  reposicion = "No es necesario reponer unidades";
+                  reposicion = 0;
                 } 
                 else if(v.stock > v.cantidadMinima) {
-                  reposicion = "Se recomienda reponer " + (v.cantidadMaxima - v.stock) + " unidades";
+                  reposicion = v.cantidadMaxima - v.stock;
                 } 
                 else if(v.stock <= v.cantidadMinima && v.stock > 0) {
-                  reposicion = "ES NECESARIO reponer unidades. Se recomienda " + (v.cantidadMaxima - v.cantidadMinima) + " unidades";
+                  reposicion = v.cantidadMaxima - v.cantidadMinima;
                 } 
                 else {
-                  reposicion = "NO HAY UNIDADES. Reponga " + v.cantidadMinima + " unidades como minimo o " + v.cantidadMaxima + " unidades como maximo";
+                  reposicion = v.cantidadMaxima;
                 }
 
                 this.dataVideojuegos.push({

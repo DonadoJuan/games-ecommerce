@@ -16,6 +16,10 @@ export class VideojuegoService {
     return this.baseService.get('videojuegos');
   }
 
+  putDestacadoVideojuego$(destacado: any): Observable<Videojuego> {
+    return this.baseService.put('videojuegos/destacado', destacado);
+  }
+
   putVideojuego$(id: string, file: File, videojuego: Videojuego): Observable<Videojuego> {
     return this.baseService.upload(`videojuegos/${id}`, file, videojuego, "put");
   }

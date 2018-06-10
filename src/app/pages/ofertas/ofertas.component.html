@@ -6,7 +6,7 @@
         <br /><br />
         <h2 class="titulo elegantshadow">Sucursal: {{sucursal.ubicacion.calle}} {{sucursal.ubicacion.altura}}</h2>
         <div *ngFor="let product of sucursal.videojuegos">
-          <div *ngIf="product.activo === true && product.descuento != 0">
+          <div *ngIf="checkOffert(sucursal, product)">
             <div class="row">
             <div class="example-2 card">
                 <div class="wrapper" [ngStyle]="{

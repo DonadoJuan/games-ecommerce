@@ -7,6 +7,7 @@ import { MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SucursalService } from "../../../core/services/sucursal/sucursal.service";
+import { UtilsService } from "../../../core/services/utils/utils.service";
 
 @Component({
   selector: 'app-admin-stock',
@@ -22,17 +23,23 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   sucursalSub: Subscription;
   updateSucursalSub: Subscription;
   error: boolean;
+  loading: boolean;
   videojuego: Videojuego;
   errorMsg: string;
   videojuegosStock: any[] = [];
 
-  constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService) { }
+  constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService, private us: UtilsService) { }
 
   ngOnInit() {
+    this.loading = true;
     this.sucursalId = "5af78c88a4616c223463102a";
     this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
         .subscribe(
-          data => {this.sucursal = data[0];},
+          data => {
+            console.log(data);
+            this.loading = false;
+            this.sucursal = data;
+          },
           err => this._handleSubmitError(err)
         );
     this.firstFormGroup = this._formBuilder.group({
@@ -89,7 +96,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
       this.errorMsg = "Cantidad Ingresada invalida";
       return;
     }
-    if((this.videojuego.stock + cantidad) <= this.videojuego.cantidadMaxima) {
+    /*if((this.videojuego.stock + cantidad) <= this.videojuego.cantidadMaxima) {
       console.log('stock valido');
       //this.videojuego.stock += cantidad;
       this.videojuegosStock.push({titulo: this.videojuego.titulo, cantidad: cantidad, codigo: this.videojuego.codigo});
@@ -99,7 +106,9 @@ export class AdminStockComponent implements OnInit, OnDestroy {
       stepper.previous();
       this.error = true;
       this.errorMsg = "Cantidad Ingresada excede al maximo stock disponible";
-    }
+    }*/
+    this.videojuegosStock.push({titulo: this.videojuego.titulo, cantidad: cantidad, codigo: this.videojuego.codigo});
+    stepper._steps.forEach(s => {s.editable = false}); 
   }
 
   onEnter(cantidad, vj, refreshSotck) {
@@ -131,9 +140,11 @@ export class AdminStockComponent implements OnInit, OnDestroy {
         }
       });
     });
+    this.loading = true;
     this.updateSucursalSub = this.sucursalService.updateSucursalVideojuegos$(this.sucursal._id, this.sucursal.videojuegos)
       .subscribe(
         data => {
+          this.loading = false;
           console.log(data);
           this.modalService.open(success).result.then((result) => {
             //this.closeResult = `Closed with: ${result}`;
@@ -155,6 +166,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   private _handleSubmitError(err) {
     console.error(err);
     this.error = true;
+    this.loading = false;
     this.errorMsg = "Ocurrio un error interno. Por favor, reintente."
   }
 
