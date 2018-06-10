@@ -10,7 +10,7 @@ const domicilioSchema = mongoose.Schema({
         required: true
     },
     barrio: {
-        type: String,
+        type: Object,
         required: true
     },
     codigo_postal: {

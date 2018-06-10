@@ -89,7 +89,7 @@ export class FormUsuariosComponent implements OnInit {
     
 
     if(this.isEdit){
-      this.formClientes.controls['barrio'].setValue(this.cliente.domicilio_entrega[0].barrio);
+      this.formClientes.controls['barrio'].setValue(this.cliente.domicilio_entrega[0].barrio.nombre);
     }
 
   }
@@ -174,6 +174,7 @@ export class FormUsuariosComponent implements OnInit {
       
     }else{
       let nuevoCliente = this.formClientes.value;
+      let barrio = new Barrio(this.formClientes.get('barrio').value);
       c = {
         nombre: nuevoCliente.nombre,
         email: nuevoCliente.email,
@@ -183,7 +184,7 @@ export class FormUsuariosComponent implements OnInit {
         baneos: [],
         faltas: [],
         domicilio_entrega: [{
-          barrio: nuevoCliente.barrio,
+          barrio: barrio,
           calle: nuevoCliente.calle,
           altura: nuevoCliente.altura,
           codigo_postal: nuevoCliente.codigo_postal
@@ -196,7 +197,7 @@ export class FormUsuariosComponent implements OnInit {
 
   private _setformClientes() {
     if(!this.isEdit){
-      return new FormClientesModel(null, null, null, null, null, null, new Domicilio(null,null,null,null),
+      return new FormClientesModel(null, null, null, null, null, null, new Domicilio(null,null,new Barrio(null),null),
       new Falta(null,null,null,null),new Baneo(null,null,null,null,null),null);
     }else{
           return new FormClientesModel(
@@ -207,8 +208,8 @@ export class FormUsuariosComponent implements OnInit {
           this.cliente.telefono,
           this.cliente.dni,
           this.cliente.domicilio_entrega[0],
-        this.cliente.faltas[0],
-          this.cliente.baneos[0],
+          this.cliente.faltas ? this.cliente.faltas[0] : new Falta(null,null,null,null),
+          this.cliente.baneos ? this.cliente.baneos[0] : new Baneo(null,null,null,null),
           this.cliente.activo,
           this.cliente._id
         );

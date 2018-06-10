@@ -87,6 +87,7 @@ export class SignupComponent implements OnInit {
 
   registrarCliente(){
     let nuevoCliente = this.formClientes.value;
+    let barrio = new Barrio(nuevoCliente.barrio);
     this.cliente = {
       nombre: nuevoCliente.nombre,
       email: nuevoCliente.email,
@@ -96,9 +97,9 @@ export class SignupComponent implements OnInit {
       baneos: [],
       faltas: [],
       domicilio_entrega: [{
-        barrio: nuevoCliente.barrio,
         calle: nuevoCliente.calle,
         altura: nuevoCliente.altura,
+        barrio: barrio,
         codigo_postal: nuevoCliente.codigo_postal
       }],
       activo: true
@@ -122,7 +123,7 @@ export class SignupComponent implements OnInit {
   }
 
   private _setformClientes() {
-      return new FormClientesModel(null, null, null, null,null, null, new Domicilio(null,null,null,null),
+      return new FormClientesModel(null, null, null, null,null, null, new Domicilio(null,null,new Barrio(null),null),
       new Falta(null,null,null,null),new Baneo(null,null,null,null),null);
   }
 
