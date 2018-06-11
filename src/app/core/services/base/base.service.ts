@@ -64,6 +64,21 @@ export class BaseService {
     
   }
 
+  uploadSlider(route: string, file: File, slider, queHago: string) {
+    const formData: FormData = new FormData();
+    console.log(file);
+    if (file) {
+      formData.append('imagen', file, file.name);
+      formData.append('slider', JSON.stringify(slider));
+    }
+    //this.helperService.addContentTypeHeader = false;
+    //console.log("formData: ", formData);
+    if(queHago == "post") {
+      return this.post(route, formData);
+    }
+    
+  }
+
   private _handleError(err: Response): Observable<any> {
 
     if(err.status == 401){

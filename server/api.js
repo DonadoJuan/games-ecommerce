@@ -9,6 +9,7 @@ const RouterBarrio = require('./routers/RouterBarrio');
 const RouterPersonal = require('./routers/RouterPersonal');
 const RouterCliente = require('./routers/RouterCliente');
 const RouterVideojuego = require('./routers/RouterVideojuego');
+const RouterSlider = require('./routers/RouterSlider');
 
 const app = express();
 
@@ -24,6 +25,8 @@ app.use('/api/barrios', RouterBarrio);
 app.use('/api/personal', RouterPersonal);
 app.use('/api/clientes', RouterCliente);
 app.use('/api/videojuegos', RouterVideojuego);
+app.use('/api/slider', RouterSlider);
+
 
 module.exports = app;
 
