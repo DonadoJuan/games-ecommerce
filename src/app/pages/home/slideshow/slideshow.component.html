@@ -1,19 +1,8 @@
 <!--Carousel Wrapper-->
 <mdb-carousel class="mt-5" [isControls]="true" [animation]="'slide'">
   <!--First slide-->
-  <mdb-slide>
-      <img  height="500px" width="1468px" src="../../../../assets/slider/ni_no_kuni.jpg" alt="First slide">
+  <mdb-slide *ngFor="let product of sliderArr">
+      <img  height="500px" width="1468px" [src]="product.imagen">
   </mdb-slide>
-  <!--/First slide-->
-  <!--Second slide-->
-  <mdb-slide>
-      <img height="500px" width="1468px" src="../../../../assets/slider/mario_odyssey.jpg" alt="Second slide">
-  </mdb-slide>
-  <!--/Second slide-->
-  <!--Third slide-->
-  <mdb-slide>
-      <img height="500px" width="1468px" src="../../../../assets/slider/horizon.jpg" alt="Third slide">
-  </mdb-slide>
-  <!--/Third slide-->
 </mdb-carousel>
 <!--/.Carousel Wrapper-->

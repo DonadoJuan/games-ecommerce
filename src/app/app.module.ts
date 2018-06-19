@@ -81,6 +81,8 @@ import { CarritoService } from './core/services/carrito/carrito.service';
 import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
 import { OfertasComponent } from './pages/ofertas/ofertas.component';
 import { ButtonRestoreComponent } from './pages/admin/usuarios/button-restore/button-restore.component';
+import { FormSliderComponent } from './pages/admin/admin-slideshow/form-slider/form-slider.component';
+import { SliderService } from './core/services/slider/slider.service';
 
 @NgModule({
   declarations: [
@@ -121,8 +123,8 @@ import { ButtonRestoreComponent } from './pages/admin/usuarios/button-restore/bu
     AdminDescuentosComponent,
     ConfirmarItemCarritoComponent,
     OfertasComponent,
-    ButtonRestoreComponent
-    
+    ButtonRestoreComponent,
+    FormSliderComponent
   ],
   imports: [
     BrowserModule,
@@ -179,6 +181,7 @@ import { ButtonRestoreComponent } from './pages/admin/usuarios/button-restore/bu
     SucursalService,
     PersonalService, 
     AuthService,
+    SliderService,
     CarritoService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]
