@@ -18,8 +18,8 @@ export class ButtonDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cliente = this.value;
-    this.faltas = !!this.cliente.faltas;
-    this.baneos = !!this.cliente.baneos;
+    this.faltas = !!this.cliente.faltas && this.cliente.faltas.length > 0;
+    this.baneos = !!this.cliente.baneos && this.cliente.baneos.length > 0;
   }
 
   verDetalle(modalDetalle) {

@@ -80,6 +80,7 @@ import { ConfirmarItemCarritoComponent } from './core/dialogs/confirmar-item-car
 import { CarritoService } from './core/services/carrito/carrito.service';
 import { AdminDescuentosComponent } from './pages/admin/admin-descuentos/admin-descuentos.component';
 import { OfertasComponent } from './pages/ofertas/ofertas.component';
+import { ButtonRestoreComponent } from './pages/admin/usuarios/button-restore/button-restore.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { OfertasComponent } from './pages/ofertas/ofertas.component';
     AdminConsultaStockComponent,
     AdminDescuentosComponent,
     ConfirmarItemCarritoComponent,
-    OfertasComponent
+    OfertasComponent,
+    ButtonRestoreComponent
     
   ],
   imports: [
@@ -159,6 +161,7 @@ import { OfertasComponent } from './pages/ofertas/ofertas.component';
     CheckboxComponent,
     NumberComponent,
     ButtonListaNegraComponent,
+    ButtonRestoreComponent,
     ButtonDetailsComponent,
     ConfirmPurchaseDialog,
     ConfirmDeleteDialog,

@@ -1,5 +1,8 @@
 <app-loading *ngIf="loading"></app-loading>
 <ng-template [ngIf]="us.isLoaded(loading)">
+<mat-tab-group>
+    <div *ngFor="let suc of sucursales">
+        <mat-tab label="{{suc.ubicacion.calle}} {{suc.ubicacion.altura}}">
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
   <ngb-panel title="Cargar Descuentos">
     <ng-template ngbPanelContent>
@@ -140,6 +143,9 @@
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
+</mat-tab>
+</div>
+</mat-tab-group>
 </ng-template>
 
 <ng-template #modalExito let-c="close" let-d="dismiss">

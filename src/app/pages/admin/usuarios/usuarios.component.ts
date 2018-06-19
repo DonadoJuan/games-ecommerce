@@ -11,6 +11,7 @@ import { Cliente } from "../../../domain/cliente";
 import { ButtonListaNegraComponent } from "./button-lista-negra.component";
 import { ButtonDetailsComponent } from "./button-details/button-details.component";
 import { ClienteService } from "../../../core/services/cliente/cliente.service";
+import { ButtonRestoreComponent } from "./button-restore/button-restore.component";
 
 @Component({
   selector: 'app-usuarios',
@@ -71,6 +72,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
           type: 'custom',
           renderComponent: ButtonListaNegraComponent
         },
+        restaurar: {
+          title: "Restaurar",
+          type: 'custom',
+          renderComponent: ButtonRestoreComponent
+        },
         detalle: {
           title: "Detelle",
           type: 'custom',
@@ -122,6 +128,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
             faltas: (faltasRecientes) ? faltasRecientes : "No",
             baneado: (estaBaneado) ? estaBaneado : "No",
             listanegra: c,
+            restaurar: c,
             detalle: c
           });
         });

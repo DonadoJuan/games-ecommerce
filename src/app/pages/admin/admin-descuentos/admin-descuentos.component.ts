@@ -29,6 +29,8 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
   error: boolean = false;
   sucursal: Sucursal;
   sucursalId = "5af78c88a4616c223463102a";
+  sucursales: Sucursal[] = [];
+  sucursalesSub: Subscription;
   videojuegos: Videojuego[] = [];
   dropdownQuitarList = [];
   selectedQuitarItems = [];
@@ -65,6 +67,14 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
   traerDatosSucursal() {
     this.loading = true;
     this.submitting = false;
+    this.sucursalesSub = this.sucursalService.getSucursales()
+      .subscribe(data => {
+        this.sucursales = data;
+      }, err => {
+        console.error(err);
+        this.error = true;
+        this.loading = false;
+      });
     this.videojuegos = [];
     this.dropdownCargarList = [];
     this.dropdownQuitarList = [];
@@ -188,6 +198,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
       this.updateSucursal.unsubscribe();
     }
     this.sucursalSub.unsubscribe();
+    this.sucursalesSub.unsubscribe();
   }
 
 }

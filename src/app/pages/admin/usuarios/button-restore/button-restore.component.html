@@ -1,0 +1,36 @@
+<button (click)="restaurar(modalRestaurar)" class="btn btn-sm btn-success" [disabled]="disabled">Restaurar</button>
+
+<ng-template #modalRestaurar let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Cliente: {{cliente.nombre}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Este cliente actualmente tiene el siguiente baneo vigente: </p>
+    <div>
+        <strong>Dni: </strong> {{cliente.dni}} 
+    </div>
+    <div>
+        <strong>Email: </strong> {{cliente.email}} 
+    </div>
+    <div>
+        <strong>Baneos: </strong> 
+            <div *ngFor="let b of cliente.baneos">
+                <div *ngIf="b.vigente">
+                  <mat-card>
+                    <u>Fecha inicio de la falta: </u> {{b.fecha_desde | date:'dd-MM-yyyy'}} <br />
+                    <u>Falta vigente hasta: </u> {{b.fecha_hasta | date:'dd-MM-yyyy'}} <br />
+                    <u>Motivo: </u> {{b.motivo}} <br />
+                    <u>Sigue Vigente: </u>Si
+                  </mat-card>
+                </div>
+            </div>
+    </div>
+    <p>Si lo restaura el baneo dejara de estar vigente y el cliente podr&aacute; hacer uso normal de la plataforma web. Desea continuar? </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" (click)="c('Close click')">Aceptar</button>
+  </div>
+</ng-template>
