@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '../base/base.service';
 import { Observable } from 'rxjs/Observable';
-import { Slider } from "../../../domain/Slider";
+import { Slider } from "../../../domain/slider";
 
 @Injectable()
 export class SliderService {
