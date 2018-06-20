@@ -67,57 +67,78 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
   traerDatosSucursal() {
     this.loading = true;
     this.submitting = false;
-    this.sucursalesSub = this.sucursalService.getSucursales()
+    let admin = true;
+    if(admin) {
+      this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(data => {
+        this.loading = false;
         this.sucursales = data;
+        this.sucursal = this.sucursales[0];
+        this.cargarDatos(this.sucursal);
       }, err => {
         console.error(err);
         this.error = true;
         this.loading = false;
       });
+    } else {
+      this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
+      .subscribe(data => {
+        this.sucursal = data;
+        this.loading = false;
+        this.sucursales.push(this.sucursal);
+        this.cargarDatos(this.sucursal);
+      }, err => {
+        console.error(err);
+        this.error = true;
+        this.loading = false;
+      });
+    }
+    
+  }
+
+  actualizarDatos(event) {
+    //console.log("sucursal: ", this.sucursales[event.index]);
+    this.sucursal = this.sucursales[event.index];
+    this.cargarDatos(this.sucursal);
+  }
+
+  private cargarDatos(sucursal: Sucursal) {
     this.videojuegos = [];
     this.dropdownCargarList = [];
     this.dropdownQuitarList = [];
     this.selectedCargarItems = [];
     this.selectedQuitarItems = [];
-    this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
-      .subscribe(data => {
-        this.sucursal = data;
-        this.loading = false;
-        data.videojuegos.forEach(v => {
-          if(v.activo) {
-            this.videojuegos.push(v);
-            if(v.descuento === 0) {
-              this.dropdownCargarList.push({
-                "id": v._id,
-                "itemName": v.titulo,
-                "titulo": v.titulo,
-                "codigo": v.codigo,
-                "plataforma": v.plataforma,
-                "imagen": v.imagen,
-                "precio": v.precio
-              });
-            } else {
-              this.dropdownQuitarList.push({
-                "id": v._id,
-                "itemName": v.titulo,
-                "titulo": v.titulo,
-                "codigo": v.codigo,
-                "plataforma": v.plataforma,
-                "imagen": v.imagen,
-                "precio": v.precio,
-                "descuento": v.descuento,
-                "inicioDescuento": v.inicioDescuento,
-                "finDescuento": v.finDescuento
-              });
-            }
-          }
-        });
-      }, err => {
-        console.error(err);
-        this.error = true;
-        this.loading = false;
-      });
+
+    sucursal.videojuegos.forEach(v => {
+      if(v.activo) {
+        this.videojuegos.push(v);
+        if(v.descuento === 0) {
+          this.dropdownCargarList.push({
+            "id": v._id,
+            "itemName": v.titulo,
+            "titulo": v.titulo,
+            "codigo": v.codigo,
+            "plataforma": v.plataforma,
+            "imagen": v.imagen,
+            "precio": v.precio
+          });
+        } else {
+          this.dropdownQuitarList.push({
+            "id": v._id,
+            "itemName": v.titulo,
+            "titulo": v.titulo,
+            "codigo": v.codigo,
+            "plataforma": v.plataforma,
+            "imagen": v.imagen,
+            "precio": v.precio,
+            "descuento": v.descuento,
+            "inicioDescuento": v.inicioDescuento,
+            "finDescuento": v.finDescuento
+          });
+        }
+      }
+    });
+
   }
 
   onSubmit(modalExito) {
@@ -197,8 +218,13 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
     if(this.updateSucursal) {
       this.updateSucursal.unsubscribe();
     }
-    this.sucursalSub.unsubscribe();
-    this.sucursalesSub.unsubscribe();
+    if(this.sucursalSub) {
+      this.sucursalSub.unsubscribe();
+    }
+    if(this.sucursalesSub) {
+      this.sucursalesSub.unsubscribe();
+    }
+    
   }
 
 }

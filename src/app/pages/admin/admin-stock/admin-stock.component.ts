@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Sucursal } from '../../../domain/sucursal';
@@ -16,11 +16,15 @@ import { UtilsService } from "../../../core/services/utils/utils.service";
 })
 export class AdminStockComponent implements OnInit, OnDestroy {
 
+  @ViewChild('stepper') miStepper: MatStepper;
+
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   sucursalId: string;
   sucursal: Sucursal;
+  sucursales: Sucursal[] = [];
   sucursalSub: Subscription;
+  sucursalesSub: Subscription;
   updateSucursalSub: Subscription;
   error: boolean;
   loading: boolean;
@@ -33,21 +37,44 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.loading = true;
     this.sucursalId = "5af78c88a4616c223463102a";
-    this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
+    let admin = true;
+    if(admin) {
+      this.sucursalesSub = this.sucursalService.getSucursales()
+      .subscribe(
+        data => {
+          this.loading = false;
+          this.sucursales = data;
+          this.sucursal = this.sucursales[0];
+        }, err => this._handleSubmitError(err)
+      );
+    } else {
+      this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
         .subscribe(
           data => {
             console.log(data);
             this.loading = false;
-            this.sucursal = data;
+            this.sucursales.push(data);
+            this.sucursal = this.sucursales[0];
           },
           err => this._handleSubmitError(err)
         );
+    }
+    
     this.firstFormGroup = this._formBuilder.group({
       CodigoCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this._formBuilder.group({
       StockCtrl: ['', Validators.required]
     });
+  }
+
+  actualizarDatos(event) {
+    this.sucursal = this.sucursales[event.index];
+    this.videojuegosStock = [];
+    //console.log('miStepper: ', this.miStepper);
+    this.miStepper._steps.forEach(s => {s.editable = true}); 
+    this.miStepper.selectedIndex = 0;
+    this.miStepper.reset();
   }
 
   codeSubmit(stepper: MatStepper) {
@@ -171,7 +198,12 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sucursalSub.unsubscribe();
+    if(this.sucursalSub) {
+      this.sucursalSub.unsubscribe();
+    }
+    if(this.sucursalesSub) {
+      this.sucursalesSub.unsubscribe();
+    }
     if(this.updateSucursalSub) {
       this.updateSucursalSub.unsubscribe();
     }
