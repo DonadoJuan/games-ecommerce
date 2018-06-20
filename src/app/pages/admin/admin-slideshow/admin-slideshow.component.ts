@@ -147,7 +147,8 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
           this.dataSlider.push({
             _id: d._id,
             titulo: d.titulo,
-            imagen: image
+            imagen: image,
+            visible : d.visible
           });
         });
         this.fillData();

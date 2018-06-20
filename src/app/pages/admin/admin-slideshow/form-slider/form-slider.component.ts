@@ -98,7 +98,8 @@ export class FormSliderComponent implements OnInit {
   private _getSubmitObj() {
     let s = new Slider(     
       this.formSlider.get('titulo').value,
-      null
+      null,
+      false
   );
     return s;
   }
@@ -111,6 +112,8 @@ export class FormSliderComponent implements OnInit {
         .subscribe(res => {
           console.log(res);
           this._handleSubmitSuccess(res);
+          this.router.navigateByUrl('/lista-negra', {skipLocationChange: true}).then(()=>
+          this.router.navigate(["admin-slideshow"]));
         }, err => {
           console.log(err);
           this._handleSubmitError(err);
@@ -121,7 +124,6 @@ export class FormSliderComponent implements OnInit {
   private _handleSubmitSuccess(res) {
     this.error = false;
     this.submitting = false;
-    window.location.reload(true);
     //this.router.navigate(['admin-slideshow']);
   }
 

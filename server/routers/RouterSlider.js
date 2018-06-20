@@ -9,7 +9,6 @@ router.post('/new', (req, res) => {
     //console.log('req.body.videojuego: ', JSON.parse(req.body.videojuego));
     let s = JSON.parse(req.body.slider);
     let i = 0;
-
    // let imagenNombre = s.titulo.replace(' ', '');
    let imagenNombre = s.titulo.replace(new RegExp(' ', 'g'), '');
     req.files.imagen.name = imagenNombre+".jpg";
@@ -19,6 +18,7 @@ router.post('/new', (req, res) => {
     let slider = new Slider({
         titulo: s.titulo,
         imagen: rutaImagen,
+        visible: s.visible,
         });
         
 
@@ -73,6 +73,28 @@ router.delete('/:id', (req, res) => {
             }
             res.status(200).send({message: "Imagen de Slider eliminado exitosamente"});
         });
+    });
+});
+
+router.put('/visible', (req, res) => {
+    console.log('Llegue: ', req.body);
+    
+        
+    Slider.findById(req.body.id, (err, slider) => {
+        if(err) {
+            return res.status(500).send({message: err.message});
+        }
+        if(slider) {
+            console.log(slider);
+            slider.visible = req.body.visible;
+
+            slider.save((err) => {
+                if(err) {
+                    return res.status(500).send({message: err.message});
+                }
+                res.send(slider);
+            });
+        }
     });
 });
 

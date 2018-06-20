@@ -15,6 +15,9 @@ export class SliderService {
   getSlider$(): Observable<Slider[]> {
     return this.baseService.get('slider');
   }
+  putVisibleSlider$(visible: any): Observable<Slider> {
+    return this.baseService.put('slider/visible', visible);
+  }
 
   deleteSlider$(id: string): Observable<any> {
     return this.baseService.delete(`slider/${id}`);

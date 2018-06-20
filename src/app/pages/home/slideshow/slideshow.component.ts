@@ -21,7 +21,11 @@ export class SlideshowComponent implements OnInit {
     this.sliderSub = this.sliderService.getSlider$()
     .subscribe(data => { 
       data.forEach(d => {
+
+        if(d.visible)
+        {
         this.sliderArr.push(d);
+        }
         console.log(d);
         let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
        
