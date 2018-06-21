@@ -1,0 +1,17 @@
+.datepicker {
+    padding: 4px;
+    border-radius: 4px;
+    direction: ltr;
+    /*.dow {
+      border-top: 1px solid #ddd !important;
+    }*/
+    z-index:2000;
+  }
+  ::ng-deep .cdk-overlay-container {
+    z-index: 1200 !important;
+  }
+  .fullwidth {
+    width: 85%;
+    margin-left: 5%;
+    margin-top: 5%;
+}

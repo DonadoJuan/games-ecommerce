@@ -17,6 +17,6 @@ const cuponSchema = mongoose.Schema({
         type: Date,
         required: true
     }
-}, {collection: 'Cupones'});
+}, {collection: 'cupones'});
 
 module.exports = mongoose.model('Cupon', cuponSchema);

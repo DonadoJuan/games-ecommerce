@@ -1,0 +1,29 @@
+<app-loading *ngIf="loading"></app-loading>
+<ng-template [ngIf]="us.isLoaded(loading)">
+    <ng2-smart-table [settings]="settings" [source]="data" (custom)="onCustom($event)"></ng2-smart-table>
+</ng-template>
+<button type="button" class="btn btn-lg btn-primary" (click)="mostrarFormulario(mostrarForm)">
+    Agregar
+  </button>
+<p *ngIf="error" class="alert alert-danger">
+    <strong>Oops!</strong> {{mensajeError}}
+</p>
+
+<ng-template #mostrarForm let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title">Agregar Cupon</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+  
+        <div class="modal-body">
+            <app-form-cupon-descuento></app-form-cupon-descuento>
+  
+        </div>
+        <div class="modal-footer">
+  
+          <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+        </div>
+  
+      </ng-template>

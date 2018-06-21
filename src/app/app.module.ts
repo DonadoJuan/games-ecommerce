@@ -83,6 +83,10 @@ import { OfertasComponent } from './pages/ofertas/ofertas.component';
 import { ButtonRestoreComponent } from './pages/admin/usuarios/button-restore/button-restore.component';
 import { FormSliderComponent } from './pages/admin/admin-slideshow/form-slider/form-slider.component';
 import { SliderService } from './core/services/slider/slider.service';
+import { ConfirmEqualValidatorDirective } from './directives/confirm-equal-validator.directive';
+import { AdminCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/admin-cupon-descuento.component';
+import { CuponService } from './core/services/cupon/cupon.service';
+import { FormCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/form-cupon-descuento/form-cupon-descuento.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +128,10 @@ import { SliderService } from './core/services/slider/slider.service';
     ConfirmarItemCarritoComponent,
     OfertasComponent,
     ButtonRestoreComponent,
-    FormSliderComponent
+    FormSliderComponent,
+    ConfirmEqualValidatorDirective,
+    AdminCuponDescuentoComponent,
+    FormCuponDescuentoComponent
   ],
   imports: [
     BrowserModule,
@@ -182,6 +189,7 @@ import { SliderService } from './core/services/slider/slider.service';
     PersonalService, 
     AuthService,
     SliderService,
+    CuponService,
     CarritoService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'} ],
   bootstrap: [AppComponent]

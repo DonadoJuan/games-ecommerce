@@ -10,6 +10,8 @@ const RouterPersonal = require('./routers/RouterPersonal');
 const RouterCliente = require('./routers/RouterCliente');
 const RouterVideojuego = require('./routers/RouterVideojuego');
 const RouterSlider = require('./routers/RouterSlider');
+const RouterCupon = require('./routers/RouterCupon');
+
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.use('/api/personal', RouterPersonal);
 app.use('/api/clientes', RouterCliente);
 app.use('/api/videojuegos', RouterVideojuego);
 app.use('/api/slider', RouterSlider);
+app.use('/api/cupones', RouterCupon);
+
 
 
 module.exports = app;
