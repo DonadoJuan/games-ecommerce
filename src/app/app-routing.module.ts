@@ -18,6 +18,7 @@ import { FormUsuariosComponent } from './pages/admin/usuarios/form-usuarios/form
 import { AdminConsultaStockComponent } from "./pages/admin/admin-consulta-stock/admin-consulta-stock.component";
 import { AdminDescuentosComponent } from "./pages/admin/admin-descuentos/admin-descuentos.component";
 import { OfertasComponent } from "./pages/ofertas/ofertas.component";
+import { AdminCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/admin-cupon-descuento.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,10 @@ const routes: Routes = [
   {
     path: 'admin-descuentos',
     component: AdminDescuentosComponent
+  },
+  {
+    path: 'admin-cupon-descuento',
+    component: AdminCuponDescuentoComponent
   }
 ];
 

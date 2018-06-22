@@ -14,7 +14,7 @@ import { Baneo } from '../../../../domain/baneo';
 import { Domicilio } from '../../../../domain/domicilio';
 import { Barrio } from '../../../../domain/barrio';
 
-
+/*
 function passwordConfirming(c: AbstractControl):any {
   if(!c.parent || !c) return;
   const pwd = c.parent.get('password');
@@ -24,8 +24,8 @@ function passwordConfirming(c: AbstractControl):any {
   if (pwd.value !== cpwd.value) {
       return { noSonIguales: true };
 
-}
-}
+    }
+}*/
 @Component({
   selector: 'app-form-usuarios',
   templateUrl: './form-usuarios.component.html',
@@ -212,7 +212,7 @@ export class FormUsuariosComponent implements OnInit {
           this.cliente.baneos ? this.cliente.baneos[0] : new Baneo(null,null,null,null),
           this.cliente.activo,
           this.cliente._id
-        );
+        );   
       
     }
   }
@@ -234,8 +234,8 @@ export class FormUsuariosComponent implements OnInit {
       verificar_password: [this.formClientesModel.verificar_password, [
         Validators.required,
         Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax),
-        passwordConfirming
+        Validators.maxLength(this.fss.strMax)
+      
             ]],
       dni: [this.formClientesModel.dni, [
         Validators.required,
@@ -285,10 +285,10 @@ export class FormUsuariosComponent implements OnInit {
       if (control && control.dirty && control.invalid) {
         const messages = this.fss.mensajesValidacion[field];
         for (const key in control.errors) {
-          if(control.errors.noSonIguales == true){
+          /*if(control.errors.noSonIguales == true){
             errorsObj[field] = "Las contraseñas deben ser iguales";
           return;  
-          }
+          }*/
           if(control.errors.hasOwnProperty(key)) {
             errorsObj[field] += messages[key] + '<br>';
           }

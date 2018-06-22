@@ -8,6 +8,7 @@ import { Cliente } from "../../../domain/cliente";
 import { Observable } from 'rxjs/Observable';
 import { BaseService } from '../base/base.service';
 import { Slider } from '../../../domain/slider';
+import { Cupon } from '../../../domain/cupon';
 
 @Injectable()
 export class UtilsService {
@@ -17,6 +18,7 @@ export class UtilsService {
   public videojuego: Videojuego;
   public sucursal: Sucursal;
   public slider : Slider;
+  public cupon : Cupon;
 
   constructor(public baseService: BaseService) { }
 
