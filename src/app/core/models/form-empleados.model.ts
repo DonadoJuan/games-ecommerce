@@ -12,6 +12,7 @@ export class FormEmpleadosModel {
         public sucursal: Sucursal,
         public domicilio: Domicilio,
         public telefono: string,
+        public password: string,
         public id?: string
     ) {}
 }

@@ -62,7 +62,12 @@
       class="small text-danger formErrors"
       [innerHTML]="formErrors.email">
     </div>
-
+    <div *ngIf="!isEdit"class="md-form fullwidth">
+      <input type="password" id="password" class="form-control" formControlName="password" [maxlength]="aes.passMax" mdbActive>
+      <label for="password">Password</label>
+    </div>
+    <div *ngIf="formErrors.password" class="small text-danger formErrors" [innerHTML]="formErrors.password">
+    </div>
 
     <mat-form-field class="fullwidth">
       <mat-select placeholder="Perfil" formControlName="perfil">

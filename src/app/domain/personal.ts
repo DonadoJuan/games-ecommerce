@@ -12,6 +12,7 @@ export class Personal {
         public sucursal: Sucursal,
         public domicilio: Domicilio,
         public telefono: string,
+        public password: string,
         public _id?: string
     ) {}
 }

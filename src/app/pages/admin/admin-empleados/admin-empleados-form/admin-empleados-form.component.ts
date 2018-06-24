@@ -106,7 +106,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
 
   private _setFormEmpleados() {
     if(!this.isEdit) {
-      return new FormEmpleadosModel(null, null, null, null, null, null, null, new Domicilio(null, null, null, null), null);
+      return new FormEmpleadosModel(null, null, null, null, null, null, null, new Domicilio(null, null, null, null), null,null);
     } else {
       return new FormEmpleadosModel(
         this.personal.nombre,
@@ -117,7 +117,8 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
         this.personal.perfil,
         this.personal.sucursal,
         this.personal.domicilio,
-        this.personal.telefono
+        this.personal.telefono,
+        this.personal.password //es posible que al editar se modifique el valor de password porque viene el codigo encriptado 
       );
     }
   }
@@ -176,7 +177,14 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(this.aes.telMin),
         Validators.max(this.aes.telMax)
-      ]] 
+      ]],
+      password: [this.formEmpleadosModel.password, [
+        Validators.required,
+        Validators.minLength(this.aes.passMin),
+        Validators.maxLength(this.aes.passMax)
+        
+       
+      ]], 
     });
 
     this.formChangeSub = this.formEmpleados
@@ -231,6 +239,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       sucursal,
       domicilio,
       this.formEmpleados.get('telefono').value,
+      this.formEmpleados.get('password').value,
       this.personal ? this.personal._id : null
     );
     return p;

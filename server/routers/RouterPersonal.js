@@ -39,7 +39,8 @@ router.post('/new', (req, res) => {
             perfil: req.body.perfil,
             sucursal: req.body.sucursal,
             domicilio: req.body.domicilio,
-            telefono: req.body.telefono
+            telefono: req.body.telefono,
+            password: req.body.password
         });
         personal.save((err) => {
             if(err) {
@@ -67,7 +68,7 @@ router.put('/:id', (req, res) => {
         personal.sucursal = req.body.sucursal;
         personal.domicilio = req.body.domicilio;
         personal.telefono = req.body.telefono;
-
+        personal.password = req.body.password;
         personal.save(err => {
             if(err) {
                 return res.status(500).send({message: err.message});
