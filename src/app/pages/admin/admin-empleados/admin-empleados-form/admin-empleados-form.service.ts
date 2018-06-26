@@ -16,11 +16,14 @@ export class AdminEmpleadosFormService {
     calle: '',
     altura: '',
     codigo_postal: '',
-    telefono: ''
+    telefono: '',
+    password:''
   };
 
   strMin = 3; // Nombre, Calle, Email
   strMax = 30;
+  passMin = 7;
+  passMax = 40;
   dniMin = 1000000;
   dniMax = 99999999;
   intMin = 1; //Legajo, Altura, Codigo Postal
@@ -83,7 +86,13 @@ export class AdminEmpleadosFormService {
         required: `El Telefono es <strong>requerido</strong>`,
         min: `Numero de telefono invalido`,
         max: `Numero de telefono invalido`
+      },
+      password: {
+        required: `La contraseña es <strong>requerida</strong>`,
+        minlength: `La contraseña debe tener ${this.passMin} caracteres o mas`,
+        maxlength: `La contraseña debe tener ${this.passMax} caracteres o menos`
       }
+
     };
   }
 

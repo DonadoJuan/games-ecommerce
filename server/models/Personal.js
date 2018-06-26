@@ -36,6 +36,10 @@ const personalSchema = mongoose.Schema({
     telefono: {
         type: Number,
         required: true
+    },
+    password: {
+        type: String,
+        required: true
     }
 }, {collection: 'personal'});
 
