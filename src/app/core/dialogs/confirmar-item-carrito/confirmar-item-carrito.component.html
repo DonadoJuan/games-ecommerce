@@ -13,10 +13,10 @@
       </thead>
       <tbody>
         <tr class="row d-flex flex-row">
-          <td class="col-3"><img width="100px" height="75px" [src]=data.imagen></td>
-          <td class="col-3">{{data.titulo}}</td>
-          <td class="col-2">{{data.plataforma}}</td>
-          <td class="col-2">$ {{data.precio}}</td>
+          <td class="col-3"><img width="100px" height="75px" [src]=videojuego.imagen></td>
+          <td class="col-3">{{videojuego.titulo}}</td>
+          <td class="col-2">{{videojuego.plataforma}}</td>
+          <td class="col-2">$ {{videojuego.precio}}</td>
           <td class="col-2"><input class="w-50" type="number" [(ngModel)]="itemCarrito.cantidad"></td>
         </tr>
       </tbody>

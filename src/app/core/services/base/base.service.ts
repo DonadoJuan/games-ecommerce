@@ -12,6 +12,14 @@ export class BaseService {
   constructor(public http: HttpClient) {
   }
 
+  baseGet(completeRoute) {
+
+    return this.http.get(completeRoute)
+      .catch((error: Response) => this._handleError(error))
+      .finally(() => {
+      });
+  }
+
   get(route) {
 
     return this.http.get(ENV.BASE_API + route)

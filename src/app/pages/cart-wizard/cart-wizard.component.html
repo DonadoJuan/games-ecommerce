@@ -1,9 +1,9 @@
 <!-- BASE WIZARD CARRITO DE COMPRAS -->
 <section class="container">
-  <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+  <mat-horizontal-stepper linear #stepper="matHorizontalStepper">
 
     <!-- PASO 1 MI CARRITO -->
-    <mat-step label="MI COMPRA">
+    <mat-step [completed]="this.pedido.videojuegos.length != 0" label="MI COMPRA">
       <div class="container">
         <div class="row pt-5">
           <div class="col-9">
@@ -48,7 +48,7 @@
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Subtotal:</label>
-                <span>$ {{pedido.total}}</span>
+                <span>$ {{pedido.subtotal}}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Costo de envio:</label>
@@ -74,7 +74,7 @@
     </mat-step>
 
     <!-- PASO 2 ENTREGA -->
-    <mat-step label="ENTREGA">
+    <mat-step [completed]="tipoDeEntregaCompletado()" label="ENTREGA">
 
       <div class="container">
 
@@ -87,7 +87,7 @@
 
               <mat-divider class="mb-3"></mat-divider>
 
-              <mat-radio-group class="d-flex flex-row justify-content-start mb-5" [(ngModel)]="formaEntrega">
+              <mat-radio-group class="d-flex flex-row justify-content-start mb-5" (change)="actualizarTipoEntrega()" [(ngModel)]="formaEntrega">
                 <mat-radio-button class="mr-5" labelPosition="before" [value]="1">
                   <span>Retiro en sucursal</span>
                 </mat-radio-button>
@@ -98,28 +98,43 @@
 
               <div *ngIf="formaEntrega == 1">
                 <mat-form-field class="w-75">
-                  <mat-select [(ngModel)]="sucursalSelect" (change)="updateDeliveryOption()" placeholder="Selecciona una sucursal">
+                  <mat-select (change)="actualizarTipoEntrega($event.value)" placeholder="Selecciona una sucursal">
                     <mat-option *ngFor="let s of sucursales" [value]="s">
                       {{ s.ubicacion.calle }} {{ s.ubicacion.altura }}, {{ s.ubicacion.barrio.nombre }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
+
+                  <div *ngIf="ofertaSucursalInvalida" class="alert alert-danger" role="alert">
+                    Uno o mas ofertas de su pedido no se encuentran disponibles
+                    en la sucursal seleccionada, intente con otra.
+                  </div>
+
               </div>
 
               <div *ngIf="formaEntrega == 2">
                 
-                <mat-form-field class="w-75">
-                  <mat-select [(ngModel)]="domicilioSelect" (change)="updateDeliveryOption()" placeholder="Seleccione un domicilio">
-                    <mat-option *ngFor="let d of cliente.domicilio_entrega" [value]="d">
-                      {{ d.calle}} {{d.altura}}, {{d.barrio}} 
-                    </mat-option>
-                    <mat-option [value]="'otro'">
-                      Otro domicilio
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <div class="d-flex flex-row justify-content-between">
+  
+                  <mat-form-field class="w-75">
+                    <mat-select (change)="actualizarTipoEntrega($event.value)" placeholder="Seleccione un domicilio">
+                      <mat-option *ngFor="let d of cliente.domicilio_entrega" [value]="d">
+                        {{ d.calle}} {{d.altura}}, {{d.barrio.nombre}} 
+                      </mat-option>
+                      <mat-option [value]="'otro'">
+                        Otro domicilio
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
 
-                <mat-accordion *ngIf="domicilioSelect == 'otro'">
+                  <button [disabled]="!tipoEntregaValida || costoEnvioCalculado" 
+                  (click)="calcularCostoEnvio()" class="btn btn-elegant font-weight-bold">
+                    CALCULAR <br> COSTO ENVIO
+                  </button>
+
+                </div>
+
+                <mat-accordion *ngIf="esVisibleFormDomicilio">
                   <mat-expansion-panel class="w-75">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -167,11 +182,11 @@
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
-                <span>$ {{pedido.total}}</span>
+                <span>$ {{pedido.subtotal}}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Costo de envio:</label>
-                <span> $ {{pedido.totalEnvio}} </span>
+                <span> $ {{pedido.costoEnvio}} </span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Descuentos:</label>
@@ -183,7 +198,7 @@
               </div>
             </div>
             <div class="row justify-content-center mt-5">
-              <button [disabled]="!updateDeliveryOption()" matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
+              <button [disabled]="!tipoDeEntregaCompletado()" matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
                 CONTINUAR
               </button>
             </div>
@@ -191,7 +206,6 @@
         </div>
       </div>
     </mat-step>
-
 
     <!-- PASO 3 PAGO -->
     <mat-step label="PAGO">
@@ -207,7 +221,7 @@
 
               <mat-divider class="mb-3"></mat-divider>
 
-              <mat-radio-group class="d-flex flex-row justify-content-start mb-5" [(ngModel)]="formaPago">
+              <mat-radio-group class="d-flex flex-row justify-content-start mb-5" [(ngModel)]="formaDePago">
                 <mat-radio-button class="mr-5" labelPosition="before" [value]="1">
                   <span>Efectivo en sucursal</span>
                 </mat-radio-button>
@@ -216,30 +230,30 @@
                 </mat-radio-button>
               </mat-radio-group>
 
-              <div *ngIf="formaPago == 1">
-                <div class="alert alert-danger" role="alert">
+              <div *ngIf="formaDePago == 1">
+                <div class="alert alert-warning" role="alert">
                   Su pedido sera reservado por 7 días hábiles a partir de la fecha de compra, en caso de no retirarlo en dicho periodo usted
                   podrá ser
                   <b>penalizado</b>.
                 </div>
               </div>
 
-              <div *ngIf="formaPago == 2">
+              <div *ngIf="formaDePago == 2">
 
                 <mat-form-field floatLabel="never" class="w-75">
-                  <mat-select [(ngModel)]="formaPagoSelect" placeholder="Seleccione una tarjeta">
-                    <mat-option *ngFor="let tarjeta of tarjetas" [value]="tarjeta.id">
-                      <span>{{tarjeta.marca}} terminada en
-                        <b>{{tarjeta.num}}</b>
+                  <mat-select placeholder="Seleccione una tarjeta">
+                    <mat-option *ngFor="let t of cliente.tarjetas" [value]="t">
+                      <span>{{t.tipoTarjeta}} terminada en
+                        <b>...{{t.numero | slice:-4 }}</b>
                       </span>
                     </mat-option>
-                    <mat-option [value]="'tarjetaForm'">
+                    <mat-option [value]="'nuevaTarjeta'">
                       Otra tarjeta
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
 
-                <mat-accordion *ngIf="formaPagoSelect == 'tarjetaForm'">
+                <mat-accordion *ngIf="esVisibleFormTarjeta">
                   <mat-expansion-panel class="w-75">
                     <mat-expansion-panel-header>
                       <mat-panel-title>
@@ -251,65 +265,63 @@
 
                       <h6 class="mt-4">Datos de tarjeta</h6>
                       <mat-divider class="mb-3"></mat-divider>
-                      <mat-form-field>
-                        <mat-select placeholder="Tipo de tarjeta">
-                          <mat-option [value]="1">
-                            Mastercard
-                          </mat-option>
-                          <mat-option [value]="2">
-                            Visa
-                          </mat-option>
-                          <mat-option [value]="3">
-                            Amex
-                          </mat-option>
-                          <mat-option [value]="4">
-                            Cabal
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
+                      <form  [formGroup]="formTarjeta">
+                        <mat-form-field>
+                          <mat-select formControlName="tipoTarjeta" placeholder="Tipo de tarjeta">
+                            <mat-option [value]="'Mastercard'">
+                              Mastercard
+                            </mat-option>
+                            <mat-option [value]="'Visa'">
+                              Visa
+                            </mat-option>
+                            <mat-option [value]="'American Express'">
+                              American Express
+                            </mat-option>
+                            <mat-option [value]="'Cabal'">
+                              Cabal
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Nombre en tarjeta">
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                          <input matInput formControlName="nombre" placeholder="Nombre en tarjeta">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Numero">
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                          <input matInput formControlName="numero" placeholder="Numero">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput [matDatepicker]="myDatepicker" placeholder="Fecha de vencimiento" disabled>
-                        <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                        <mat-datepicker #myDatepicker disabled="false" touchUi="true"></mat-datepicker>
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                          <input matInput formControlName="vencimiento" [matDatepicker]="myDatepicker" placeholder="Fecha de vencimiento" disabled>
+                          <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+                          <mat-datepicker #myDatepicker disabled="false" touchUi="true"></mat-datepicker>
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Codigo de seguridad">
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                          <input formControlName="codigo" matInput placeholder="Codigo de seguridad">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
-                      <h6 class="mt-4">Dirección de facturación</h6>
-                      <mat-divider class="mb-3"></mat-divider>
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Calle y altura">
-                      </mat-form-field>
+                        <h6 class="mt-4">Dirección de facturación</h6>
+                        <mat-divider class="mb-3"></mat-divider>
+                        <mat-form-field floatLabel="never">
+                          <input formControlName="calle" matInput placeholder="Calle">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
+                        <mat-form-field floatLabel="never">
+                          <input matInput formControlName="altura" placeholder="Altura">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
 
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Ciudad">
-                      </mat-form-field>
-
-
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Estado/Provincia">
-                      </mat-form-field>
-
-
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Codigo postal">
-                      </mat-form-field>
-
-                      <mat-form-field floatLabel="never">
-                        <input matInput placeholder="Telefono particular">
-                      </mat-form-field>
+                        <mat-form-field floatLabel="never">
+                          <input formControlName="barrio" matInput placeholder="Ciudad">
+                          <mat-error> campo invalido</mat-error>
+                        </mat-form-field>
+                    </form>
 
                     </div>
 
@@ -323,11 +335,11 @@
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
-                <span>$ 2000.00</span>
+                <span>$ {{pedido.subtotal}}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2 m-0">
                 <label>Costo de envio:</label>
-                <span> $ 200 </span>
+                <span>$ {{pedido.costoEnvio}} </span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Descuentos:</label>

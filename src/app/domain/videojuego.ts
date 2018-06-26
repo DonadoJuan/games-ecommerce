@@ -18,6 +18,7 @@ export class Videojuego {
     public activo?: boolean,
     public inicioDescuento?: Date,
     public finDescuento?: Date,
-    public _id?: string
+    public _id?: string,
+    public sucursalId?: any
     ){}
 }

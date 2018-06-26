@@ -48,13 +48,12 @@ const PedidoSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    totalEnvio:{
+    costoEnvio:{
         type: Number,
         required: true
     },
     cupon:{
-        type: cuponModel.schema,
-        required: true
+        type: cuponModel.schema
     }
 });
 

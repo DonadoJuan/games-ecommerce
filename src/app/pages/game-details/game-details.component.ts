@@ -33,6 +33,7 @@ export class GameDetailsComponent implements OnInit {
     }
     if(this.us.sucursal) {
       this.sucursal = this.us.sucursal;
+      this.videojuego.sucursalId = this.sucursal._id;
       this.us.sucursal = null;
     }
   }

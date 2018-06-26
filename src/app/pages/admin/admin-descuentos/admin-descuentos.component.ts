@@ -103,6 +103,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
   }
 
   private cargarDatos(sucursal: Sucursal) {
+    console.log(sucursal);
     this.videojuegos = [];
     this.dropdownCargarList = [];
     this.dropdownQuitarList = [];
@@ -110,7 +111,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
     this.selectedQuitarItems = [];
 
     sucursal.videojuegos.forEach(v => {
-      if(v.activo) {
+      //if(v.activo) {
         this.videojuegos.push(v);
         if(v.descuento === 0) {
           this.dropdownCargarList.push({
@@ -136,7 +137,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
             "finDescuento": v.finDescuento
           });
         }
-      }
+      //}
     });
 
   }

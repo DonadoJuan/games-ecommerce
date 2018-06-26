@@ -13,16 +13,21 @@ export class ConfirmarItemCarritoComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmarItemCarritoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private carritoService: CarritoService) { }
+    @Inject(MAT_DIALOG_DATA) public videojuego: any,
+    private carritoService: CarritoService) {
+      this.videojuego = {... this.videojuego}; 
+      this.itemCarrito = {};
+      this.itemCarrito.cantidad = 1;
+      if(this.videojuego.sucursalId != undefined){
+        this.videojuego.precio = this.videojuego.precio - (this.videojuego.precio * (this.videojuego.descuento * 0.01));
+      }
+    }
 
   ngOnInit() {
-    this.itemCarrito = {};
-    this.itemCarrito.cantidad = 1;
   }
 
   agregarAlCarrito(){
-    this.itemCarrito.videojuego = this.data;
+    this.itemCarrito.videojuego = this.videojuego;
     this.carritoService.agregarItem(this.itemCarrito);
     this.dialogRef.close();
   }

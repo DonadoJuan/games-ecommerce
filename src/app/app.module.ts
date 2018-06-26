@@ -175,7 +175,9 @@ import { FormCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento
     ConfirmPurchaseDialog,
     ConfirmDeleteDialog,
     signupClientSuccessDialog,
-    ConfirmarItemCarritoComponent
+    ConfirmarItemCarritoComponent,
+    SubmittingComponent,
+    LoadingComponent
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [ Title, 
