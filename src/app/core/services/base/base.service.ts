@@ -93,9 +93,9 @@ export class BaseService {
       return Observable.of(401);
     }
     else{
-      let errMsg = 'Error: No se puede completar la solicitud.'
-      console.log(errMsg);
-      return Observable.throw(errMsg);
+      //let errMsg = 'Error: No se puede completar la solicitud.'
+      //console.log(errMsg);
+      return Observable.throw(err);
     }
   
   }

@@ -55,6 +55,7 @@ export class FormUsuariosComponent implements OnInit {
   submitting: boolean;
   submitBtnText : String;
   tituloForm : String;
+  errMsg: string;
 
   get cpwd() {
     return this.formClientes.get('verificar_password');
@@ -334,6 +335,7 @@ export class FormUsuariosComponent implements OnInit {
 
   private _handleSubmitError(err) {
     console.error(err);
+    this.errMsg = err.error.message;
     this.submitting = false;
     this.error = true;
   }

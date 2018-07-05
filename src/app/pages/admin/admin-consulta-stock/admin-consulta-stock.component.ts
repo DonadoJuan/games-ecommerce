@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, OnDestroy, ChangeDetectorRef, AfterViewInit  } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Videojuego } from "../../../domain/videojuego";
 import { Sucursal } from "../../../domain/sucursal";
 import { UtilsService } from "../../../core/services/utils/utils.service";
 import { SucursalService } from "../../../core/services/sucursal/sucursal.service";
 import { Subscription } from 'rxjs';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-admin-consulta-stock',
@@ -14,43 +15,52 @@ import { Subscription } from 'rxjs';
 export class AdminConsultaStockComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['codigo', 'titulo', 'plataforma', 'stock', 'reponer'];
-  dataSource: MatTableDataSource<any>;
-  private paginator: MatPaginator;
-  private sort: MatSort;
+  dataSourceUno: MatTableDataSource<any>;
+  dataSourceDos: MatTableDataSource<any>;
+  dataSourceTres: MatTableDataSource<any>;
   sucursalesSub: Subscription;
   sucursales: Sucursal[] = [];
-  sucursal: Sucursal;
-  videojuegos: Videojuego[] = [];
   dataVideojuegos: any[] = [];
   loading: boolean = false;
   error: boolean = false;
   sucursalId = "5af78c88a4616c223463102a";
+  sucursalTabUno: string;
+  sucursalTabDos: string;
+  sucursalTabTres: string;
+  admin: boolean;
 
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  }
+  @ViewChild('sortUno') sortUno: MatSort;
 
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setDataSourceAttributes();
-  }
+  @ViewChild('paginatorUno') paginatorUno: MatPaginator;
 
-  constructor(private us: UtilsService, private sucursalService: SucursalService, private changeDetectorRefs: ChangeDetectorRef) { 
-    this.dataSource = new MatTableDataSource([]);
+  @ViewChild('sortDos') sortDos: MatSort;
+
+  @ViewChild('paginatorDos') paginatorDos: MatPaginator;
+
+  @ViewChild('sortTres') sortTres: MatSort;
+
+  @ViewChild('paginatorTres') paginatorTres: MatPaginator;
+
+
+  constructor(private us: UtilsService, private sucursalService: SucursalService, private changeDetectorRefs: ChangeDetectorRef, private router: Router) { 
+    this.dataSourceUno = new MatTableDataSource([]);
+    this.dataSourceDos = new MatTableDataSource([]);
+    this.dataSourceTres = new MatTableDataSource([]);
   }
 
   ngOnInit() {
+    
     this.loading = true;
-    let admin = true;
-    if(admin) {
+    this.admin = true;
+    if(this.admin) {
       this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(data => {
         this.loading = false;
         this.sucursales = data;
-        this.sucursal = data[0];
+        this.sucursalTabUno = this.sucursales[0].ubicacion.calle + " " + this.sucursales[0].ubicacion.altura;
+        this.sucursalTabDos = this.sucursales[1].ubicacion.calle + " " + this.sucursales[1].ubicacion.altura;
+        this.sucursalTabTres = this.sucursales[2].ubicacion.calle + " " + this.sucursales[2].ubicacion.altura;
         this.cargarDatos();
-        
       }, err => {
         console.log(err);
         this.loading = false;
@@ -61,78 +71,110 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.loading = false;
         this.sucursales.push(data);
-        this.sucursal = this.sucursales[0];
-        this.cargarDatos();
-        
+        this.sucursalTabUno = this.sucursales[0].ubicacion.calle + " " + this.sucursales[0].ubicacion.altura;
+        this.cargarDatos();       
       }, err => {
         console.log(err);
         this.loading = false;
         this.error = true;
       });
     }
-    
+    this.setDataSourceAttributes();
   }
 
-  actualizarDatos(event) {
-    this.sucursal = this.sucursales[event.index];
-    
-    this.cargarDatos();
-    this.sort.sort({id: '', start: 'asc', disableClear: false});
-    //this.dataSource.paginator = null;
-    //this.dataSource.sort = null;
-    //this.setDataSourceAttributes();
-    this.changeDetectorRefs.detectChanges();
+  _setDataSource($event) {
+    this.setDataSourceAttributes();
   }
 
   private cargarDatos() {
-    this.dataVideojuegos = [];
-    this.videojuegos = [];
-    
-    this.sucursal.videojuegos.forEach(v => {
-      //console.log(v.activo);
-      if(v.activo) {
-        this.videojuegos.push(v);
-        let reposicion = 0;
-        if(v.stock >= v.cantidadMaxima - 10) {
-          reposicion = 0;
-        } 
-        else if(v.stock > v.cantidadMinima) {
-          reposicion = v.cantidadMaxima - v.stock;
-        } 
-        else if(v.stock <= v.cantidadMinima && v.stock > 0) {
-          reposicion = v.cantidadMaxima - v.cantidadMinima;
-        } 
-        else {
-          reposicion = v.cantidadMaxima;
+    let i = 0;
+    this.sucursales.forEach(suc => {
+      this.dataVideojuegos = [];
+      suc.videojuegos.forEach(v => {
+        //console.log(v.activo);
+        if(v.activo) {
+          let reposicion = 0;
+          if(v.stock >= v.cantidadMaxima - 10) {
+            reposicion = 0;
+          } 
+          else if(v.stock > v.cantidadMinima) {
+            reposicion = v.cantidadMaxima - v.stock;
+          } 
+          else if(v.stock <= v.cantidadMinima && v.stock > 0) {
+            reposicion = v.cantidadMaxima - v.cantidadMinima;
+          } 
+          else {
+            reposicion = v.cantidadMaxima;
+          }
+  
+          this.dataVideojuegos.push({
+            codigo: v.codigo,
+            titulo: v.titulo,
+            plataforma: v.plataforma,
+            stock: v.stock,
+            reponer: reposicion
+          });
         }
-
-        this.dataVideojuegos.push({
-          codigo: v.codigo,
-          titulo: v.titulo,
-          plataforma: v.plataforma,
-          stock: v.stock,
-          reponer: reposicion
-        });
+      });
+      if(i === 0){
+        this.dataSourceUno.data = this.dataVideojuegos;
       }
+
+      if(i === 1) {
+        this.dataSourceDos.data = this.dataVideojuegos;
+      }
+
+      if(i === 2) {
+        this.dataSourceTres.data = this.dataVideojuegos;
+      }
+      i++;
     });
-    //this.dataSource = new MatTableDataSource(this.dataVideojuegos);
-    this.dataSource.data = this.dataVideojuegos;
     
   }
 
   setDataSourceAttributes() {
-    setTimeout(() => this.dataSource.paginator = this.paginator);
-    setTimeout(() => this.dataSource.sort = this.sort);
+    //this.dataSourceUno.paginator = this.paginatorUno;
+    //this.dataSourceUno.sort = this.sortUno;
+    //this.dataSourceDos.paginator = this.paginatorDos;
+    //this.dataSourceDos.sort = this.sortDos;
+    //this.dataSourceTres.paginator = this.paginatorTres;
+    //this.dataSourceTres.sort = this.sortTres;
+    setTimeout(() => this.dataSourceUno.paginator = this.paginatorUno);
+    setTimeout(() => this.dataSourceUno.sort = this.sortUno);
+
+    setTimeout(() => this.dataSourceDos.paginator = this.paginatorDos);
+    setTimeout(() => this.dataSourceDos.sort = this.sortDos);
+
+    setTimeout(() => this.dataSourceTres.paginator = this.paginatorTres);
+    setTimeout(() => this.dataSourceTres.sort = this.sortTres);
   }
 
-  applyFilter(filterValue: string) {
+  applyFilterUno(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    this.dataSourceUno.filter = filterValue;
+  }
+
+  applyFilterDos(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSourceDos.filter = filterValue;
+  }
+
+  applyFilterTres(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    this.dataSourceTres.filter = filterValue;
   }
 
   ngOnDestroy() {
     this.sucursalesSub.unsubscribe();
+    this.paginatorUno.ngOnDestroy();
+    this.paginatorDos.ngOnDestroy();
+    this.paginatorTres.ngOnDestroy();
+    this.dataSourceUno.disconnect();
+    this.dataSourceDos.disconnect();
+    this.dataSourceTres.disconnect();
   }
 
 }

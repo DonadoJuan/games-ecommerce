@@ -225,7 +225,7 @@ export class CartWizardComponent implements OnInit {
 
   tipoDePagoCompletado(){
 
-    if (this.for)
+    //if (this.for)
   }
 
   confirmPurchase(): void {

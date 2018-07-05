@@ -45,6 +45,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
   submitting: boolean;
   submitBtnText: string;
   tituloForm: string;
+  errMsg: string;
 
   perfiles: any[] = [];
   sucursales: any[] = [];
@@ -276,6 +277,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
 
   private _handleSubmitError(err) {
     console.error(err);
+    this.errMsg = err.error.message;
     this.submitting = false;
     this.error = true;
   }
