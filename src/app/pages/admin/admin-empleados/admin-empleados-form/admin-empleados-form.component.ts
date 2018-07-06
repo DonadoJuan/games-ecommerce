@@ -45,7 +45,8 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
   submitting: boolean;
   submitBtnText: string;
   tituloForm: string;
-  errMsg: string;
+  maxDate = new Date(Date.now());
+  errMsg: string = "Ocurrio un error interno. Por favor, reintente";
 
   perfiles: any[] = [];
   sucursales: any[] = [];
@@ -62,6 +63,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     private personalService: PersonalService) { }
 
   ngOnInit() {
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     if(this.us.personal) {
       this.personal = this.us.personal;
       console.log(this.us.personal);

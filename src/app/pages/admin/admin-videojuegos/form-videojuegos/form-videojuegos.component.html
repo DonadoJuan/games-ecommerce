@@ -54,7 +54,7 @@
 
       <br>
       <div class="md-form fullwidth">
-        <input type="number" id="cantMinima" class="form-control" formControlName="cantMinima" mdbActive [maxlength]="fvs.intMax">
+        <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" id="cantMinima" class="form-control" formControlName="cantMinima" mdbActive [maxlength]="fvs.intMax">
         <label for="cantMinima">Cantidad Min</label>
       </div>
       <div
@@ -64,7 +64,7 @@
     </div>
 
       <div class="md-form fullwidth">
-        <input type="number" id="cantMaxima" class="form-control"  formControlName="cantMaxima" [maxlength]="fvs.intMax" mdbActive>
+        <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" id="cantMaxima" class="form-control"  formControlName="cantMaxima" [maxlength]="fvs.intMax" mdbActive>
         <label for="cantMaxima">Cantidad Max</label>
       </div>
       <div
@@ -84,7 +84,7 @@
     </div>
 
       <div class="md-form fullwidth">
-        <input type="number" id="precio" class="form-control" formControlName="precio" [maxlength]="fvs.intMax" mdbActive>
+        <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" id="precio" class="form-control" formControlName="precio" [maxlength]="fvs.intMax" mdbActive>
         <label for="precio">Precio</label>
       </div>
       <div

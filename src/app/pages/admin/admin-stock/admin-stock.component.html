@@ -8,7 +8,7 @@
     <form [formGroup]="firstFormGroup" (ngSubmit)="codeSubmit(stepper)">
       <ng-template matStepLabel>Ingresa el codigo del videojuego</ng-template>
       <mat-form-field>
-        <input type="number" matInput placeholder="Codigo" formControlName="CodigoCtrl" required>
+        <input type="number" matInput placeholder="Codigo" onkeydown="javascript: return event.keyCode == 69 ? false : true" formControlName="CodigoCtrl" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Siguiente</button>
@@ -24,7 +24,7 @@
       </div>
       <ng-template matStepLabel>Ingresa stock a reponer</ng-template>
       <mat-form-field>
-        <input type="number" matInput placeholder="Stock" formControlName="StockCtrl" min="1" max="99" required>
+        <input type="number" matInput placeholder="Stock" onkeydown="javascript: return event.keyCode == 69 ? false : true" formControlName="StockCtrl" min="1" max="99" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -60,7 +60,7 @@
                   {{vj.titulo}}
                 </div>
                 <div class="col-md-6">
-                  <input type="number" #newStock (keyup.enter)="onEnter(newStock.value, vj, refreshSotck)" matInput placeholder="Stock" value="{{vj.cantidad}}" required>
+                  <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" #newStock (keyup.enter)="onEnter(newStock.value, vj, refreshSotck)" matInput placeholder="Stock" value="{{vj.cantidad}}" required>
                 </div>
               </div>
             </div>

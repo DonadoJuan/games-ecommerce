@@ -15,7 +15,7 @@ import { Router, NavigationStart } from '@angular/router';
 export class AdminConsultaStockComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['codigo', 'titulo', 'plataforma', 'stock', 'reponer'];
-  dataSourceUno: MatTableDataSource<any>;
+  //dataSourceUno: MatTableDataSource<any>;
   dataSourceDos: MatTableDataSource<any>;
   dataSourceTres: MatTableDataSource<any>;
   sucursalesSub: Subscription;
@@ -28,10 +28,11 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
   sucursalTabDos: string;
   sucursalTabTres: string;
   admin: boolean;
+  sucursalUno: Sucursal;
 
-  @ViewChild('sortUno') sortUno: MatSort;
+  //@ViewChild('sortUno') sortUno: MatSort;
 
-  @ViewChild('paginatorUno') paginatorUno: MatPaginator;
+  //@ViewChild('paginatorUno') paginatorUno: MatPaginator;
 
   @ViewChild('sortDos') sortDos: MatSort;
 
@@ -43,7 +44,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
 
 
   constructor(private us: UtilsService, private sucursalService: SucursalService, private changeDetectorRefs: ChangeDetectorRef, private router: Router) { 
-    this.dataSourceUno = new MatTableDataSource([]);
+    //this.dataSourceUno = new MatTableDataSource([]);
     this.dataSourceDos = new MatTableDataSource([]);
     this.dataSourceTres = new MatTableDataSource([]);
   }
@@ -60,6 +61,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
         this.sucursalTabUno = this.sucursales[0].ubicacion.calle + " " + this.sucursales[0].ubicacion.altura;
         this.sucursalTabDos = this.sucursales[1].ubicacion.calle + " " + this.sucursales[1].ubicacion.altura;
         this.sucursalTabTres = this.sucursales[2].ubicacion.calle + " " + this.sucursales[2].ubicacion.altura;
+        this.sucursalUno = this.sucursales[0];
         this.cargarDatos();
       }, err => {
         console.log(err);
@@ -72,7 +74,8 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.sucursales.push(data);
         this.sucursalTabUno = this.sucursales[0].ubicacion.calle + " " + this.sucursales[0].ubicacion.altura;
-        this.cargarDatos();       
+        this.sucursalUno = this.sucursales[0];
+        //this.cargarDatos();       
       }, err => {
         console.log(err);
         this.loading = false;
@@ -117,7 +120,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
         }
       });
       if(i === 0){
-        this.dataSourceUno.data = this.dataVideojuegos;
+        //this.dataSourceUno.data = this.dataVideojuegos;
       }
 
       if(i === 1) {
@@ -139,8 +142,8 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
     //this.dataSourceDos.sort = this.sortDos;
     //this.dataSourceTres.paginator = this.paginatorTres;
     //this.dataSourceTres.sort = this.sortTres;
-    setTimeout(() => this.dataSourceUno.paginator = this.paginatorUno);
-    setTimeout(() => this.dataSourceUno.sort = this.sortUno);
+    //setTimeout(() => this.dataSourceUno.paginator = this.paginatorUno);
+    //setTimeout(() => this.dataSourceUno.sort = this.sortUno);
 
     setTimeout(() => this.dataSourceDos.paginator = this.paginatorDos);
     setTimeout(() => this.dataSourceDos.sort = this.sortDos);
@@ -152,7 +155,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
   applyFilterUno(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSourceUno.filter = filterValue;
+    //this.dataSourceUno.filter = filterValue;
   }
 
   applyFilterDos(filterValue: string) {
@@ -169,12 +172,12 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sucursalesSub.unsubscribe();
-    this.paginatorUno.ngOnDestroy();
-    this.paginatorDos.ngOnDestroy();
-    this.paginatorTres.ngOnDestroy();
-    this.dataSourceUno.disconnect();
-    this.dataSourceDos.disconnect();
-    this.dataSourceTres.disconnect();
+    //this.paginatorUno.ngOnDestroy();
+    //this.paginatorDos.ngOnDestroy();
+    //this.paginatorTres.ngOnDestroy();
+    //this.dataSourceUno.disconnect();
+    //this.dataSourceDos.disconnect();
+    //this.dataSourceTres.disconnect();
   }
 
 }

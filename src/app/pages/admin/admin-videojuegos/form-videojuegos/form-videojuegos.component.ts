@@ -37,7 +37,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
   submitting: boolean;
   submitBtnText: string;
   tituloForm: string;
-  errMsg: string;
+  errMsg: string = "Ocurrio un error interno. Por favor, intente recargar la pagina";
 
   selectedFile: File | any = {
     name: "Seleccione Imagen"
