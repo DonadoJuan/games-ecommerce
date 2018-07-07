@@ -107,6 +107,7 @@ router.post('/new', (req, res) => {
     });
 
     router.put('/:id', (req, res) => {
+        //console.log("JSON VIDEOJUEGO: " + req.body.videojuego);
         let vj = JSON.parse(req.body.videojuego);
         let i = 0;
         let rutaImagen;

@@ -156,7 +156,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
       this.submitting = false;
       return;
     }
-    if(this.frmDesc.descuento > 100 || this.frmDesc.descuento < 1) {
+    if( !Number.isInteger(this.frmDesc.descuento) || this.frmDesc.descuento > 100 || this.frmDesc.descuento < 1) {
       this.snackBar.open('Error: El descuento debe ser un valor numerico entre 1 y 100');
       setTimeout(() => {
         this.snackBar.dismiss();

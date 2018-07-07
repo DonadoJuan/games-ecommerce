@@ -1,6 +1,6 @@
 <app-loading *ngIf="loading"></app-loading>
 <ng-template [ngIf]="us.isLoaded(loading)">
-  <mat-tab-group (selectedTabChange)="actualizarDatos($event)">
+  <mat-tab-group (selectedTabChange)="actualizarDatos($event)" [(selectedIndex)]="selectedIndex">
     <div *ngFor="let suc of sucursales">
       <mat-tab label="{{suc.ubicacion.calle}} {{suc.ubicacion.altura}}">
 <mat-horizontal-stepper [linear]="true" #stepper>
@@ -8,7 +8,7 @@
     <form [formGroup]="firstFormGroup" (ngSubmit)="codeSubmit(stepper)">
       <ng-template matStepLabel>Ingresa el codigo del videojuego</ng-template>
       <mat-form-field>
-        <input type="number" matInput placeholder="Codigo" onkeydown="javascript: return event.keyCode == 69 ? false : true" formControlName="CodigoCtrl" required>
+        <input type="number" matInput placeholder="Codigo" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" formControlName="CodigoCtrl" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperNext>Siguiente</button>
@@ -24,7 +24,7 @@
       </div>
       <ng-template matStepLabel>Ingresa stock a reponer</ng-template>
       <mat-form-field>
-        <input type="number" matInput placeholder="Stock" onkeydown="javascript: return event.keyCode == 69 ? false : true" formControlName="StockCtrl" min="1" max="99" required>
+        <input type="number" matInput placeholder="Stock" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" formControlName="StockCtrl" min="1" max="99" required>
       </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Back</button>
@@ -60,7 +60,7 @@
                   {{vj.titulo}}
                 </div>
                 <div class="col-md-6">
-                  <input type="number" onkeydown="javascript: return event.keyCode == 69 ? false : true" #newStock (keyup.enter)="onEnter(newStock.value, vj, refreshSotck)" matInput placeholder="Stock" value="{{vj.cantidad}}" required>
+                  <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" #newStock (keyup.enter)="onEnter(newStock.value, vj, refreshSotck)" matInput placeholder="Stock" value="{{vj.cantidad}}" required>
                 </div>
               </div>
             </div>

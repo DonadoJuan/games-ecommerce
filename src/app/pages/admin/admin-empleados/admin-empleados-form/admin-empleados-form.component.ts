@@ -131,17 +131,20 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       nombre: [this.formEmpleadosModel.nombre, [
         Validators.required,
         Validators.minLength(this.aes.strMin),
-        Validators.maxLength(this.aes.strMax)
+        Validators.maxLength(this.aes.strMax),
+        Validators.pattern(this.aes.regNombre)
       ]],
       legajo: [this.formEmpleadosModel.legajo, [
         Validators.required,
         Validators.min(this.aes.intMin),
         Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       dni: [this.formEmpleadosModel.dni, [
         Validators.required,
         Validators.min(this.aes.dniMin),
-        Validators.max(this.aes.dniMax)
+        Validators.max(this.aes.dniMax),
+        Validators.pattern(this.aes.reg)
       ]],
       fecha_nacimiento: [this.formEmpleadosModel.fecha_nacimiento,
         Validators.required
@@ -169,17 +172,20 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       altura: [this.formEmpleadosModel.domicilio.altura, [
         Validators.required,
         Validators.min(this.aes.intMin),
-        Validators.max(this.aes.intMax)
+        Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       codigo_postal: [this.formEmpleadosModel.domicilio.codigo_postal, [
         Validators.required,
         Validators.min(this.aes.intMin),
-        Validators.max(this.aes.intMax)
+        Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       telefono: [this.formEmpleadosModel.telefono, [
         Validators.required,
         Validators.min(this.aes.telMin),
-        Validators.max(this.aes.telMax)
+        Validators.max(this.aes.telMax),
+        Validators.pattern(this.aes.reg)
       ]],
       password: [this.formEmpleadosModel.password, [
         Validators.required,

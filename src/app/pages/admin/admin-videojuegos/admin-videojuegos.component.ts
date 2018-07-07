@@ -76,11 +76,6 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
           type: 'custom',
           renderComponent: NumberComponent
         },
-        descuento: {
-          title: 'Descuento',
-          type: 'custom',
-          renderComponent: NumberComponent
-        },
         destacado: {
           title: 'Destacado',
           type: 'custom',
@@ -207,7 +202,6 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
             min: d.cantidadMinima,
             max: d.cantidadMaxima,
             precio: d.precio,
-            descuento: d.descuento,
             destacado: d.destacado,
             imagen: image
           });
