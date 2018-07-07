@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CuponService } from '../../../../core/services/cupon/cupon.service';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-form-cupon-descuento',
@@ -30,6 +31,8 @@ export class FormCuponDescuentoComponent implements OnInit {
   formChangeSub: Subscription;
   cuponSub: Subscription;
   formErrors: any;
+  minDate = new Date(Date.now());  
+  mensajeError : string;
 
 
   selectedFile: File | any = {
@@ -42,7 +45,8 @@ export class FormCuponDescuentoComponent implements OnInit {
               private modalService: NgbModal,
               private fcd: FormCuponDescuentoService,
               private cuponService : CuponService,
-              private router : Router) { }
+              private router : Router,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -116,6 +120,26 @@ export class FormCuponDescuentoComponent implements OnInit {
   onSubmit() {
     this.submitting = true;
     this.submitCuponObj = this._getSubmitObj();
+
+    let inicio = new Date(this.formCupon.get('validoDesde').value);
+    let fin = new Date( this.formCupon.get('validoHasta').value);
+    let descuento = this.formCupon.get('descuento').value;
+    if(inicio > fin) {
+      this.snackBar.open('Error: La fecha de inicio debe ser menor a la fecha de fin');
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000);
+      this.submitting = false;
+      return;
+    }
+    if( !Number.isInteger(descuento || descuento > 100 || descuento < 1)) {
+      this.snackBar.open('Error: El descuento debe ser un valor numerico entre 1 y 100');
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000);
+      this.submitting = false;
+      return;
+    }
    
      this.cuponSub = this.cuponService.postCupon$(this.submitCuponObj)
         .subscribe(res => {
@@ -137,7 +161,8 @@ export class FormCuponDescuentoComponent implements OnInit {
   }
 
   private _handleSubmitError(err) {
-    console.error(err);
+    console.log(err)
+    this.mensajeError = err.error.message;
     this.submitting = false;
     this.error = true;
   }

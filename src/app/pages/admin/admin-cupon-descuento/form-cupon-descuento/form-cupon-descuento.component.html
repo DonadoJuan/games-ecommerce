@@ -22,7 +22,7 @@
         </div>
     
         <mat-form-field class="fullwidth">
-            <input matInput [matDatepicker]="myDatepicker" formControlName="validoDesde" placeholder="Fecha Inicio" readonly>
+            <input matInput [matDatepicker]="myDatepicker" [min]="minDate" formControlName="validoDesde" placeholder="Fecha Inicio" readonly>
             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
             <mat-datepicker  #myDatepicker disabled="false" touchUi="true" mdbActive></mat-datepicker>
           </mat-form-field>
@@ -32,7 +32,7 @@
             [innerHTML]="formErrors.validoDesde">
           </div>
           <mat-form-field class="fullwidth">
-              <input matInput [matDatepicker]="myDatepicker2" formControlName="validoHasta" placeholder="Fecha Fin" readonly>
+              <input matInput [matDatepicker]="myDatepicker2" [min]="minDate" formControlName="validoHasta" placeholder="Fecha Fin" readonly>
               <mat-datepicker-toggle matSuffix [for]="myDatepicker2"></mat-datepicker-toggle>
               <mat-datepicker #myDatepicker2 disabled="false" touchUi="true" mdbActive></mat-datepicker>
             </mat-form-field>
@@ -47,7 +47,7 @@
         <app-submitting *ngIf="submitting"></app-submitting>
     
         <p *ngIf="error" class="mt-3 alert alert-danger">
-          <strong>Error:</strong> Hubo un problema al intentar enviar los datos. Por favor, reintente.
+          <strong>Error:</strong> {{mensajeError}}
         </p>
     
       </form>  

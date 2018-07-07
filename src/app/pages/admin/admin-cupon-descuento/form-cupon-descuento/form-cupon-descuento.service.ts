@@ -16,7 +16,7 @@ export class FormCuponDescuentoService {
   strMax = 20;
 
   intMin = 1; 
-  intMax = 50;
+  intMax = 100;
 
 
   constructor() { 
@@ -26,10 +26,10 @@ export class FormCuponDescuentoService {
         minlength: `El Codigo debe tener ${this.strMin} caracteres o mas`,
         maxlength: `El Codigo debe tener ${this.strMax} caracteres o menos`
       },
-      legajo: {
-        required: `El Legajo es <strong>requerido</strong>`,
-        min: `El legajo debe ser de ${this.intMin} a ${this.intMax}`,
-        max: `El legajo debe ser de ${this.intMin} a ${this.intMax}`
+      descuento: {
+        required: `El descuento es <strong>requerido</strong>`,
+        min: `El descuento debe ser de ${this.intMin} a ${this.intMax}`,
+        max: `El descuento debe ser de ${this.intMin} a ${this.intMax}`
       },
       validoDesde: {
         required: `La Fecha de Inicio es <strong>requerida</strong>`
