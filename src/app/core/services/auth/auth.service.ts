@@ -5,6 +5,7 @@ import { BaseService } from '../base/base.service';
 import { Baneo } from "../../../domain/baneo";
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { CarritoService } from '../carrito/carrito.service';
 
 
 @Injectable()
@@ -13,7 +14,10 @@ export class AuthService {
   token: string = null;
   public isLoggedIn = new Subject<boolean>();
 
-  constructor(private baseService: BaseService, private router: Router) { 
+  constructor(
+    private baseService: BaseService, 
+    private carritoService: CarritoService, 
+    private router: Router){ 
     if(this.getToken()){
       this.isLoggedIn.next(true);
     }
@@ -58,6 +62,8 @@ export class AuthService {
     this.isLoggedIn.next(false);
     this.token = null;
     localStorage.removeItem('token');
+    localStorage.removeItem('carrito');
+    //this.carritoService.limpiarVideoJuegosCarrito();
     this.router.navigate(['wrapper-login']);
   }
 

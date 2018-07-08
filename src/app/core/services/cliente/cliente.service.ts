@@ -33,8 +33,12 @@ export class ClienteService {
     return this.baseService.put(`clientes/baneo/${id}`, baneos);
   }
 
-  registrarPedido(nuevoPedido: Pedido){
-    return this.baseService.post('clientes/pedido', nuevoPedido);
+  registrarPedido(idCliente, nuevoPedido){
+    let data = {
+      id_cliente: idCliente,
+      nuevoPedido: nuevoPedido
+    }
+    return this.baseService.post('clientes/pedido', data);
   }
 
 }

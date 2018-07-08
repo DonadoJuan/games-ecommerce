@@ -12,7 +12,7 @@ const tarjetaSchema = mongoose.Schema({
     },
     domicilio_facturacion: {
         type: DomicilioSchema,
-        required: true
+        required: false
     } 
 
 });

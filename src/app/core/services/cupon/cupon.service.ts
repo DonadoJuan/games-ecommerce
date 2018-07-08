@@ -19,4 +19,9 @@ export class CuponService {
   deleteCupon$(id: string): Observable<any> {
     return this.baseService.delete(`cupones/${id}`);
   }
+
+  validarCupon(idCliente, codigo): Observable<any> {
+    let data = { idCliente: idCliente, codigo: codigo};
+    return this.baseService.post(`cupones/validar`, data);
+  }
 }
