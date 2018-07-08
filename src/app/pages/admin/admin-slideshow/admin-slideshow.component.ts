@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { CheckboxComponent } from "../checkbox.component";
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Slider } from '../../../domain/slider';
@@ -32,7 +32,7 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
   sliderArr: Slider[] = [];
   deleteSliderSub: Subscription;
   mensajeError : String = "Ocurrio un error al traer datos del slider.";
-
+  objeto : any;
 
 
   private listaSlider : Slider[] = new Array();
@@ -44,6 +44,8 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
               private router : Router,
               public dialog: MatDialog) { }
 
+
+       
   ngOnInit() {
 
 
@@ -66,6 +68,12 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
           title: 'Visible',
           type: 'custom',
           renderComponent: CheckboxComponent,
+          editable: false,
+          editor:[
+            {
+            type : 'checkbox'
+            }
+          ],
           filter: false,
           width: "10%"
         },
@@ -80,62 +88,16 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
         class: 'table table-bordered table-striped'
       }
     }
-    /*
-    this.settings = {
-      actions: {
-        delete: true,
-        add: false,
-        edit: false,
-      },
-      columns: {
-        checkbox: {
-          title: 'Seleccionar',
-          type: 'custom',
-          renderComponent: CheckboxComponent,
-          filter: false,
-          width: "10%"
-        },
-        name: {
-          title: 'Nombre'
-        },
-        image: {
-          title: 'Imagen',
-          type: 'html',
-          filter: false,
-          sort: false
-        }
-      },
-      defaultStyle: true,
-      attr: {
-        class: 'table table-bordered table-striped' // this is custom table scss or css class for table
-      }
-    }
-
-    this.data = [
-      {
-        checkbox: true,
-        name: 'Ni No Kuni II',
-        image: '<img src="../../../../assets/slider/ni_no_kuni.jpg" width="200px" height="100px"/>'
-      },
-      {
-        checkbox: true,
-        name: 'Mario Odyssey',
-        image: '<img src="../../../../assets/slider/mario_odyssey.jpg" width="200px" height="100px"/>'
-      },
-      {
-        checkbox: true,
-        name: 'Horizon',
-        image: '<img src="../../../../assets/slider/horizon.jpg" width="200px" height="100px"/>'
-      }
-    ]
-    */
- 
+  let visible =   document.getElementById("visible");
+    
+    
   }
 
   initializeGrid() {
     this.loading = true;
     this.sliderArr = [];
     this.dataSlider = [];
+    let contador = 0;
     this.sliderSub = this.sliderService.getSlider$()
       .subscribe(data => {
       
@@ -144,13 +106,19 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
           console.log(d);
           let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
           //console.log("image: ", image);
+          if(d.visible){
+            contador++;
+            
+          }
           this.dataSlider.push({
             _id: d._id,
             titulo: d.titulo,
             imagen: image,
             visible : d.visible
           });
+          
         });
+        console.log(contador);
         this.fillData();
       }, 
       error => {
@@ -183,7 +151,7 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
         console.log('The dialog was closed');
         if(result == "Confirmado") {
           this.sliderArr.forEach(s => {
-            if(s.titulo== event.data.titulo) {
+            if(s._id== event.data._id) {
               this.deleteSliderSub = this.sliderService.deleteSlider$(s._id)
                 .subscribe(
                   data => {

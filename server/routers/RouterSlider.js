@@ -5,13 +5,29 @@ const express = require('express');
 const router = express.Router({mergeParams: true});
 
 router.post('/new', (req, res) => {
-    //console.log('req.files: ', req.files);
-    //console.log('req.body.videojuego: ', JSON.parse(req.body.videojuego));
+
+    extensiones_permitidas = new Array(".gif", ".jpg", ".bmp",".png",".psd",".cdr",".dwg",".svg",".raw",".nef"); 
+    let imagen = req.files.imagen.name;
+    let extension = (imagen.substring(imagen.lastIndexOf("."))).toLowerCase(); 
+
+    permitida = false; 
+    for (var j = 0; j < extensiones_permitidas.length; j++) { 
+       if (extensiones_permitidas[j] == extension) { 
+       permitida = true; 
+       break; 
+       } 
+    } 
+    if (!permitida) { 
+       mierror = "Sólo se pueden subir imagenes con extensiones: .gif, .jpg, .bmp, .png, .psd, .cdr, .dwg, .svg, .raw y .nef"; 
+    return res.status(409).send({message:mierror});
+    }
+
     let s = JSON.parse(req.body.slider);
     let i = 0;
-   // let imagenNombre = s.titulo.replace(' ', '');
+
    let imagenNombre = s.titulo.replace(new RegExp(' ', 'g'), '');
-    req.files.imagen.name = imagenNombre+".jpg";
+
+    req.files.imagen.name = imagenNombre+extension;
     
     let rutaImagen = "http://localhost:3000/imgSlider/" + req.files.imagen.name;
     let rutaAbsoluta = path.join(__dirname + "/../public/imgSlider/" + req.files.imagen.name);

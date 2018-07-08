@@ -7,9 +7,31 @@ const router = express.Router({mergeParams: true});
 router.post('/new', (req, res) => {
     //console.log('req.files: ', req.files);
     //console.log('req.body.videojuego: ', JSON.parse(req.body.videojuego));
+
+    extensiones_permitidas = new Array(".gif", ".jpg", ".bmp",".png",".psd",".cdr",".dwg",".svg",".raw",".nef"); 
+    let imagen = req.files.imagen.name;
+    let extension = (imagen.substring(imagen.lastIndexOf("."))).toLowerCase(); 
+
+    permitida = false; 
+    for (var j = 0; j < extensiones_permitidas.length; j++) { 
+       if (extensiones_permitidas[j] == extension) { 
+       permitida = true; 
+       break; 
+       } 
+    } 
+    if (!permitida) { 
+       mierror = "Sólo se pueden subir imagenes con extensiones: .gif, .jpg, .bmp, .png, .psd, .cdr, .dwg, .svg, .raw y .nef"; 
+    return res.status(409).send({message:mierror});
+    }
+
     let vj = JSON.parse(req.body.videojuego);
+
+    if(vj.cantidadMinima > vj.cantidadMaxima){
+        return res.status(409).send({message:"La cantidad minima debe ser menor o igual que la cantidad maxima!"});
+    }
+
     let i = 0;
-    req.files.imagen.name = vj.codigo + ".jpg";
+    req.files.imagen.name = vj.codigo + extension;
     let rutaImagen = "http://localhost:3000/img/" + req.files.imagen.name;
     let rutaAbsoluta = path.join(__dirname + "/../public/img/" + req.files.imagen.name);
     Videojuego.findOne({
