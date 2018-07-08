@@ -18,6 +18,7 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
 
     private listaVideoJuegos : Videojuego[] = new Array();
     videojuegosSub: Subscription;
+    stockGlobalSub: Subscription;
     dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
@@ -37,26 +38,41 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
         this.error = false;
         this.videojuegosSub = this.videojuegoService.getVideojuegos$()
             .subscribe(data => {
-                this.loading = false;
                 data.forEach(d => {
                     this.listaVideoJuegos.push(d);
-                    let desc;
-                    if(d.titulo.length > 24) {
-                        desc = d.descripcion.substring(0, 150) + "..."
-                      } else {
-                        desc = d.descripcion.substring(0, 200) + "..."
-                      }
-                    this.dropdownList.push({
-                        "id": d._id,
-                        "itemName": d.titulo,
-                        "titulo": d.titulo,
-                        "codigo": d.codigo,
-                        "descripcion": desc,
-                        "imagen": d.imagen,
-                        "plataforma": d.plataforma,
-                        "precio": d.precio   
-                    });
                 });
+                this.stockGlobalSub = this.videojuegoService.getStockGlobal()
+                    .subscribe(stocks => {
+                        this.loading = false;
+                        stocks.forEach(s => {
+                            this.listaVideoJuegos.forEach(v => {
+                                if(v.codigo === s._id.codigo) {
+                                    let tieneStock = (s.stock > 0) ? true : false;
+                                    let desc;
+                                    if(v.titulo.length > 24) {
+                                        desc = v.descripcion.substring(0, 150) + "..."
+                                    } else {
+                                        desc = v.descripcion.substring(0, 200) + "..."
+                                    }
+                                    this.dropdownList.push({
+                                        "id": v._id,
+                                        "itemName": v.titulo,
+                                        "titulo": v.titulo,
+                                        "codigo": v.codigo,
+                                        "descripcion": desc,
+                                        "imagen": v.imagen,
+                                        "plataforma": v.plataforma,
+                                        "precio": v.precio,
+                                        "tieneStock": tieneStock   
+                                    });
+                                }
+                            });
+                        });
+                    }, err => {
+                        this.loading = false;
+                        this.error = true;
+                        console.error(err);
+                    });
             }, error => {
                 this.loading = false;
                 this.error = true;
@@ -96,6 +112,7 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
         this.listaVideoJuegos.forEach(v => {
             if(v.codigo === product.codigo) {
                 this.us.videojuego = v;
+                this.us.tieneStock = product.tieneStock;
                 this.router.navigate(["game-details"]);
             }
         });
@@ -110,6 +127,7 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.videojuegosSub.unsubscribe();
+        this.stockGlobalSub.unsubscribe();
     }
 
 }

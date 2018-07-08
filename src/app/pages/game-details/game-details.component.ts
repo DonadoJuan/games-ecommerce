@@ -16,7 +16,8 @@ export class GameDetailsComponent implements OnInit {
   videojuego: Videojuego;
   sucursal: Sucursal;
   url: string;
-  safeUrl: SafeResourceUrl
+  safeUrl: SafeResourceUrl;
+  tieneStock: boolean;
 
   constructor(
     private us: UtilsService, 
@@ -27,7 +28,9 @@ export class GameDetailsComponent implements OnInit {
   ngOnInit() {
     if(this.us.videojuego) {
       this.videojuego = this.us.videojuego;
+      this.tieneStock = this.us.tieneStock;
       this.us.videojuego = null;
+      this.us.tieneStock = null;
       this.safeUrl = this.sanitization.bypassSecurityTrustResourceUrl(this.videojuego.urlVideo.replace("watch?v=", "embed/"));
       //this.url = this.videojuego.urlVideo.replace("watch?v=", "v/");
     }

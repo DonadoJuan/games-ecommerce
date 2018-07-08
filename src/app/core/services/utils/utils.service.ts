@@ -21,6 +21,7 @@ export class UtilsService {
   public slider : Slider;
   public cupon : Cupon;
   public indiceSucursal: number;
+  public tieneStock: boolean;
   private distanceApi = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric";
   private apiKey = "&key=AIzaSyD9Gpn2UZYjQpzm09Gh9WgvWF0oeKNp4rY";
 

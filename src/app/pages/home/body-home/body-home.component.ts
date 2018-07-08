@@ -26,6 +26,7 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   videojuegoSub: Subscription;
+  stockGlobalSub: Subscription;
   listVideojuegosPlay: any[] = [];
   listVideojuegosXbox: any[] = [];
   listVideojuegosNintendo: any[] = [];
@@ -53,47 +54,67 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     
     this.loading = true;
     this.error = false;
+
     this.videojuegoSub = this.videojuegoService.getVideojuegos$()
       .subscribe(data => {
-        this.loading = false;
         data.forEach(v => {
           this.listVideojuegos.push(v);
-          let desc;
-          if(v.titulo.length > 24) {
-            desc = v.descripcion.substring(0, 150) + "..."
-          } else {
-            desc = v.descripcion.substring(0, 200) + "..."
-          }
-          let elemento = {
-            _id: v._id,
-            codigo: v.codigo,
-            descripcion: desc,
-            titulo: v.titulo,
-            imagen: v.imagen,
-            plataforma: v.plataforma,
-            destacado: v.destacado,
-            precio: v.precio
-          }
-          switch(elemento.plataforma) {
-            case "PS4":
-              if(elemento.destacado) {
-                this.listVideojuegosPlay.push(elemento);
-              }
-              break;
-            
-            case "Xbox One":
-              if(elemento.destacado) {
-                this.listVideojuegosXbox.push(elemento);
-              }
-              break;
-            
-            case "Nintendo Switch":
-              if(elemento.destacado) {
-                this.listVideojuegosNintendo.push(elemento);
-              }
-              break;
-          }
         });
+
+        this.stockGlobalSub = this.videojuegoService.getStockGlobal()
+          .subscribe(stocks => {
+            this.loading = false;
+            //console.log("stock global: ", stocks);
+            stocks.forEach(d => {
+              this.listVideojuegos.forEach(v => {
+                if(v.codigo === d._id.codigo) {
+                  //console.log(v.titulo + " -  stock:" + d.stock);
+                  let tieneStock = (d.stock > 0) ? true : false;
+
+                  let desc;
+                  if(v.titulo.length > 24) {
+                    desc = v.descripcion.substring(0, 150) + "..."
+                  } else {
+                    desc = v.descripcion.substring(0, 200) + "..."
+                  }
+                  let elemento = {
+                    _id: v._id,
+                    codigo: v.codigo,
+                    descripcion: desc,
+                    titulo: v.titulo,
+                    imagen: v.imagen,
+                    plataforma: v.plataforma,
+                    destacado: v.destacado,
+                    precio: v.precio,
+                    tieneStock: tieneStock
+                  }
+                  switch(elemento.plataforma) {
+                    case "PS4":
+                      if(elemento.destacado) {
+                        this.listVideojuegosPlay.push(elemento);
+                      }
+                      break;
+                    
+                    case "Xbox One":
+                      if(elemento.destacado) {
+                        this.listVideojuegosXbox.push(elemento);
+                      }
+                      break;
+                    
+                    case "Nintendo Switch":
+                      if(elemento.destacado) {
+                        this.listVideojuegosNintendo.push(elemento);
+                      }
+                      break;
+                  }
+                }
+              });
+            })
+          }, err => {
+            console.error(err);
+            this.loading = false;
+            this.error = true;
+          });
       }, err => {
         console.error(err);
         this.loading = false;
@@ -142,6 +163,7 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.listVideojuegos.forEach(v => {
         if(v.codigo === product.codigo) {
             this.us.videojuego = v;
+            this.us.tieneStock = product.tieneStock;
             this.router.navigate(["game-details"]);
         }
     });
@@ -156,6 +178,7 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.videojuegoSub.unsubscribe();
+    this.stockGlobalSub.unsubscribe();
   }
 
 }

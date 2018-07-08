@@ -270,4 +270,16 @@ router.post('/new', (req, res) => {
         });
     });
 
+    router.get('/stockGlobal', (req, res) => {
+        Sucursal.aggregate([
+            {"$unwind": "$videojuegos"},
+            {"$group": {"_id": {codigo: "$videojuegos.codigo"}, "stock": {$sum: "$videojuegos.stock"}}}
+        ], (err, stocks) => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            res.json(stocks);
+        });
+    });
+
 module.exports = router;

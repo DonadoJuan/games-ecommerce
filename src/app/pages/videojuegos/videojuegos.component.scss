@@ -133,6 +133,24 @@
   position: fixed;
 }
 
+.badge-nostock {
+    background: rgba(187,0,0,.71) none repeat scroll 0 0;
+    color: #fdfdfd;
+    display: block;
+    margin-left: 22%;
+    border: 1px solid #d8d8d8;
+    font-weight: normal;
+    height: 30px;
+    border-radius: 100px;
+    letter-spacing: .05em;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 45%;
+    width: 60%;
+}
+
 /*#yourElement {
     //background: url("http://mdbootstrap.com/images/proffesions/reg/coach/img%20(1).jpg") no-repeat center center;
     -webkit-background-size: cover;
