@@ -2,6 +2,28 @@ const Personal = require('../models/Personal');
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
+router.post('/login', (req, res) => {
+
+    let input = req.body;
+
+    Personal.findOne({email: input.email}, (err, personal) => {
+
+        if(err)
+            return res.status(500).json({message: err.message});
+ 
+        if(!personal)
+            return res.status(401).json({message: 'Empleado no encontrado'});
+
+        if(!personal.validPassword(input.password))
+            return res.status(401).json({message: 'Clave incorrecta'});
+        
+        res.status(200)
+        res.json({
+            "token" : personal.generateJwt()
+        });
+        
+    });
+});
 
 router.get('/', (req, res) => {
     Personal.find({}, (err, personal) => {
@@ -39,9 +61,12 @@ router.post('/new', (req, res) => {
             perfil: req.body.perfil,
             sucursal: req.body.sucursal,
             domicilio: req.body.domicilio,
-            telefono: req.body.telefono,
-            password: req.body.password
+            telefono: req.body.telefono
+            //password: req.body.password
         });
+        
+        personal.setPassword(req.body.password);
+
         personal.save((err) => {
             if(err) {
                 return res.status(500).send({message: err.message + " segundo error interno"});

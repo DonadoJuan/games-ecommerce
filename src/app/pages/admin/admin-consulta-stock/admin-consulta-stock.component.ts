@@ -6,6 +6,7 @@ import { UtilsService } from "../../../core/services/utils/utils.service";
 import { SucursalService } from "../../../core/services/sucursal/sucursal.service";
 import { Subscription } from 'rxjs';
 import { Router, NavigationStart } from '@angular/router';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-admin-consulta-stock',
@@ -43,7 +44,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
   @ViewChild('paginatorTres') paginatorTres: MatPaginator;
 
 
-  constructor(private us: UtilsService, private sucursalService: SucursalService, private changeDetectorRefs: ChangeDetectorRef, private router: Router) { 
+  constructor(private us: UtilsService, private sucursalService: SucursalService, private changeDetectorRefs: ChangeDetectorRef, private router: Router, private authService: AuthService) { 
     //this.dataSourceUno = new MatTableDataSource([]);
     this.dataSourceDos = new MatTableDataSource([]);
     this.dataSourceTres = new MatTableDataSource([]);
@@ -52,7 +53,8 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.loading = true;
-    this.admin = true;
+    let payload = this.authService.getDatosCliente().payload;
+    this.admin = (payload.perfil === "Administrador") ? true : false;
     if(this.admin) {
       this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(data => {
@@ -69,6 +71,7 @@ export class AdminConsultaStockComponent implements OnInit, OnDestroy {
         this.error = true;
       });
     } else {
+      this.sucursalId = payload.sucursal._id;
       this.sucursalesSub = this.sucursalService.getSucursalById$(this.sucursalId)
       .subscribe(data => {
         this.loading = false;

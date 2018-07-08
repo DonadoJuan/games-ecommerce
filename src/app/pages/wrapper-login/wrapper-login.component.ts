@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { UtilsService } from "../../core/services/utils/utils.service";
+import { EventEmitter } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-wrapper-login',
@@ -10,6 +11,7 @@ import { UtilsService } from "../../core/services/utils/utils.service";
 })
 export class WrapperLoginComponent implements OnInit, OnDestroy {
 
+  //@Output() loginEvent = new EventEmitter();
   tab: string;
   tabSub: Subscription;
 

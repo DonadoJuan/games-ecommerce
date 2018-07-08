@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { SucursalService } from "../../../core/services/sucursal/sucursal.service";
 import { UtilsService } from "../../../core/services/utils/utils.service";
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-admin-stock',
@@ -34,12 +35,13 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   invalido: boolean = false;
   selectedIndex: number = 0;
 
-  constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService, private us: UtilsService) { }
+  constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService, private us: UtilsService, private authService: AuthService) { }
 
   ngOnInit() {
     this.loading = true;
     this.sucursalId = "5af78c88a4616c223463102a";
-    let admin = true;
+    let payload = this.authService.getDatosCliente().payload;
+    let admin = (payload.perfil === "Administrador") ? true : false;
     if(admin) {
       this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(
@@ -56,6 +58,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
         }, err => this._handleSubmitError(err)
       );
     } else {
+      this.sucursalId = payload.sucursal._id;
       this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
         .subscribe(
           data => {

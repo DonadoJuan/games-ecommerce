@@ -26,7 +26,7 @@ export class SlideshowComponent implements OnInit {
         {
         this.sliderArr.push(d);
         }
-        console.log(d);
+        //console.log(d);
         let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
        
       });

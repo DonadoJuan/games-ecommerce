@@ -1,10 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { EventEmitter } from 'events';
+import { HeaderComponent } from "../../../header/header.component";
 
 @Component({
+  providers:[HeaderComponent ],
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -17,16 +20,34 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private headerComponent: HeaderComponent
   ) {}
 
   login(){
     this.authService.loginCliente(this.cliente)
       .subscribe(data => {
-        if(data.token)
+        if(data.token) {
+          console.log(this.authService.getDatosCliente());
           this.router.navigate(['']);
-        else 
-          this.snackBar.open('Usuario y/o clave erronea','OK');
+          this.headerComponent.loginHeader();
+        }
+        else {
+          this.authService.loginPersonal(this.cliente)
+            .subscribe(d => {
+              if(d.token) {
+                console.log(this.authService.getDatosCliente());
+                this.headerComponent.loginHeader();
+                this.router.navigate(['']);
+              } else {
+                this.snackBar.open('Usuario y/o clave erronea','OK');
+              }
+            }, err => {
+              console.log(err.message);
+            });
+        }
+      }, err => {
+        console.log(err.message);
       });
   }
 

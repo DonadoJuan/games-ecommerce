@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { AuthService } from '../core/services/auth/auth.service';
@@ -15,13 +15,21 @@ export class HeaderComponent implements OnInit {
 
   loggedIn: boolean;
   videojuegosCarrito: any[];
+  payload: any;
+  cliente: boolean = false;
+  empleado: boolean = false;
+  admin: boolean = false;
 
   constructor(
     private router: Router, 
     private authService: AuthService,
-    private carritoService: CarritoService) { }
+    private carritoService: CarritoService,
+    private zone:NgZone) { }
 
   logout(){
+    this.cliente = false;
+    this.empleado = false;
+    this.admin = false;
     this.authService.logout();
   }
 
@@ -29,12 +37,48 @@ export class HeaderComponent implements OnInit {
     this.router.events
       .filter(event => event instanceof NavigationStart && this.navOpen)
       .subscribe(event => this.toggleNav());
+
+      this.authService.isLoggedIn.subscribe(res => {
+        this.loggedIn = res;
+      });
+      this.loggedIn = this.authService.getDatosCliente() != null;
+      if(this.loggedIn) {
+        this.loginHeader();
+      } 
+
+    this.videojuegosCarrito = this.carritoService.getVideojuegosCarrito();
     
+  }
+
+  public loginHeader() {
+    //console.log("llegue al header");
     this.authService.isLoggedIn.subscribe(res => {
       this.loggedIn = res;
     });
-    this.loggedIn = this.authService.getDatosCliente() != null; 
-    this.videojuegosCarrito = this.carritoService.getVideojuegosCarrito();
+
+    this.loggedIn = this.authService.getDatosCliente() != null;
+      if(this.loggedIn) {
+        this.payload = this.authService.getDatosCliente().payload;
+        console.log(this.payload.perfil);
+        this.zone.run(() => {
+          if(this.payload.perfil === undefined) {
+            this.cliente = true;
+          } else if(this.payload.perfil === "Empleado") {
+            this.empleado = true;
+          } else {
+            this.admin = true;
+          }
+        });
+
+        //this.cdRef.detectChanges();
+        console.log("cliente: ", this.cliente);
+        console.log("empleado: ", this.empleado);
+        console.log("admin: ", this.admin);
+      }
+      
+      //this.router.navigateByUrl('/lista-negra', {skipLocationChange: true}).then(()=>
+      //this.router.navigate([""]));
+
   }
 
   toggleNav() {

@@ -30,6 +30,17 @@ export class AuthService {
             });
   }
 
+  public loginPersonal(personal) : Observable<any>{
+
+    return this.baseService.post('personal/login', personal)
+            .do(data => {
+              if(data.token){
+                this.saveToken(data.token);
+                this.isLoggedIn.next(true);
+              }
+            });
+  }
+
   public getDatosCliente() {
     const token = this.getToken();
     let payload;

@@ -9,6 +9,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router, NavigationStart } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-admin-descuentos',
@@ -49,7 +50,8 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
     private adapter: DateAdapter<any>, 
     private modalService: NgbModal,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -69,7 +71,8 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
   traerDatosSucursal() {
     this.loading = true;
     this.submitting = false;
-    let admin = true;
+    let payload = this.authService.getDatosCliente().payload;
+    let admin = (payload.perfil === "Administrador") ? true : false;
     if(admin) {
       this.sucursalesSub = this.sucursalService.getSucursales()
       .subscribe(data => {
@@ -83,6 +86,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
         this.loading = false;
       });
     } else {
+      this.sucursalId = payload.sucursal._id;
       this.sucursalSub = this.sucursalService.getSucursalById$(this.sucursalId)
       .subscribe(data => {
         this.sucursal = data;
