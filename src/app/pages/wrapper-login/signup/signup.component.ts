@@ -132,7 +132,8 @@ export class SignupComponent implements OnInit {
       nombre: [this.formClientesModel.nombre, [
         Validators.required,
         Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax)
+        Validators.maxLength(this.fss.strMax),
+        Validators.pattern(this.fss.regNombre)
       ]],
       password: [this.formClientesModel.password, [
         Validators.required,
@@ -148,7 +149,8 @@ export class SignupComponent implements OnInit {
       dni: [this.formClientesModel.dni, [
         Validators.required,
         Validators.min(this.fss.dniMin),
-        Validators.max(this.fss.dniMax)
+        Validators.max(this.fss.dniMax),
+        Validators.pattern(this.fss.reg)
       ]],
       email: [this.formClientesModel.email, [
         Validators.required,
@@ -167,17 +169,20 @@ export class SignupComponent implements OnInit {
       altura: [this.formClientesModel.domicilio_entrega.altura, [
         Validators.required,
         Validators.min(this.fss.intMin),
-        Validators.max(this.fss.intMax)
+        Validators.max(this.fss.intMax),
+        Validators.pattern(this.fss.reg)
       ]],
       codigo_postal: [this.formClientesModel.domicilio_entrega.codigo_postal, [
         Validators.required,
         Validators.min(this.fss.intMin),
-        Validators.max(this.fss.intMax)
+        Validators.max(this.fss.intMax),
+        Validators.pattern(this.fss.reg)
       ]],
       telefono: [this.formClientesModel.telefono, [
         Validators.required,
         Validators.min(this.fss.telMin),
-        Validators.max(this.fss.telMax)
+        Validators.max(this.fss.telMax),
+        Validators.pattern(this.fss.reg)
       ]] 
     });
 

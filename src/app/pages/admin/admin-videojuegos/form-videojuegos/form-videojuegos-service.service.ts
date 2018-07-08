@@ -26,6 +26,7 @@ export class FormVideojuegosService {
   intMax = 99999;
   codStr = 4;
   reg = /^\d+$/;
+  regVideo = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
 
 
   constructor() { 
@@ -50,16 +51,19 @@ export class FormVideojuegosService {
       cantMinima: {
         required: `La cantidad minima es <strong>requerida</strong>`,
         min: `La cantidad minima debe ser ${this.intMin} o mas`,
-        max: `La cantidad minima debe ser ${this.intMax} o menos`
+        max: `La cantidad minima debe ser ${this.intMax} o menos`,
+        pattern: `Debe ser un numero entero`
       },
       cantMaxima: {
         required: `La cantidad maxima es <strong>requerida</strong>`,
         min: `La cantidad maxima debe tener ${this.intMin} o mas`,
-        max: `La cantidad maxima debe tener ${this.intMax} o menos`
+        max: `La cantidad maxima debe tener ${this.intMax} o menos`,
+        pattern: `Debe ser un numero entero`
       },
       urlVideo: {
         required: `La url del video es <strong>requerida</strong>`,
-        minlength: `La url del video debe tener ${this.strMin} caracteres o mas`
+        minlength: `La url del video debe tener ${this.strMin} caracteres o mas`,
+        pattern: `La url del video no tiene el formato adecuado`
       },
       precio: {
         required: `El precio es <strong>requerido</strong>`,

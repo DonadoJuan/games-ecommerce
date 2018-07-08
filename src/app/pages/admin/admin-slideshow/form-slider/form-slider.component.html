@@ -28,7 +28,7 @@
     <app-submitting *ngIf="submitting"></app-submitting>
 
     <p *ngIf="error" class="mt-3 alert alert-danger">
-      <strong>Error:</strong> Hubo un problema al intentar enviar los datos. Por favor, reintente.
+      <strong>Error:</strong><br> {{mensajeError}}
     </p>
 
   </form>  

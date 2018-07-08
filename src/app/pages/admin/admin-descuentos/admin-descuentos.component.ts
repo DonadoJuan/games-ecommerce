@@ -8,6 +8,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { Router, NavigationStart } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-admin-descuentos',
@@ -47,7 +48,8 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
     private sucursalService: SucursalService,
     private adapter: DateAdapter<any>, 
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -144,6 +146,24 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
 
   onSubmit(modalExito) {
     this.submitting = true;
+    let inicio = new Date(this.frmDesc.inicioDescuento);
+    let fin = new Date(this.frmDesc.finDescuento);
+    if(inicio > fin) {
+      this.snackBar.open('Error: La fecha de inicio debe ser menor a la fecha de fin');
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000);
+      this.submitting = false;
+      return;
+    }
+    if( !Number.isInteger(this.frmDesc.descuento) || this.frmDesc.descuento > 100 || this.frmDesc.descuento < 1) {
+      this.snackBar.open('Error: El descuento debe ser un valor numerico entre 1 y 100');
+      setTimeout(() => {
+        this.snackBar.dismiss();
+      }, 5000);
+      this.submitting = false;
+      return;
+    }
     this.selectedCargarItems.forEach(sci => {
       this.sucursal.videojuegos.forEach(v => {
         if(sci.codigo === v.codigo) {

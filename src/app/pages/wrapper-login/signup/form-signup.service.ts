@@ -25,6 +25,8 @@ export class FormSignupService {
   intMax = 99999;
   telMin = 10000000;
   telMax = 9999999999;
+  reg = /^\d+$/;
+  regNombre = /^([^0-9]*)$/;
 
 
   constructor() { 
@@ -32,7 +34,8 @@ export class FormSignupService {
       nombre: {
         required: `El Nombre es <strong>requerido</strong>`,
         minlength: `El nombre debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `El nombre debe tener ${this.strMax} caracteres o menos`
+        maxlength: `El nombre debe tener ${this.strMax} caracteres o menos`,
+        pattern: `El nombre no puede tener valores numericos`
       },
       password: {
         required: `La contraseña es <strong>requerida</strong>`,
@@ -48,7 +51,8 @@ export class FormSignupService {
       dni: {
         required: `El Dni es <strong>requerido</strong>`,
         min: `Numero de Dni invalido`,
-        max: `Numero de Dni invalido`
+        max: `Numero de Dni invalido`,
+        pattern: `Debe ser un numero entero`
       },
       email: {
         required: `El Email es <strong>requerido</strong>`,
@@ -67,17 +71,20 @@ export class FormSignupService {
       altura: {
         required: `La Altura es <strong>requerida</strong>`,
         min: `La altura debe ser de ${this.intMin} a ${this.intMax}`,
-        max: `La altura debe ser de ${this.intMin} a ${this.intMax}`
+        max: `La altura debe ser de ${this.intMin} a ${this.intMax}`,
+        pattern: `Debe ser un numero entero`
       },
       codigo_postal: {
         required: `El Codigo Postal es <strong>requerido</strong>`,
         min: `El Codigo Postal debe ser de ${this.intMin} a ${this.intMax}`,
-        max: `El Codigo Postal debe ser de ${this.intMin} a ${this.intMax}`
+        max: `El Codigo Postal debe ser de ${this.intMin} a ${this.intMax}`,
+        pattern: `Debe ser un numero entero`
       },
       telefono: {
         required: `El Telefono es <strong>requerido</strong>`,
         min: `Numero de telefono invalido`,
-        max: `Numero de telefono invalido`
+        max: `Numero de telefono invalido`,
+        pattern: `Debe ser un numero entero`
       }
     };
   }

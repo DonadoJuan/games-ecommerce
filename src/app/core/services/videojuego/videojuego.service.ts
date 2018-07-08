@@ -27,5 +27,9 @@ export class VideojuegoService {
   deleteVideojuego$(id: string) : Observable<any> {
     return this.baseService.delete(`videojuegos/${id}`);
   }
+
+  getStockGlobal(): Observable<any> {
+    return this.baseService.get(`videojuegos/stockGlobal`);
+  }
   
 }

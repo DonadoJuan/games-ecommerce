@@ -187,4 +187,21 @@
   .bs-callout-info h4 {
     color: #5bc0de;
   }
-  
+
+  .badge-nostock {
+    background: rgba(187,0,0,.71) none repeat scroll 0 0;
+    color: #fdfdfd;
+    display: block;
+    margin-left: 22%;
+    border: 1px solid #d8d8d8;
+    font-weight: normal;
+    height: 30px;
+    border-radius: 100px;
+    letter-spacing: .05em;
+    line-height: 30px;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    top: 45%;
+    width: 60%;
+}

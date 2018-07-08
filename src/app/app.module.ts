@@ -87,6 +87,7 @@ import { ConfirmEqualValidatorDirective } from './directives/confirm-equal-valid
 import { AdminCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/admin-cupon-descuento.component';
 import { CuponService } from './core/services/cupon/cupon.service';
 import { FormCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/form-cupon-descuento/form-cupon-descuento.component';
+import { StockSucursalComponent } from './pages/admin/admin-consulta-stock/stock-sucursal/stock-sucursal.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { FormCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento
     FormSliderComponent,
     ConfirmEqualValidatorDirective,
     AdminCuponDescuentoComponent,
-    FormCuponDescuentoComponent
+    FormCuponDescuentoComponent,
+    StockSucursalComponent
   ],
   imports: [
     BrowserModule,

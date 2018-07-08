@@ -37,6 +37,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
   submitting: boolean;
   submitBtnText: string;
   tituloForm: string;
+  errMsg: string = "Ocurrio un error interno. Por favor, intente recargar la pagina";
 
   selectedFile: File | any = {
     name: "Seleccione Imagen"
@@ -83,6 +84,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
       this.tituloForm = "Modificion de Videojuegos";
       this.submitBtnText = "Modificar Videojuego";
       //this.selectedFile = (this.videojuego.file) ? this.videojuego.file : {name: "Seleccione Imagen"};
+      this.selectedFile.name = this.videojuego.imagen.substring(26);
       this.seleccionoArchivo = (this.videojuego.imagen) ? true : false;
       this.formVideojuegos.controls['genero'].setValue(this.videojuego.genero);
       this.formVideojuegos.controls['plataforma'].setValue(this.videojuego.plataforma);
@@ -157,15 +159,18 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(this.fvs.intMin),
         Validators.max(this.fvs.intMax),
+        Validators.pattern(this.fvs.reg)
       ]],
       cantMaxima: [this.formVideojuegosModel.cantMaxima, [
         Validators.required,
         Validators.min(this.fvs.intMin),
         Validators.max(this.fvs.intMax),
+        Validators.pattern(this.fvs.reg)
       ]],
       urlVideo: [this.formVideojuegosModel.urlVideo, [
         Validators.required,
-        Validators.minLength(this.fvs.strMin)
+        Validators.minLength(this.fvs.strMin),
+        Validators.pattern(this.fvs.regVideo)
       ]],
       precio: [this.formVideojuegosModel.precio, [
         Validators.required,
@@ -265,6 +270,7 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
 
   private _handleSubmitError(err) {
     console.error(err);
+    this.errMsg = err.error.message;
     this.submitting = false;
     this.error = true;
   }

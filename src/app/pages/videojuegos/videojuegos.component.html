@@ -21,7 +21,9 @@
                             'background-size': '100% 100%',
                             'background-repeat': 'no-repeat',
                             'height': '200px'
-                        }"></div>
+                        }">
+                        <div *ngIf="!product.tieneStock" class="badge-nostock">Sin Stock</div>
+                    </div>
                         <a>
                             <div class="mask"></div>
                         </a>
@@ -34,7 +36,7 @@
                         <!--Text-->
                         <p class="card-text">{{product.descripcion}}</p>
                         <a class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
-                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" mdbTooltip="Agregar al carrito" (click)="agregarAlcarrito(product)" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <button class="btn btn-primary btn-circle btn-lg waves-light zoom" [disabled]="!product.tieneStock" mdbTooltip="Agregar al carrito" (click)="agregarAlcarrito(product)" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 <br>

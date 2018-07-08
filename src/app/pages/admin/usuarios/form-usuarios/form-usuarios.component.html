@@ -43,7 +43,7 @@
 
 
       <div class="md-form fullwidth">
-        <input type="number" id="telefono" class="form-control" formControlName="telefono" [maxlength]="fss.telMax" mdbActive>
+        <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="telefono" class="form-control" formControlName="telefono" [maxlength]="fss.telMax" mdbActive>
         <label for="telefono">Telefono</label>
       </div>
       <div
@@ -52,7 +52,7 @@
         [innerHTML]="formErrors.telefono">
       </div>
       <div class="md-form fullwidth">
-          <input type="number" id="dni" class="form-control" formControlName="dni" [maxlength]="fss.dniMax" mdbActive>
+          <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="dni" class="form-control" formControlName="dni" [maxlength]="fss.dniMax" mdbActive>
           <label for="dni">DNI</label>
       </div>
       <div
@@ -87,7 +87,7 @@
       </div>
   
       <div class="md-form fullwidth">
-          <input type="number" id="altura" class="form-control" formControlName="altura" [maxlength]="fss.intMax" mdbActive>
+          <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="altura" class="form-control" formControlName="altura" [maxlength]="fss.intMax" mdbActive>
           <label for="altura">Altura</label>
       </div>
       <div
@@ -98,7 +98,7 @@
   
   
       <div class="md-form fullwidth">
-          <input type="number" id="codigo_postal" class="form-control" formControlName="codigo_postal" [maxlength]="fss.intMax" mdbActive>
+          <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="codigo_postal" class="form-control" formControlName="codigo_postal" [maxlength]="fss.intMax" mdbActive>
           <label for="codigo_postal">Codigo Postal</label>
       </div>
       <div
@@ -114,7 +114,7 @@
       <app-submitting *ngIf="submitting"></app-submitting>
   
       <p *ngIf="error" class="mt-3 alert alert-danger">
-        <strong>Error:</strong> Hubo un problema al intentar enviar los datos. Por favor, reintente.
+        <strong>Error:</strong> {{errMsg}}
       </p>
       </form>
   

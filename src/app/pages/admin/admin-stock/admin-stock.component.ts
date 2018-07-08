@@ -31,6 +31,8 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   videojuego: Videojuego;
   errorMsg: string;
   videojuegosStock: any[] = [];
+  invalido: boolean = false;
+  selectedIndex: number = 0;
 
   constructor(private _formBuilder: FormBuilder, private modalService: NgbModal, private router: Router, private sucursalService: SucursalService, private us: UtilsService) { }
 
@@ -44,7 +46,13 @@ export class AdminStockComponent implements OnInit, OnDestroy {
         data => {
           this.loading = false;
           this.sucursales = data;
-          this.sucursal = this.sucursales[0];
+          let indice = 0;
+          if(this.us.indiceSucursal) {
+            indice = this.us.indiceSucursal;
+            this.us.indiceSucursal = null;
+          }
+          this.sucursal = this.sucursales[indice];
+          this.selectedIndex = indice;
         }, err => this._handleSubmitError(err)
       );
     } else {
@@ -70,16 +78,24 @@ export class AdminStockComponent implements OnInit, OnDestroy {
 
   actualizarDatos(event) {
     this.sucursal = this.sucursales[event.index];
-    this.videojuegosStock = [];
+    this.us.indiceSucursal = event.index;
+    this.router.navigateByUrl('/lista-negra', {skipLocationChange: true}).then(()=>
+    this.router.navigate(["admin-stock"]));
+    //this.videojuegosStock = [];
     //console.log('miStepper: ', this.miStepper);
-    this.miStepper._steps.forEach(s => {s.editable = true}); 
-    this.miStepper.selectedIndex = 0;
-    this.miStepper.reset();
+    //this.miStepper._steps.forEach(s => {s.editable = true}); 
+    //this.miStepper.selectedIndex = 0;
+    //this.miStepper.reset();
   }
 
   codeSubmit(stepper: MatStepper) {
     this.videojuego = null;  
     let codigo = this.firstFormGroup.get('CodigoCtrl').value;
+    if(!Number.isInteger(codigo)) {
+      this.error = true;
+      this.errorMsg = "El codigo debe ser un valor numerico";
+      return;
+    }
     this.sucursal.videojuegos.forEach(videojuego => {
       this.videojuegosStock.forEach(v => {
         if(codigo == v.codigo) {
@@ -90,7 +106,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
           return;
         }
       });
-      if(codigo == videojuego.codigo) {
+      if(codigo == videojuego.codigo && videojuego.activo) {
         console.log(videojuego);
         this.videojuego = videojuego;
         this.error = false;
@@ -116,7 +132,7 @@ export class AdminStockComponent implements OnInit, OnDestroy {
     this.error = false;
     this.errorMsg = "";
     let cantidad = this.secondFormGroup.get('StockCtrl').value;
-    if(cantidad < 1) {
+    if(!Number.isInteger(cantidad) || cantidad < 1) {
       this.secondFormGroup.reset();
       stepper.previous();
       this.error = true;
@@ -139,13 +155,21 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   }
 
   onEnter(cantidad, vj, refreshSotck) {
-    //console.log(cantidad);
+    console.log(Number.isInteger(parseInt(cantidad)));
     //console.log(vj);
     this.error = false;
     this.errorMsg = "";
+    if(!Number.isInteger(parseInt(cantidad))) {
+      this.error = true;
+      this.errorMsg = "La cantidad debe ser un valor numerico";
+      cantidad = vj.cantidad;
+      return;
+    }
     if(cantidad < 0) {
       this.error = true;
-      this.errorMsg = "No puede introducir una cantidad negativa"
+      this.errorMsg = "No puede introducir una cantidad negativa";
+      cantidad = vj.cantidad;
+      return;
     }
     this.videojuegosStock.forEach(v => {
       if(v.titulo == vj.titulo) {
@@ -162,6 +186,11 @@ export class AdminStockComponent implements OnInit, OnDestroy {
   confirmSubmit(stepper: MatStepper, success) {
     this.sucursal.videojuegos.forEach(v1 => {
       this.videojuegosStock.forEach(v2 => {
+        if(!Number.isInteger(parseInt(v2.cantidad)) || parseInt(v2.cantidad) < 0) {
+          this.error = true;
+          this.errorMsg = "Existen datos invalidos en las cantidades a reponer";
+          return;
+        }
         if(v1.titulo == v2.titulo) {
           v1.stock = v1.stock + parseInt(v2.cantidad);
         }

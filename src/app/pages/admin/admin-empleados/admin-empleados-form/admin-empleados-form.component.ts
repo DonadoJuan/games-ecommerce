@@ -45,6 +45,8 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
   submitting: boolean;
   submitBtnText: string;
   tituloForm: string;
+  maxDate = new Date(Date.now());
+  errMsg: string = "Ocurrio un error interno. Por favor, reintente";
 
   perfiles: any[] = [];
   sucursales: any[] = [];
@@ -61,6 +63,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
     private personalService: PersonalService) { }
 
   ngOnInit() {
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
     if(this.us.personal) {
       this.personal = this.us.personal;
       console.log(this.us.personal);
@@ -128,17 +131,20 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       nombre: [this.formEmpleadosModel.nombre, [
         Validators.required,
         Validators.minLength(this.aes.strMin),
-        Validators.maxLength(this.aes.strMax)
+        Validators.maxLength(this.aes.strMax),
+        Validators.pattern(this.aes.regNombre)
       ]],
       legajo: [this.formEmpleadosModel.legajo, [
         Validators.required,
         Validators.min(this.aes.intMin),
         Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       dni: [this.formEmpleadosModel.dni, [
         Validators.required,
         Validators.min(this.aes.dniMin),
-        Validators.max(this.aes.dniMax)
+        Validators.max(this.aes.dniMax),
+        Validators.pattern(this.aes.reg)
       ]],
       fecha_nacimiento: [this.formEmpleadosModel.fecha_nacimiento,
         Validators.required
@@ -166,17 +172,20 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       altura: [this.formEmpleadosModel.domicilio.altura, [
         Validators.required,
         Validators.min(this.aes.intMin),
-        Validators.max(this.aes.intMax)
+        Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       codigo_postal: [this.formEmpleadosModel.domicilio.codigo_postal, [
         Validators.required,
         Validators.min(this.aes.intMin),
-        Validators.max(this.aes.intMax)
+        Validators.max(this.aes.intMax),
+        Validators.pattern(this.aes.reg)
       ]],
       telefono: [this.formEmpleadosModel.telefono, [
         Validators.required,
         Validators.min(this.aes.telMin),
-        Validators.max(this.aes.telMax)
+        Validators.max(this.aes.telMax),
+        Validators.pattern(this.aes.reg)
       ]],
       password: [this.formEmpleadosModel.password, [
         Validators.required,
@@ -276,6 +285,7 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
 
   private _handleSubmitError(err) {
     console.error(err);
+    this.errMsg = err.error.message;
     this.submitting = false;
     this.error = true;
   }

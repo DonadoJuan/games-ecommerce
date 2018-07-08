@@ -1,0 +1,39 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  .example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+
+  mat-row:nth-child(even){
+    background-color: #b9f6ca;
+    }
+
+  mat-row:nth-child(odd){
+    background-color:white;
+    }
+
+  ::ng-deep .mat-sort-header-arrow.ng-trigger.ng-trigger-arrowPosition {
+      opacity: 0;
+  }
+  
+  ::ng-deep .mat-sort-header-pointer-left.ng-trigger.ng-trigger-leftPointer{
+      transform: rotate(-45deg);
+  }
+  ::ng-deep .mat-sort-header-pointer-right.ng-trigger.ng-trigger-rightPointer{
+      transform: rotate(45deg);
+  }

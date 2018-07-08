@@ -31,6 +31,7 @@ export class FormSliderComponent implements OnInit {
   formChangeSub: Subscription;
   sliderSub: Subscription;
   formErrors: any;
+  mensajeError : string = "Hubo un problema al intentar enviar los datos. Por favor, reintente.";
 
 
   selectedFile: File | any = {
@@ -129,6 +130,7 @@ export class FormSliderComponent implements OnInit {
 
   private _handleSubmitError(err) {
     console.error(err);
+    this.mensajeError = err.error.message;
     this.submitting = false;
     this.error = true;
   }
