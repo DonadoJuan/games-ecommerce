@@ -12,6 +12,8 @@ import { ButtonListaNegraComponent } from "./button-lista-negra.component";
 import { ButtonDetailsComponent } from "./button-details/button-details.component";
 import { ClienteService } from "../../../core/services/cliente/cliente.service";
 import { ButtonRestoreComponent } from "./button-restore/button-restore.component";
+import { ConfirmDeleteDialog } from '../admin-empleados/admin-empleados.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-usuarios',
@@ -26,10 +28,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   loading: boolean;
   error: boolean;
   clienteSub: Subscription;
+  deleteClienteSub: Subscription;
   clientes: Cliente[] = [];
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  constructor(private us: UtilsService, private clienteService: ClienteService, private router: Router) { }
+  constructor(private us: UtilsService, public dialog: MatDialog,private clienteService: ClienteService, private router: Router) { }
 
   ngOnInit() {
     this.initializeGrid();
@@ -160,6 +163,29 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         this.router.navigate(['admin-usuarios-form']);
       }
     });
+    }else{
+      let dialogRef = this.dialog.open(ConfirmDeleteDialog, {
+        width: '300px'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if(result == "Confirmado") {
+          this.clientes.forEach(c => {
+            if(c.email == event.data.email) {
+              this.deleteClienteSub = this.clienteService.deleteCliente$(c._id)
+                .subscribe(
+                  data => {
+                    this.initializeGrid();
+                  },
+                  err => {
+                    console.error(err);
+                    this.loading = false;
+                    this.error = true;
+                  });
+            }
+          });
+        }
+      });
     }
   }
 

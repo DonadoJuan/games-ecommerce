@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormSignupService } from '../../../wrapper-login/signup/form-signup.service';
 import { UtilsService } from '../../../../core/services/utils/utils.service';
 import { ClienteService } from '../../../../core/services/cliente/cliente.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { signupClientSuccessDialog } from '../../../wrapper-login/signup/signup.component';
 import { Falta } from '../../../../domain/falta';
@@ -14,18 +14,7 @@ import { Baneo } from '../../../../domain/baneo';
 import { Domicilio } from '../../../../domain/domicilio';
 import { Barrio } from '../../../../domain/barrio';
 
-/*
-function passwordConfirming(c: AbstractControl):any {
-  if(!c.parent || !c) return;
-  const pwd = c.parent.get('password');
-  const cpwd= c.parent.get('verificar_password')
 
-  if(!pwd || !cpwd) return ;
-  if (pwd.value !== cpwd.value) {
-      return { noSonIguales: true };
-
-    }
-}*/
 @Component({
   selector: 'app-form-usuarios',
   templateUrl: './form-usuarios.component.html',
@@ -57,15 +46,13 @@ export class FormUsuariosComponent implements OnInit {
   tituloForm : String;
   errMsg: string;
 
-  get cpwd() {
-    return this.formClientes.get('verificar_password');
-   }
   constructor(private fb: FormBuilder,
     private fss: FormSignupService,
     private utilsService: UtilsService,
     private clienteService: ClienteService,
     private dialog: MatDialog,
-    private router: Router) {}
+    private router: Router,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit() {
 
@@ -95,40 +82,6 @@ export class FormUsuariosComponent implements OnInit {
 
   }
 
-  /*
-  private _getSubmitObj(){
-    let nuevoCliente = this.formClientes.value;
-    this.cliente = {
-      nombre: nuevoCliente.nombre,
-      email: nuevoCliente.email,
-      telefono: nuevoCliente.telefono,
-      password: nuevoCliente.password,
-      dni: nuevoCliente.dni,
-      baneos: [],
-      faltas: [],
-      domicilio_entrega: [{
-        barrio: nuevoCliente.barrio,
-        calle: nuevoCliente.calle,
-        altura: nuevoCliente.altura,
-        codigo_postal: nuevoCliente.codigo_postal
-      }],
-      activo: true
-    }
-
-  
-    this.clienteService.registrarCliente(this.cliente)
-      .subscribe(token => {
-        let df = this.dialog.open(signupClientSuccessDialog, {
-          width: '300px'
-        });
-        df.beforeClose().subscribe(result => {
-          this.router.navigate(['']);
-        });
-      },
-      err => {
-        console.log(`Error registrando cliente ${err}`)
-      });
-  }*/
 
   private _getSubmitObj() {
     let barrio = new Barrio(this.formClientes.get('barrio').value);
@@ -142,33 +95,14 @@ export class FormUsuariosComponent implements OnInit {
     let c;
     let c1;
     if(this.isEdit){
-      /*
-       c = new Cliente(
-        this.formClientes.get('nombre').value,
-        this.formClientes.get('email').value,
-        this.cliente.password,
-        this.formClientes.get('telefono').value,
-        this.formClientes.get('dni').value,
-        this.cliente.domicilio_entrega,
-        this.cliente.faltas ? this.cliente.faltas : null,
-        this.cliente.baneos ? this.cliente.baneos : null,
-        this.cliente.activo ? this.cliente.activo : null,
-        this.cliente ? this.cliente._id : null
-       );
-      let nuevoCliente = this.formClientes.value;
-     */
+
     let nuevoCliente = this.formClientes.value;
 
       c = {
         nombre: nuevoCliente.nombre,
         email: nuevoCliente.email,
         telefono: nuevoCliente.telefono,
-        password: this.cliente.password,
         dni: nuevoCliente.dni,
-        baneos: this.cliente.baneos ? this.cliente.baneos : null,
-        faltas:  this.cliente.faltas ? this.cliente.faltas : null,
-        domicilio_entrega: this.cliente.domicilio_entrega ? this.cliente.domicilio_entrega : null,
-        activo: this.cliente.activo ? this.cliente.activo : null,
         id: this.cliente ? this.cliente._id : null
       }
 
@@ -198,13 +132,12 @@ export class FormUsuariosComponent implements OnInit {
 
   private _setformClientes() {
     if(!this.isEdit){
-      return new FormClientesModel(null, null, null, null, null, null, new Domicilio(null,null,new Barrio(null),null),
+      return new FormClientesModel(null, null, null, null, null, new Domicilio(null,null,new Barrio(null),null),
       new Falta(null,null,null,null),new Baneo(null,null,null,null,null),null);
     }else{
           return new FormClientesModel(
           this.cliente.nombre,
           this.cliente.email,
-          "password",
           "password",
           this.cliente.telefono,
           this.cliente.dni,
@@ -233,12 +166,6 @@ export class FormUsuariosComponent implements OnInit {
         
        
       ]],
-      verificar_password: [this.formClientesModel.verificar_password, [
-        Validators.required,
-        Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax)
-      
-            ]],
       dni: [this.formClientesModel.dni, [
         Validators.required,
         Validators.min(this.fss.dniMin),
@@ -291,10 +218,6 @@ export class FormUsuariosComponent implements OnInit {
       if (control && control.dirty && control.invalid) {
         const messages = this.fss.mensajesValidacion[field];
         for (const key in control.errors) {
-          /*if(control.errors.noSonIguales == true){
-            errorsObj[field] = "Las contraseñas deben ser iguales";
-          return;  
-          }*/
           if(control.errors.hasOwnProperty(key)) {
             errorsObj[field] += messages[key] + '<br>';
           }
@@ -314,13 +237,22 @@ export class FormUsuariosComponent implements OnInit {
     this.submitting = true;
     this.submitClienteObj = this._getSubmitObj();
     if(!this.isEdit) {
-      this.submitClienteSub = this.clienteService
-        .registrarCliente(this.submitClienteObj)
-        .subscribe(
-          data => this._handleSubmitSuccess(data),
+      this.submitClienteSub = this.clienteService.registrarCliente(this.submitClienteObj).subscribe(
+          data =>{ 
+            
+            if(data.token){
+            this._handleSubmitSuccess(data)
+            }else{
+              this.errMsg = "El Email ingresado ya se encuentra en uso.";
+              this.submitting = false;
+              this.error = true; 
+            }
+          
+          },
           err => this._handleSubmitError(err)
         );
     } else {
+    
       console.log(this.cliente);
       this.submitClienteSub = this.clienteService
         .putCliente$(this.cliente._id,this.submitClienteObj)

@@ -26,8 +26,8 @@ export class FormSignupService {
   telMin = 10000000;
   telMax = 9999999999;
   reg = /^\d+$/;
-  regNombre = /^([^0-9]*)$/;
-
+  //regNombre = /^([^0-9]*)$/;
+  regNombre=/^([a-zA-Z]*)$/;
 
   constructor() { 
     this.mensajesValidacion = {
@@ -35,7 +35,7 @@ export class FormSignupService {
         required: `El Nombre es <strong>requerido</strong>`,
         minlength: `El nombre debe tener ${this.strMin} caracteres o mas`,
         maxlength: `El nombre debe tener ${this.strMax} caracteres o menos`,
-        pattern: `El nombre no puede tener valores numericos`
+        pattern: `El nombre solo puede tener letras!`
       },
       password: {
         required: `La contraseña es <strong>requerida</strong>`,
@@ -46,7 +46,6 @@ export class FormSignupService {
         required: `Reingrese la contraseña por favor</strong>`,
         minlength: `La contraseña debe tener ${this.strMin} caracteres o mas`,
         maxlength: `La contraseña debe tener ${this.strMax} caracteres o menos`,
-        passwordConfirming: "Deben ser iguales las contraseñas"
       },
       dni: {
         required: `El Dni es <strong>requerido</strong>`,

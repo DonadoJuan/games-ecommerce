@@ -95,6 +95,7 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
   }
 
   initializeGrid() {
+    this.contarVisibles = 0;
     this.loading = true;
     this.sliderArr = [];
     this.dataSlider = [];
@@ -174,7 +175,6 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
     this.sliderSub.unsubscribe();
   }
   checkBoxClick(event){
-    console.log(this.settings);
 
     if(event.target.checked){
       this.contarVisibles++;
@@ -185,6 +185,8 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
     if(this.contarVisibles>5){
       this.error = true;
       this.mensajeError = "Solo se pueden mostrar 5 imagenes.";
+    }else{
+      this.error = false;
     }
     localStorage.setItem("cantVisible",this.contarVisibles.toString());
 

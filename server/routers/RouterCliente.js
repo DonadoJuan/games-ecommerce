@@ -82,12 +82,8 @@ router.put('/:id', (req, res) => {
         cliente.nombre = req.body.nombre;
         cliente.dni = req.body.dni;
         cliente.email = req.body.email;
-        cliente.domicilio_entrega = req.body.domicilio_entrega;
         cliente.telefono = req.body.telefono;
-        cliente.activo = req.body.activo;
-        cliente.faltas = req.body.faltas;
-        cliente.password = req.body.password;
-        cliente.baneos = req.body.baneos;
+
 
         cliente.save(err => {
             if(err) {
@@ -130,6 +126,22 @@ router.post('/pedido', (req, res) => {
             res.status(200).json();
     });
 
+});
+router.delete('/:id', (req, res) => {
+    Cliente.findById(req.params.id, (err, cliente) => {
+        if(err) {
+            return res.status(500).send({message: err.message});
+        }
+        if(!cliente) {
+            return res.status(500).send({message: "Cliente no encontrado"});
+        }
+        cliente.remove(err => {
+            if(err) {
+                return res.status(500).send({message: err.message});
+            }
+            res.status(200).send({message: "Cliente eliminado exitosamente"});
+        });
+    });
 });
 
 module.exports = router;

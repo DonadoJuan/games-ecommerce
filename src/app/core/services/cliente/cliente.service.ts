@@ -24,6 +24,10 @@ export class ClienteService {
   getClientes$(): Observable<Cliente[]> {
     return this.baseService.get('clientes');
   }
+  
+  deleteCliente$(id: string): Observable<any> {
+    return this.baseService.delete(`clientes/${id}`);
+  }
 
   putBaneoCliente$(id: string, baneos: Baneo[]): Observable<Cliente> {
     return this.baseService.put(`clientes/baneo/${id}`, baneos);
