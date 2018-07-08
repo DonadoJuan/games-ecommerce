@@ -10,6 +10,7 @@ import { BaseService } from '../base/base.service';
 import { Slider } from '../../../domain/slider';
 import { Cupon } from '../../../domain/cupon';
 import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class UtilsService {
@@ -24,6 +25,8 @@ export class UtilsService {
   public tieneStock: boolean;
   private distanceApi = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric";
   private apiKey = "&key=AIzaSyD9Gpn2UZYjQpzm09Gh9WgvWF0oeKNp4rY";
+
+  public messageHeader: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(public baseService: BaseService) { }
 

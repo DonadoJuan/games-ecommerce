@@ -6,6 +6,7 @@ import { Baneo } from "../../../domain/baneo";
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { CarritoService } from '../carrito/carrito.service';
+import 'rxjs/add/operator/catch';
 
 
 @Injectable()
@@ -31,6 +32,8 @@ export class AuthService {
                 this.saveToken(data.token);
                 this.isLoggedIn.next(true);
               }
+            }).catch(e => {
+              return Observable.throw('Unauthorized');
             });
   }
 
@@ -42,6 +45,8 @@ export class AuthService {
                 this.saveToken(data.token);
                 this.isLoggedIn.next(true);
               }
+            }).catch(e => {
+              return Observable.throw('Unauthorized');
             });
   }
 

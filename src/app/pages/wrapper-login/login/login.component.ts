@@ -3,6 +3,7 @@ import { ClienteService } from '../../../core/services/cliente/cliente.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../../core/services/auth/auth.service';
+import { UtilsService } from '../../../core/services/utils/utils.service';
 import { EventEmitter } from 'events';
 import { HeaderComponent } from "../../../header/header.component";
 
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private headerComponent: HeaderComponent
+    private headerComponent: HeaderComponent,
+    private us: UtilsService
   ) {}
 
   login(){
@@ -29,15 +31,17 @@ export class LoginComponent implements OnInit {
       .subscribe(data => {
         if(data.token) {
           console.log(this.authService.getDatosCliente());
+          //this.headerComponent.loginHeader();
+          this.us.messageHeader.next('login');
           this.router.navigate(['']);
-          this.headerComponent.loginHeader();
         }
         else {
           this.authService.loginPersonal(this.cliente)
             .subscribe(d => {
               if(d.token) {
                 console.log(this.authService.getDatosCliente());
-                this.headerComponent.loginHeader();
+                //this.headerComponent.loginHeader();
+                this.us.messageHeader.next('login');
                 this.router.navigate(['']);
               } else {
                 this.snackBar.open('Usuario y/o clave erronea','OK');

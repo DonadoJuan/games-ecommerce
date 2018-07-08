@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, NgZone } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { AuthService } from '../core/services/auth/auth.service';
+import { UtilsService } from '../core/services/utils/utils.service';
 import { CarritoService } from '../core/services/carrito/carrito.service';
 
 @Component({
@@ -24,7 +25,11 @@ export class HeaderComponent implements OnInit {
     private router: Router, 
     private authService: AuthService,
     private carritoService: CarritoService,
-    private zone:NgZone) { }
+    private us: UtilsService) { 
+      this.us.messageHeader.subscribe((message) => {
+        this.loginHeader();
+      });
+    }
 
   logout(){
     this.cliente = false;
@@ -60,16 +65,13 @@ export class HeaderComponent implements OnInit {
       if(this.loggedIn) {
         this.payload = this.authService.getDatosCliente().payload;
         console.log(this.payload.perfil);
-        this.zone.run(() => {
-          if(this.payload.perfil === undefined) {
-            this.cliente = true;
-          } else if(this.payload.perfil === "Empleado") {
-            this.empleado = true;
-          } else {
-            this.admin = true;
-          }
-        });
-
+        if(this.payload.perfil === undefined) {
+          this.cliente = true;
+        } else if(this.payload.perfil === "Empleado") {
+          this.empleado = true;
+        } else {
+          this.admin = true;
+        }
         //this.cdRef.detectChanges();
         console.log("cliente: ", this.cliente);
         console.log("empleado: ", this.empleado);
