@@ -19,7 +19,7 @@
               <thead>
                 <tr>
                   <th scope="col"></th>
-                  <th scope="col">IMAGEN</th>
+                  <th scope="col"></th>
                   <th scope="col">TITULO</th>
                   <th scope="col">PRECIO</th>
                   <th scope="col">CANTIDAD</th>
@@ -35,7 +35,7 @@
                   <td><img width="180px" height="90px" class="align-center"[src]="item.videojuego.imagen"></td>
                   <td>{{item.videojuego.titulo}}</td>
                   <td>$ {{item.videojuego.precio}}</td>
-                  <td><input min="1" max="10" class="w-50" type="number" (change)="updateTotal()" 
+                  <td><input min="1" max="10" class="w-50" type="number" (change)="updateTotal(true)" 
                     [(ngModel)]="item.cantidad"></td>
                   <td>$ {{item.subtotal}}</td>
                 </tr>
@@ -208,7 +208,7 @@
     </mat-step>
 
     <!-- PASO 3 PAGO -->
-    <mat-step label="PAGO">
+    <mat-step [completed]="tipoPagoCompletado" label="PAGO">
 
       <div class="container">
 
@@ -221,7 +221,8 @@
 
               <mat-divider class="mb-3"></mat-divider>
 
-              <mat-radio-group class="d-flex flex-row justify-content-start mb-5" [(ngModel)]="formaDePago">
+              <mat-radio-group 
+              (change)="actualizarTipoPago()" class="d-flex flex-row justify-content-start mb-5" [(ngModel)]="formaDePago">
                 <mat-radio-button class="mr-5" labelPosition="before" [value]="1">
                   <span>Efectivo en sucursal</span>
                 </mat-radio-button>
@@ -231,23 +232,27 @@
               </mat-radio-group>
 
               <div *ngIf="formaDePago == 1">
-                <div class="alert alert-warning" role="alert">
+
+                <div *ngIf="formaEntrega != 2" class="alert alert-warning">
                   Su pedido sera reservado por 7 días hábiles a partir de la fecha de compra, en caso de no retirarlo en dicho periodo usted
-                  podrá ser
-                  <b>penalizado</b>.
+                  podrá ser <b>penalizado</b>.
+                </div>
+
+                <div *ngIf="formaEntrega == 2" class="alert alert-danger">
+                  El medio de pago - efectivo - no esta disponible en entregas a domicilio.
                 </div>
               </div>
 
               <div *ngIf="formaDePago == 2">
 
                 <mat-form-field floatLabel="never" class="w-75">
-                  <mat-select placeholder="Seleccione una tarjeta">
+                  <mat-select (change)="actualizarTipoPago($event.value)" placeholder="Seleccione una tarjeta">
                     <mat-option *ngFor="let t of cliente.tarjetas" [value]="t">
                       <span>{{t.tipoTarjeta}} terminada en
                         <b>...{{t.numero | slice:-4 }}</b>
                       </span>
                     </mat-option>
-                    <mat-option [value]="'nuevaTarjeta'">
+                    <mat-option [value]="'otro'">
                       Otra tarjeta
                     </mat-option>
                   </mat-select>
@@ -265,7 +270,7 @@
 
                       <h6 class="mt-4">Datos de tarjeta</h6>
                       <mat-divider class="mb-3"></mat-divider>
-                      <form  [formGroup]="formTarjeta">
+                      <form  class="d-flex flex-column" [formGroup]="formTarjeta">
                         <mat-form-field>
                           <mat-select formControlName="tipoTarjeta" placeholder="Tipo de tarjeta">
                             <mat-option [value]="'Mastercard'">
@@ -351,7 +356,8 @@
               </div>
             </div>
             <div class="row justify-content-center mt-5">
-              <button matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
+              <button [disabled]="!tipoPagoCompletado" 
+              matStepperNext class="btn btn-block btn-elegant waves-light font-weight-bold">
                 CONTINUAR
               </button>
             </div>
@@ -359,7 +365,6 @@
         </div>
       </div>
     </mat-step>
-
 
     <!-- PASO 4 CONFIRMAR COMPRA -->
     <mat-step label="CONFIRMAR COMPRA">
@@ -371,32 +376,79 @@
             <section class="mb-3 mt-3">
               <h6>CARRITO</h6>
               <mat-divider class="mb-4"></mat-divider>
-              <ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th scope="col">TITULO</th>
+                    <th scope="col">PRECIO</th>
+                    <th scope="col">CANTIDAD</th>
+                    <th scope="col">SUBTOTAL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of pedido.videojuegos, index as i">
+                    <td><img width="180px" height="90px" class="align-center"[src]="item.videojuego.imagen"></td>
+                    <td>{{item.videojuego.titulo}}</td>
+                    <td>$ {{item.videojuego.precio}}</td>
+                    <td><input min="1" max="10" class="w-50" type="number" [value]="item.cantidad" disabled></td>
+                    <td>$ {{item.subtotal}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </section>
             <section class="mb-3 mt-3">
               <h6>FORMA DE ENTREGA</h6>
               <mat-divider class="mb-4"></mat-divider>
-              <div class="d-flex d-row justify-content-between h-50">
-                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Entrega a domicilio</span>
-                <span class="alert alert-dark">Defensa 7010, San Telmo</span>
+
+              <div *ngIf="!pedido.domicilio_entrega" class="d-flex d-row justify-content-between h-50">
+                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Retiro en sucusal</span>
+                <span class="alert alert-dark">
+                  {{pedido.sucursal_entrega?.ubicacion.calle + " " + pedido.sucursal_entrega?.ubicacion.altura + ", " + pedido.sucursal_entrega?.ubicacion.barrio.nombre}}
+                </span>
               </div>
+
+              <div *ngIf="pedido.domicilio_entrega" class="d-flex d-row justify-content-between h-50">
+                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Entrega a domicilio</span>
+                <span class="alert alert-dark">
+                  {{pedido.domicilio_entrega?.calle + " " + pedido.domicilio_entrega?.altura + ", " + pedido.domicilio_entrega?.barrio.nombre}}
+                </span>    
+              </div>
+              
             </section>
             <section class="mb-3 mt-3">
               <h6>MEDIO DE PAGO</h6>
               <mat-divider class="mb-4"></mat-divider>
-              <div class="d-flex d-row justify-content-between h-50">
-                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">Tarjeta</span>
-                <span class="alert alert-dark">Visa terminada en ...5631</span>
+              
+              <div *ngIf="formaDePago == '1'" class="d-flex d-row justify-content-between h-50">
+                  <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">
+                    Efectivo
+                  </span>
               </div>
+
+              <div *ngIf="formaDePago == '2'" class="d-flex d-row justify-content-between h-50">
+                <span class="alert alert-dark w-50 d-flex justify-content-center align-items-center">
+                  Tarjeta
+                </span>
+                <span class="alert alert-dark">
+                  {{pedido.medio_pago?.tarjeta?.tipoTarjeta}} terminada en ...{{pedido.medio_pago?.tarjeta?.numero | slice:-4 }}
+                </span>
+              </div>
+
             </section>
             <section class="mb-3 mt-3">
               <h6>DESCUENTOS</h6>
               <mat-divider class="mb-4"></mat-divider>
               <div class="d-flex d-row justify-content-between">
                 <mat-form-field class="w-50">
-                    <input matInput placeholder="Cupon de descuento">
+                    <input 
+                    matInput 
+                    (input)="codigo.value=codigo.value.toUpperCase();pedido.cupon=undefined;" #codigo placeholder="Cupon de descuento">
                 </mat-form-field>
-                <button mat-button mat-raised-button>APLICAR DESCUENTO</button>
+                <button 
+                (click)="validarCupon(codigo.value)" [disabled]="pedido.cupon" mat-button mat-raised-button>
+                APLICAR DESCUENTO
+              </button>
               </div>
             </section>
           </div>
@@ -405,19 +457,20 @@
             <div class="row border border-dark justify-content-center p-3">
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Subtotal:</label>
-                <span>$ 2000.00</span>
+                <span>$ {{ pedido.subtotal }}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2 m-0">
                 <label>Costo de envio:</label>
-                <span> $ 200 </span>
+                <span> $ {{ pedido.costoEnvio }}</span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center p-2">
                 <label>Descuentos:</label>
-                <span> $50 </span>
+                <span *ngIf="pedido.cupon" > {{ pedido?.cupon?.descuento }}% </span>
+                <span *ngIf="!pedido.cupon"> - </span>
               </div>
               <div class="col-12 d-flex justify-content-between align-items-center alert alert-dark p-2 m-0">
                 <label>Total:</label>
-                <span> $1500 </span>
+                <span> $ {{ pedido.total }} </span>
               </div>
             </div>
             <div class="row justify-content-center mt-5">

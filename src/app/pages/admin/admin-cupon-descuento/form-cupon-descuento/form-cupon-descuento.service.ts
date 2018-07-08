@@ -17,6 +17,7 @@ export class FormCuponDescuentoService {
 
   intMin = 1; 
   intMax = 100;
+  regNombre=/^([a-zA-Z]*)$/;
 
 
   constructor() { 
@@ -24,7 +25,8 @@ export class FormCuponDescuentoService {
       codigo: {
         required: `El Codigo es <strong>requerido</strong>`,
         minlength: `El Codigo debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `El Codigo debe tener ${this.strMax} caracteres o menos`
+        maxlength: `El Codigo debe tener ${this.strMax} caracteres o menos`,
+        pattern: `El Codigo solo puede tener letras!`
       },
       descuento: {
         required: `El descuento es <strong>requerido</strong>`,

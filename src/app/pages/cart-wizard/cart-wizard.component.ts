@@ -9,6 +9,8 @@ import { CarritoService } from '../../core/services/carrito/carrito.service';
 import { Sucursal } from '../../domain/sucursal';
 import { SubmittingComponent } from '../../core/submitting.component';
 import { LoadingComponent } from '../../core/loading.component';
+import { CuponService } from '../../core/services/cupon/cupon.service';
+import { ClienteService } from '../../core/services/cliente/cliente.service';
 
 @Component({
   selector: 'confirm-purchase-dialog',
@@ -35,6 +37,8 @@ export class ConfirmPurchaseDialog {
 })
 export class CartWizardComponent implements OnInit {
 
+  codigoCupon: any;
+  tipoPagoCompletado: boolean;
   formaDePago: any;
   esVisibleFormTarjeta: boolean;
   esVisibleFormDomicilio: boolean;
@@ -43,7 +47,7 @@ export class CartWizardComponent implements OnInit {
   ofertaSucursalInvalida: boolean;
   formDomicilio: FormGroup;
   formTarjeta: FormGroup;
-  cliente: object;
+  cliente: any;
   barrios: object[];
   formaEntrega: String;
   tarjetas: any;
@@ -58,7 +62,9 @@ export class CartWizardComponent implements OnInit {
     private utilService: UtilsService,
     private carritoService: CarritoService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private cuponService: CuponService,
+    private clienteService: ClienteService) { }
 
 
   ngOnInit() {
@@ -66,11 +72,15 @@ export class CartWizardComponent implements OnInit {
     this.tipoEntregaValida = false;
     this.costoEnvioCalculado = false;
     this.ofertaSucursalInvalida = false;
+
     this._buildForms();
     this._getServiceData();
     this.updateTotal();
     this.formDomicilio.valueChanges.subscribe(val => {
       this.actualizarTipoEntrega('otro');
+    });
+    this.formTarjeta.valueChanges.subscribe(val => {
+      this.actualizarTipoPago('otro');
     });
   }
 
@@ -105,16 +115,26 @@ export class CartWizardComponent implements OnInit {
   }
 
   private updateTotal() {
-    let total = 0;
-    this.pedido.totalEnvio = 0;
+    let subtotal = 0;
+    this.pedido.total = 0;  
+
+    if(!this.pedido.costoEnvio)
+      this.pedido.costoEnvio = 0;
+    
     this.pedido.videojuegos.forEach(item => {
-      if (item.cantidad < 1 || item.cantidad > 10) {
+      if (item.cantidad < 1 || item.cantidad > 100) {
         item.cantidad = 1;
       }
       item.subtotal = item.cantidad * item.videojuego.precio;
-      total += item.subtotal;
+      subtotal += item.subtotal;
     });
-    this.pedido.subtotal = total;
+    this.pedido.subtotal = subtotal;
+    this.pedido.total += this.pedido.subtotal;
+    this.pedido.total += this.pedido.costoEnvio;
+
+    if(this.pedido.cupon && this.pedido.cupon.descuento){
+      this.pedido.total -= this.pedido.total * (this.pedido.cupon.descuento/100);
+    }
   }
 
   removeItem(i: number) {
@@ -203,7 +223,8 @@ export class CartWizardComponent implements OnInit {
       if(res.status == 'OK'){
         this.pedido.costoEnvio = res.precio;
         this.pedido.sucursal_entrega = res.sucursal_entrega;
-        this.costoEnvioCalculado = true;                        
+        this.costoEnvioCalculado = true;
+        this.updateTotal();                        
       }else{
         this.pedido.costoEnvio = 0;
         this.costoEnvioCalculado = false;
@@ -223,19 +244,71 @@ export class CartWizardComponent implements OnInit {
     
   }
 
-  tipoDePagoCompletado(){
+  actualizarTipoPago(tipoTarjeta){
+    
+    this.esVisibleFormTarjeta = false;
+    this.tipoPagoCompletado = false;
 
-    //if (this.for)
+    if(this.formaDePago == '1' && this.formaEntrega != '2'){
+      this.pedido.medio_pago = { medio: "efectivo"};
+      this.tipoPagoCompletado = true;
+
+    }else if(this.formaDePago == '2'){
+
+      if(tipoTarjeta == 'otro'){
+
+        this.esVisibleFormTarjeta = true;
+        if(this.formTarjeta.valid){
+          let otraTarjeta = this.formTarjeta.value;
+        this.pedido.medio_pago = {medio: "tarjeta", tarjeta: otraTarjeta};
+        this.tipoPagoCompletado = true;
+        }
+
+      }else if(tipoTarjeta != undefined){
+        this.pedido.medio_pago = {medio: "tarjeta", tarjeta: tipoTarjeta};
+        this.tipoPagoCompletado = true;
+        this.formTarjeta.markAsPristine();
+        this.formTarjeta.markAsUntouched();
+      }
+    }
+
+  }
+
+  validarCupon(codigo){
+    this.cuponService.validarCupon(this.cliente._id, codigo.trim())
+    .subscribe(res =>{
+
+      let msg = '';
+
+      if(res.code == '00'){
+        this.pedido.cupon = res.cupon;
+        this.updateTotal();
+        msg = 'Descuento aplicado!'
+      }else
+        msg = res.messsage;
+
+      this.snackBar.open(msg,'',{duration: 2500, panelClass:['sb-error']});
+    });
   }
 
   confirmPurchase(): void {
-    let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
-      width: '300px'
-    });
+    this.clienteService.registrarPedido(this.cliente._id, this.pedido)
+    .subscribe(res=>{
 
-    dialogRef.beforeClose().subscribe(result => {
-      this.router.navigate(['pedidos']);
-    });
+      if(res.code == '00'){
+        this.carritoService.limpiarVideoJuegosCarrito();
+        let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
+          width: '300px'
+        });
+        dialogRef.afterClosed().subscribe(()=>{
+          this.router.navigate(['']);
+        })
+
+      }else{
+        this.snackBar.open(res.message,'',{duration: 2500, panelClass:['sb-error']});
+      }
+
+    })
   }
 
 

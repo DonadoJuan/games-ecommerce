@@ -14,17 +14,6 @@ import { MatDialogRef, MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 
-function passwordConfirming(c: AbstractControl):any {
-  if(!c.parent || !c) return;
-  const pwd = c.parent.get('password');
-  const cpwd= c.parent.get('verificar_password')
-
-  if(!pwd || !cpwd) return ;
-  if (pwd.value !== cpwd.value) {
-      return { noSonIguales: true };
-
-}
-}
 
 @Component({
   selector: 'signupClientSuccessDialog',
@@ -60,9 +49,7 @@ export class SignupComponent implements OnInit {
   formChangeSub: Subscription;
   barrios: any[] = [];
  
-  get cpwd() {
-    return this.formClientes.get('verificar_password');
-   }
+
   constructor(private fb: FormBuilder,
     private fss: FormSignupService,
     private utilsService: UtilsService,
@@ -123,7 +110,7 @@ export class SignupComponent implements OnInit {
   }
 
   private _setformClientes() {
-      return new FormClientesModel(null, null, null, null,null, null, new Domicilio(null,null,new Barrio(null),null),
+      return new FormClientesModel(null, null, null, null,null, new Domicilio(null,null,new Barrio(null),null),
       new Falta(null,null,null,null),new Baneo(null,null,null,null),null);
   }
 
@@ -139,13 +126,7 @@ export class SignupComponent implements OnInit {
         Validators.required,
         Validators.minLength(this.fss.strMin),
         Validators.maxLength(this.fss.strMax)
-      ]], verificar_password: [this.formClientesModel.verificar_password, [
-        Validators.required,
-        Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax),
-        passwordConfirming
-            ]],
-    
+      ]],
       dni: [this.formClientesModel.dni, [
         Validators.required,
         Validators.min(this.fss.dniMin),
@@ -198,10 +179,6 @@ export class SignupComponent implements OnInit {
       if (control && control.dirty && control.invalid) {
         const messages = this.fss.mensajesValidacion[field];
         for (const key in control.errors) {
-          if(control.errors.noSonIguales == true){
-            errorsObj[field] = "Las contraseñas deben ser iguales";
-          return;  
-          }
           if (control.errors.hasOwnProperty(key)) {
             errorsObj[field] += messages[key] + '<br>';
           }

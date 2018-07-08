@@ -8,7 +8,6 @@ export class FormClientesModel {
         public nombre: string,
         public email: string,
         public password: string,
-        public verificar_password: string,
         public telefono: string,
         public dni: string,
         public domicilio_entrega: Domicilio,

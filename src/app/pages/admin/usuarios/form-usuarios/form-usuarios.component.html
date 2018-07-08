@@ -23,23 +23,13 @@
       <div *ngIf="!isEdit">
         
         <div class="md-form fullwidth">
-          <input type="password" (input)="formClientes.controls.verificar_password.updateValueAndValidity()" id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
+          <input type="password"  id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
           <label for="password">Password</label>
         </div>
         <div *ngIf="formErrors.password" class="small text-danger formErrors" [innerHTML]="formErrors.password">
         </div>
-      
-        <div class="md-form fullwidth">
-          <input type="password" id="verificar_password" class="form-control" appConfirmEqualValidator="password"  formControlName="verificar_password" [maxlength]="fss.strMax"
-            mdbActive>
-          <label for="verificar_password">Reingrese password</label>
-        </div>
-        <div *ngIf="formErrors.verificar_password" class="small text-danger formErrors" [innerHTML]="formErrors.verificar_password">
-        </div>
-        <span class="help-block" *ngIf="formClientes.controls.verificar_password.errors?.notEqual">
-          Password and Confirm Password does not match
-        </span>
       </div>
+
 
 
       <div class="md-form fullwidth">

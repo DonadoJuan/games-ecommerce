@@ -34,4 +34,9 @@ export class CarritoService {
     getVideojuegosCarrito(){
       return this.videojuegosCarrito;
     }
+
+    limpiarVideoJuegosCarrito(){
+      let length = this.videojuegosCarrito.length;
+      this.videojuegosCarrito.splice(0,length);
+    }
 }

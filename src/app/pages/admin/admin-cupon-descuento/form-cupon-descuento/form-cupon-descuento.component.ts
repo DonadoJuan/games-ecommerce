@@ -62,7 +62,9 @@ export class FormCuponDescuentoComponent implements OnInit {
       codigo: [this.formCuponModel.codigo, [
         Validators.required,
         Validators.minLength(this.fcd.strMin),
-        Validators.maxLength(this.fcd.strMax)
+        Validators.maxLength(this.fcd.strMax),
+        Validators.pattern(this.fcd.regNombre)
+
       ]],
       descuento: [this.formCuponModel.codigo, [
         Validators.required,
@@ -86,6 +88,7 @@ export class FormCuponDescuentoComponent implements OnInit {
 
     private _onValueChanged() {
       if(!this.formCupon) {return;}
+       
       const _setErrMsgs = (control: AbstractControl, errorsObj: any, field: string) => {
         if (control && control.dirty && control.invalid) {
           const messages = this.fcd.mensajesValidacion[field];
@@ -107,8 +110,9 @@ export class FormCuponDescuentoComponent implements OnInit {
 
 
   private _getSubmitObj() {
+    let codigo : string =  this.formCupon.get('codigo').value;
     let c = new Cupon(     
-      this.formCupon.get('codigo').value,
+      codigo.toUpperCase(),
       this.formCupon.get('descuento').value,
       this.formCupon.get('validoDesde').value,
       this.formCupon.get('validoHasta').value

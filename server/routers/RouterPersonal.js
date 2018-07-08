@@ -93,7 +93,7 @@ router.put('/:id', (req, res) => {
         personal.sucursal = req.body.sucursal;
         personal.domicilio = req.body.domicilio;
         personal.telefono = req.body.telefono;
-        personal.password = req.body.password;
+        //personal.password = req.body.password;
         personal.save(err => {
             if(err) {
                 return res.status(500).send({message: err.message});
