@@ -33,6 +33,8 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
   deleteSliderSub: Subscription;
   mensajeError : String = "Ocurrio un error al traer datos del slider.";
   objeto : any;
+  contarVisibles : number = 0;
+  @Input() rowData: any;
 
 
   private listaSlider : Slider[] = new Array();
@@ -45,9 +47,9 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
               public dialog: MatDialog) { }
 
 
+
        
   ngOnInit() {
-
 
     this.initializeGrid();
     this.settings = {
@@ -88,7 +90,6 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
         class: 'table table-bordered table-striped'
       }
     }
-  let visible =   document.getElementById("visible");
     
     
   }
@@ -97,17 +98,16 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.sliderArr = [];
     this.dataSlider = [];
-    let contador = 0;
     this.sliderSub = this.sliderService.getSlider$()
       .subscribe(data => {
       
         data.forEach(d => {
           this.sliderArr.push(d);
-          console.log(d);
           let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
           //console.log("image: ", image);
           if(d.visible){
-            contador++;
+            this.contarVisibles++;
+            localStorage.setItem("cantVisible",this.contarVisibles.toString());
             
           }
           this.dataSlider.push({
@@ -118,7 +118,6 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
           });
           
         });
-        console.log(contador);
         this.fillData();
       }, 
       error => {
@@ -173,6 +172,22 @@ export class AdminSlideshowComponent implements OnInit, OnDestroy {
       this.deleteSliderSub.unsubscribe();
     }
     this.sliderSub.unsubscribe();
+  }
+  checkBoxClick(event){
+    console.log(this.settings);
+
+    if(event.target.checked){
+      this.contarVisibles++;
+    }else{
+      this.contarVisibles--;
+    }
+    console.log(this.contarVisibles);
+    if(this.contarVisibles>5){
+      this.error = true;
+      this.mensajeError = "Solo se pueden mostrar 5 imagenes.";
+    }
+    localStorage.setItem("cantVisible",this.contarVisibles.toString());
+
   }
 
 }
