@@ -44,11 +44,12 @@ export class OfertasComponent implements OnInit, OnDestroy {
   verDetalles(product: Videojuego, sucursal: Sucursal) {
     this.us.videojuego = product;
     this.us.sucursal = sucursal;
+    this.us.tieneStock = true;
     this.router.navigate(["game-details"]);
   }
 
   checkOffert(sucursal: Sucursal, product: Videojuego): boolean {
-    if(product.activo && product.descuento != 0 && new Date(product.inicioDescuento) <= this.fechaDelDia) {
+    if(product.activo && product.descuento != 0 && new Date(product.inicioDescuento) <= this.fechaDelDia && product.stock > 0) {
       if(new Date(product.finDescuento) >= this.fechaDelDia) {
         return true;
       } else {

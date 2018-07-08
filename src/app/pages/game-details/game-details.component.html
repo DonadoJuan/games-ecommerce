@@ -67,9 +67,10 @@
       </div> -->
       <!-- BOTON COMPRAR -->
       <div class="row justify-content-center mt-2">
-          <button type="button" (click)="agregarAlCarrito()" class="btn btn-mdb-color btn-lg btn-block w-50">
+          <button type="button" (click)="agregarAlCarrito()" [disabled]="!tieneStock" class="btn btn-mdb-color btn-lg btn-block w-50">
             <span class="font-weight-bold">COMPRAR</span>
             <i class="material-icons align-middle ml-4">add_shopping_cart</i>
+            <div *ngIf="!tieneStock" class="badge-nostock">Sin Stock</div>
           </button>
       </div>
     </div>

@@ -23,7 +23,9 @@
                             'background-size': '100% 100%',
                             'background-repeat': 'no-repeat',
                             'height': '200px'
-                            }"></div>
+                            }">
+                            <div *ngIf="!product.tieneStock" class="badge-nostock">Sin Stock</div>
+                        </div>
                         <a>
                             <div class="mask"></div>
                         </a>
@@ -35,7 +37,7 @@
 
                         <p class="card-text">{{product.descripcion}}</p>
                         <button class="btn btn-primary waves-light" mdbRippleRadius #btnDetalle (click)="verDetalles(product)">Detalles</button>
-                        <a class="btn btn-primary btn-circle btn-lg waves-light zoom" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <button class="btn btn-primary btn-circle btn-lg waves-light zoom" [disabled]="!product.tieneStock" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                     </div>
                 
                 </div>
@@ -68,7 +70,9 @@
                             'background-size': '100% 100%',
                             'background-repeat': 'no-repeat',
                             'height': '200px'
-                            }"></div>
+                            }">
+                            <div *ngIf="!product.tieneStock" class="badge-nostock">Sin Stock</div>
+                        </div>
                         <a>
                             <div class="mask"></div>
                         </a>
@@ -80,7 +84,7 @@
 
                         <p class="card-text">{{product.descripcion}}</p>
                         <a class="btn btn-nintendo waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
-                        <a class="btn btn-nintendo btn-circle btn-lg waves-light zoom" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                        <button class="btn btn-nintendo btn-circle btn-lg waves-light zoom" [disabled]="!product.tieneStock" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                     </div>
                 
                 </div>
@@ -113,7 +117,9 @@
                         'background-size': '100% 100%',
                         'background-repeat': 'no-repeat',
                         'height': '200px'
-                        }"></div>
+                        }">
+                        <div *ngIf="!product.tieneStock" class="badge-nostock">Sin Stock</div>
+                    </div>
                       <a>
                           <div class="mask"></div>
                       </a>
@@ -125,7 +131,7 @@
 
                       <p class="card-text">{{product.descripcion}}</p>
                       <a class="btn btn-xbox waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
-                      <a class="btn btn-xbox btn-circle btn-lg waves-light zoom" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                      <button class="btn btn-xbox btn-circle btn-lg waves-light zoom" [disabled]="!product.tieneStock" (click)="agregarAlCarrito(product)" mdbTooltip="Agregar al carrito" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                   </div>
               
               </div>
