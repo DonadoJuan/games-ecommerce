@@ -1,4 +1,5 @@
 const Cupon = require('../models/Cupon');
+const Cliente = require('../models/Cliente');
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
@@ -45,6 +46,45 @@ router.post('/new', (req, res) => {
         });
     });
 });
+
+router.post('/validar', (req, res) => {
+
+    let codigo = req.body.codigo;
+    let idCliente = req.body.idCliente;
+    let nowDate = new Date().setHours(0,0,0,0);
+
+    Cupon.findOne({codigo: codigo}, (err, cuponExistente) =>{
+
+        if(err)
+            return res.status(500).send({message: err.message});
+        
+        if(!cuponExistente)
+            return res.status(200).send({code: '01',message: 'Cupon invalido'});
+
+        Cliente.findById(idCliente, (err, cliente) =>{
+            if(err)
+                return res.status(500).send({code: err.message});
+            
+            if(!cliente)
+                return res.status(500).send({message:"Cliente invalido"});
+            
+            cliente.pedidos.forEach(pedido => {
+                if(pedido.cupon != undefined && pedido.cupon.codigo == cuponExistente.codigo)
+                    return res.status(200).send({ code: '02', message: 'Cupon ya reclamado'});
+            });
+
+            cuponExistente.validoDesde.setHours(0,0,0,0);
+            cuponExistente.validoHasta.setHours(0,0,0,0);
+
+            if(nowDate >= cuponExistente.validoDesde && nowDate <= cuponExistente.validoHasta)
+                return res.status(200).send({ code: '00', cupon: cuponExistente});
+            else
+                return res.status(200).send({ code: '03', message: 'Cupon expirado'});
+        });
+    });
+
+});
+
 router.delete('/:id', (req, res) => {
     Cupon.findById(req.params.id, (err, cupon) => {
         if(err) {

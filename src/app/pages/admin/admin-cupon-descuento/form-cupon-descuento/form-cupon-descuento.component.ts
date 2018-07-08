@@ -82,6 +82,7 @@ export class FormCuponDescuentoComponent implements OnInit {
 
     private _onValueChanged() {
       if(!this.formCupon) {return;}
+       
       const _setErrMsgs = (control: AbstractControl, errorsObj: any, field: string) => {
         if (control && control.dirty && control.invalid) {
           const messages = this.fcd.mensajesValidacion[field];

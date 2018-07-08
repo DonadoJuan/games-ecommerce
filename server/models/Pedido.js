@@ -3,31 +3,36 @@ const DomicilioSchema = require('./Domicilio');
 const tarjetaSchema = require('./Tarjeta');
 const cuponModel = require('./Cupon');
 
+const JuegoPedidoSchema = mongoose.Schema({
+    cantidad: {
+        type: Number,
+        required: true
+    },
+    subtotal: {
+        type: Number,
+        required: false
+    },
+    videojuego: {
+        type: Object,
+        required: true
+    }
+});
+
 const PedidoSchema = mongoose.Schema({
     fecha: {
-        type: String,
+        type: Date,
         required: true
     },
     sucursal_entrega: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref:'Sucursal'
+        type: Object,
+        required: true
     },
     domicilio_entrega:{
         type: DomicilioSchema
     },
     videojuegos: {
-        cantidad: {
-            type: Number,
-            required: true
-        },
-        subtotal: {
-            type: Number,
-            required: true
-        },
-        videojuego: {
-            type: Object,
-            required: true
-        }
+        type: [JuegoPedidoSchema],
+        required: true
     },
     estado:{
         type: String,
@@ -40,8 +45,7 @@ const PedidoSchema = mongoose.Schema({
             required: true
         },
         tarjeta: {
-            type: tarjetaSchema,
-            required: true
+            type: tarjetaSchema
         }
     },
     total:{
