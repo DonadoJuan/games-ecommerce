@@ -72,6 +72,15 @@ export class PedidosComponent implements OnInit {
       this.aplicarFiltro('');
   }
 
+  hayPedidosFiltrados(){
+    let flag = false;
+    this.clientesFiltrados.forEach(cl => {
+      if(cl.pedidos.length > 0)
+        flag = true;
+    });
+    return flag;
+  }
+
   aplicarFiltro(input){
 
     let formatInput;
