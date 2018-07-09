@@ -36,7 +36,7 @@
                         <!--Text-->
                         <p class="card-text">{{product.descripcion}}</p>
                         <a class="btn btn-primary waves-light" mdbRippleRadius (click)="verDetalles(product)">Detalles</a>
-                        <button class="btn btn-primary btn-circle btn-lg waves-light zoom" [disabled]="!product.tieneStock" mdbTooltip="Agregar al carrito" (click)="agregarAlcarrito(product)" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary btn-circle btn-lg waves-light zoom" *ngIf="!hideCarrito" [disabled]="!product.tieneStock" mdbTooltip="Agregar al carrito" (click)="agregarAlcarrito(product, addToCarrito)" mdbRippleRadius><i class="fa fa-shopping-cart" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 <br>
@@ -44,6 +44,22 @@
         </div>
     </div>
 </ng-template>
+
+<ng-template #addToCarrito let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Debe estar Logueado</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Debe estar logueado para agregar productos al carrito</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+    </div>
+  </ng-template>
+
 <p *ngIf="error" class="alert alert-danger">
     <strong>Oops!</strong> Ocurrio un error al traer datos de videojuegos. Por favor, intente recargar la pagina.
 </p>

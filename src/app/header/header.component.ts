@@ -4,6 +4,7 @@ import 'rxjs/add/operator/filter';
 import { AuthService } from '../core/services/auth/auth.service';
 import { UtilsService } from '../core/services/utils/utils.service';
 import { CarritoService } from '../core/services/carrito/carrito.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,8 @@ export class HeaderComponent implements OnInit {
     private router: Router, 
     private authService: AuthService,
     private carritoService: CarritoService,
-    private us: UtilsService) { 
+    private us: UtilsService,
+    private modalService: NgbModal) { 
       this.us.messageHeader.subscribe((message) => {
         this.loginHeader();
       });
@@ -64,7 +66,7 @@ export class HeaderComponent implements OnInit {
     this.loggedIn = this.authService.getDatosCliente() != null;
       if(this.loggedIn) {
         this.payload = this.authService.getDatosCliente().payload;
-        console.log(this.payload.perfil);
+        //console.log(this.payload.perfil);
         if(this.payload.perfil === undefined) {
           this.cliente = true;
         } else if(this.payload.perfil === "Empleado") {
@@ -73,14 +75,26 @@ export class HeaderComponent implements OnInit {
           this.admin = true;
         }
         //this.cdRef.detectChanges();
-        console.log("cliente: ", this.cliente);
-        console.log("empleado: ", this.empleado);
-        console.log("admin: ", this.admin);
+        //console.log("cliente: ", this.cliente);
+        //console.log("empleado: ", this.empleado);
+        //console.log("admin: ", this.admin);
       }
       
       //this.router.navigateByUrl('/lista-negra', {skipLocationChange: true}).then(()=>
       //this.router.navigate([""]));
 
+  }
+
+  irAlCarrito(addToCarrito) {
+    if(!this.loggedIn) {
+      this.modalService.open(addToCarrito).result.then((result) => {
+        this.router.navigate(["wrapper-login"]);
+      }, (reason) => {
+        this.router.navigate(["wrapper-login"]);
+      });
+    } else {
+      this.router.navigate(["cart-wizard"]);
+    }
   }
 
   toggleNav() {

@@ -31,8 +31,8 @@ export class AdminEmpleadosFormService {
   telMin = 10000000;
   telMax = 9999999999;
   reg = /^\d+$/;
-  regNombre = /^([^0-9]*)$/; 
-
+  regNombre=/^[a-zA-Z\s]*$/;
+  regCalle = /^[A-Za-z0-9 _.]*[A-Za-z]+[A-Za-z0-9 _.]*$/;
 
   constructor() { 
     this.mensajesValidacion = {
@@ -40,7 +40,7 @@ export class AdminEmpleadosFormService {
         required: `El Nombre es <strong>requerido</strong>`,
         minlength: `El nombre debe tener ${this.strMin} caracteres o mas`,
         maxlength: `El nombre debe tener ${this.strMax} caracteres o menos`,
-        pattern: `El nombre no puede tener valores numericos`
+        pattern: `El nombre solo puede tener letras!`
       },
       legajo: {
         required: `El Legajo es <strong>requerido</strong>`,
@@ -75,7 +75,8 @@ export class AdminEmpleadosFormService {
       calle: {
         required: `La Calle es <strong>requerida</strong>`,
         minlength: `La calle debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La calle debe tener ${this.strMax} caracteres o menos`
+        maxlength: `La calle debe tener ${this.strMax} caracteres o menos`,
+        pattern: `La calle debe tener solo letras o numeros!`
       },
       altura: {
         required: `La Altura es <strong>requerida</strong>`,

@@ -8,7 +8,6 @@ export class FormSignupService {
     nombre: '',
     email: '',
     password: '',
-    verificar_password: '',
     telefono: '',
     dni: '',
     barrio: '',
@@ -19,6 +18,8 @@ export class FormSignupService {
 
   strMin = 3; // Nombre, Calle, Email
   strMax = 30;
+  passMin = 7;
+  passMax = 40;
   dniMin = 1000000;
   dniMax = 99999999;
   intMin = 1; //Legajo, Altura, Codigo Postal
@@ -26,8 +27,10 @@ export class FormSignupService {
   telMin = 10000000;
   telMax = 9999999999;
   reg = /^\d+$/;
+
   //regNombre = /^([^0-9]*)$/;
-  regNombre=/^([a-zA-Z]*)$/;
+  regNombre=/^[a-zA-Z\s]*$/;
+  regCalle = /^[A-Za-z0-9 _.]*[A-Za-z]+[A-Za-z0-9 _.]*$/;
 
   constructor() { 
     this.mensajesValidacion = {
@@ -39,13 +42,8 @@ export class FormSignupService {
       },
       password: {
         required: `La contraseña es <strong>requerida</strong>`,
-        minlength: `La contraseña debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La contraseña debe tener ${this.strMax} caracteres o menos`
-      },
-      verificar_password: {
-        required: `Reingrese la contraseña por favor</strong>`,
-        minlength: `La contraseña debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La contraseña debe tener ${this.strMax} caracteres o menos`,
+        minlength: `La contraseña debe tener ${this.passMin} caracteres o mas`,
+        maxlength: `La contraseña debe tener ${this.passMax} caracteres o menos`
       },
       dni: {
         required: `El Dni es <strong>requerido</strong>`,
@@ -65,7 +63,8 @@ export class FormSignupService {
       calle: {
         required: `La Calle es <strong>requerida</strong>`,
         minlength: `La calle debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `La calle debe tener ${this.strMax} caracteres o menos`
+        maxlength: `La calle debe tener ${this.strMax} caracteres o menos`,
+        pattern: `La calle debe tener solo letras o numeros!`
       },
       altura: {
         required: `La Altura es <strong>requerida</strong>`,

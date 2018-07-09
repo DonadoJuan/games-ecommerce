@@ -67,7 +67,7 @@
       </div> -->
       <!-- BOTON COMPRAR -->
       <div class="row justify-content-center mt-2">
-          <button type="button" (click)="agregarAlCarrito()" [disabled]="!tieneStock" class="btn btn-mdb-color btn-lg btn-block w-50">
+          <button type="button" (click)="agregarAlCarrito(addToCarrito)" *ngIf="!hideCarrito" [disabled]="!tieneStock" class="btn btn-mdb-color btn-lg btn-block w-50">
             <span class="font-weight-bold">COMPRAR</span>
             <i class="material-icons align-middle ml-4">add_shopping_cart</i>
             <div *ngIf="!tieneStock" class="badge-nostock">Sin Stock</div>
@@ -125,3 +125,18 @@
   </div>
 
 </section>
+
+<ng-template #addToCarrito let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">Debe estar Logueado</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Debe estar logueado para agregar productos al carrito</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+  </div>
+</ng-template>

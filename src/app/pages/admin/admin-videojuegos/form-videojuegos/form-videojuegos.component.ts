@@ -141,7 +141,9 @@ export class FormVideojuegosComponent implements OnInit, OnDestroy {
       titulo: [this.formVideojuegosModel.titulo, [
         Validators.required,
         Validators.minLength(this.fvs.strMin),
-        Validators.maxLength(this.fvs.titleMax)
+        Validators.maxLength(this.fvs.titleMax),
+        Validators.pattern(this.fvs.regTitulo)
+
       ]],
       codigo: [this.formVideojuegosModel.codigo, [
         Validators.required,
