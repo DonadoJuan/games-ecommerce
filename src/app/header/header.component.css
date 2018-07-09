@@ -112,4 +112,8 @@
   .header-page-authStatus a:hover {
     text-decoration: underline;
   }
+
+  .margen-derecho {
+    margin-right: 50px;
+  }
   
