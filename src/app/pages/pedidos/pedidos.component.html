@@ -8,10 +8,14 @@
 
   <div class="example-container mat-elevation-z8">
 
-    <table class="table table-striped">
+      <div *ngIf="!hayPedidos"class="alert alert-dark text-center font-weight-bold" role="alert">
+          Aun no hay pedidos registrados.
+      </div>
+
+    <table *ngIf="hayPedidos" class="table table-striped">
       <thead>
         <tr>
-          <th *ngIf="clientes.length > 1" class="font-weight-bold text-center">Cliente</th>
+          <th *ngIf="!esCliente" class="font-weight-bold text-center">Cliente</th>
           <th class="font-weight-bold text-center">Fecha</th>
           <th class="font-weight-bold text-center">Forma de entrega</th>
           <th class="font-weight-bold text-center">Medio de pago</th>
@@ -23,7 +27,7 @@
       </thead>
       <tbody *ngFor="let c of clientes">
         <tr *ngFor="let p of c.pedidos">
-          <td *ngIf="clientes.length > 1">{{c.nombre}}</td>
+          <td *ngIf="!esCliente">{{c.nombre}}</td>
           <td>{{p.fecha | slice:0:10}}</td>
           <td class="text-center">
             <span class="text-center" *ngIf="p.domicilio_entrega">
@@ -40,7 +44,7 @@
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Datalle de la compra
+                    Detalle de la compra
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <table class="table">
@@ -72,21 +76,21 @@
             </div>
           </td>
           <td class="text-center">${{p.total}}</td>
-          <td *ngIf="true" class="text-center">{{p.estado}}</td>
-          <td *ngIf="false">
+          <td *ngIf="esCliente" class="text-center">{{p.estado}}</td>
+          <td *ngIf="!esCliente">
             <mat-form-field>
-                <mat-select (ngModel)="p.estado">
-                  <mat-option [value]="'Pendiente'">
-                    {{food.viewValue}}
+                <mat-select (change)="actualizarEstado(c)" [(value)]="p.estado">
+                  <mat-option value="Reservado">
+                    Reservado
                   </mat-option>
-                  <mat-option [value]="'Reservado'">
-                      {{food.viewValue}}
+                  <mat-option value="Pendiente">
+                    Pendiente
                   </mat-option>
-                  <mat-option [value]="'Entregado'">
-                      {{food.viewValue}}
+                  <mat-option value="Entregado">
+                    Entregado
                   </mat-option>
-                  <mat-option [value]="'Demorado'">
-                      {{food.viewValue}}
+                  <mat-option value="Demorado">
+                    Demorado
                   </mat-option>
                 </mat-select>
             </mat-form-field>

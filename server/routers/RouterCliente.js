@@ -87,7 +87,9 @@ router.put('/:id', (req, res) => {
         cliente.dni = req.body.dni;
         cliente.email = req.body.email;
         cliente.telefono = req.body.telefono;
-
+        
+        if(req.body.pedidos)
+            cliente.pedidos = req.body.pedidos; 
 
         cliente.save(err => {
             if(err) {

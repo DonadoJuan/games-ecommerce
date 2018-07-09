@@ -79,7 +79,6 @@ export class AuthService {
     this.token = null;
     localStorage.removeItem('token');
     localStorage.removeItem('carrito');
-    //this.carritoService.limpiarVideoJuegosCarrito();
     this.router.navigate(['wrapper-login']);
   }
 

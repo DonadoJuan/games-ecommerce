@@ -145,7 +145,6 @@ export class CartWizardComponent implements OnInit {
       total += item.subtotal;
     });
     this.pedido.subtotal = total;
-
   }
 
   actualizarTipoEntrega(tipoEntrega) {
