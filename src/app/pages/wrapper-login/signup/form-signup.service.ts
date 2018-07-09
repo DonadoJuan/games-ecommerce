@@ -26,8 +26,8 @@ export class FormSignupService {
   telMin = 10000000;
   telMax = 9999999999;
   reg = /^\d+$/;
-  //regNombre = /^([^0-9]*)$/;
-  regNombre=/^([a-zA-Z]*)$/;
+  regNombre = /^([^0-9]*)$/;
+  //regNombre=/^([a-zA-Z]*)$/;
 
   constructor() { 
     this.mensajesValidacion = {

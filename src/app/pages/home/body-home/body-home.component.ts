@@ -8,6 +8,8 @@ import { Router, NavigationStart } from '@angular/router';
 import { Videojuego } from "../../../domain/videojuego";
 import { ConfirmarItemCarritoComponent } from '../../../core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component';
 import { MatDialog } from '@angular/material';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-body-home',
@@ -33,6 +35,8 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
   listVideojuegos: Videojuego[] = [];
   loading: boolean = false;
   error: boolean = false;
+  hideCarrito: boolean = false;
+  loggedIn: boolean;
   //carouselPlay: any;
 
 
@@ -41,6 +45,8 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private us: UtilsService,
     private router: Router,
     private cartDialog: MatDialog,
+    private authService: AuthService,
+    private modalService: NgbModal
     //private renderer: Renderer2
   ) {
     
@@ -51,7 +57,12 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     for(var i=0;i<n.length;i++){
       n[i].removeAttribute("disabled");
     }
-    
+    this.loggedIn = this.authService.getDatosCliente() != null;
+    console.log("loggedIn: ", this.loggedIn);
+    if(this.loggedIn) {
+      let payload = this.authService.getDatosCliente().payload;
+      this.hideCarrito = (payload.perfil !== undefined) ? true : false;
+    }
     this.loading = true;
     this.error = false;
 
@@ -169,11 +180,20 @@ export class BodyHomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  agregarAlCarrito(videojuego){
-    let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
+  agregarAlCarrito(videojuego, addToCarrito){
+    if(!this.loggedIn) {
+      this.modalService.open(addToCarrito).result.then((result) => {
+        this.router.navigate(["wrapper-login"]);
+      }, (reason) => {
+        this.router.navigate(["wrapper-login"]);
+      });
+    } else {
+      let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
         width: '600px',
         data: videojuego
       });
+    }
+    
   }
 
   ngOnDestroy() {

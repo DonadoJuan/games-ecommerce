@@ -6,6 +6,8 @@ import { VideojuegoService } from "../../core/services/videojuego/videojuego.ser
 import { UtilsService } from "../../core/services/utils/utils.service";
 import { MatDialog } from '@angular/material';
 import { ConfirmarItemCarritoComponent } from "../../core/dialogs/confirmar-item-carrito/confirmar-item-carrito.component";
+import { AuthService } from '../../core/services/auth/auth.service';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -25,15 +27,24 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
     loading: boolean;
     error: boolean;
     myStyles = {};
+    hideCarrito: boolean = false;
+    loggedIn: boolean;
 
   constructor(
       private videojuegoService: VideojuegoService,
       private us: UtilsService,
       private router: Router,
-      private cartDialog: MatDialog
+      private cartDialog: MatDialog,
+      private authService: AuthService,
+      private modalService: NgbModal
     ) { }
 
   ngOnInit() {
+        this.loggedIn = this.authService.getDatosCliente() != null;
+        if(this.loggedIn) {
+            let payload = this.authService.getDatosCliente().payload;
+            this.hideCarrito = (payload.perfil !== undefined) ? true : false;
+        }
         this.loading = true;
         this.error = false;
         this.videojuegosSub = this.videojuegoService.getVideojuegos$()
@@ -118,11 +129,20 @@ export class VideojuegosComponent implements OnInit, OnDestroy {
         });
     }
 
-    agregarAlcarrito(vj: Videojuego){
-        let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
-            width: '600px',
-            data: vj
-          });
+    agregarAlcarrito(vj: Videojuego, addToCarrito){
+        if(!this.loggedIn) {
+            this.modalService.open(addToCarrito).result.then((result) => {
+              this.router.navigate(["wrapper-login"]);
+            }, (reason) => {
+              this.router.navigate(["wrapper-login"]);
+            });
+        } else {
+            let dialogRef = this.cartDialog.open(ConfirmarItemCarritoComponent, {
+                width: '600px',
+                data: vj
+              });
+        }
+        
     }
 
     ngOnDestroy() {

@@ -33,9 +33,9 @@
         <li *ngIf="!loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
-        <li *ngIf="loggedIn" class="nav-item">
-                <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
-                    <i class="material-icons align-middle">shopping_cart</i><span>({{videojuegosCarrito.length}})</span>
+        <li *ngIf="!loggedIn || cliente" class="nav-item">
+                <a class="nav-link text-white" (click)="irAlCarrito(addToCarrito)">
+                    <i class="material-icons align-middle">shopping_cart</i><span *ngIf="cliente">({{videojuegosCarrito.length}})</span>
                 </a>
         </li>
         <li *ngIf="loggedIn" class="nav-item">
@@ -43,3 +43,18 @@
         </li>
     </ul>
 </nav>
+
+<ng-template #addToCarrito let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Debe estar Logueado</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>Debe estar logueado para agregar productos al carrito</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
+    </div>
+  </ng-template>

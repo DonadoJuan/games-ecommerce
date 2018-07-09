@@ -14,6 +14,7 @@ import { ClienteService } from "../../../core/services/cliente/cliente.service";
 import { ButtonRestoreComponent } from "./button-restore/button-restore.component";
 import { ConfirmDeleteDialog } from '../admin-empleados/admin-empleados.component';
 import { MatDialog } from '@angular/material';
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -31,20 +32,29 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   deleteClienteSub: Subscription;
   clientes: Cliente[] = [];
   _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  admin: boolean;
+  objActions: any;
 
-  constructor(private us: UtilsService, public dialog: MatDialog,private clienteService: ClienteService, private router: Router) { }
+  constructor(private us: UtilsService, public dialog: MatDialog,private clienteService: ClienteService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.initializeGrid();
-    this.settings = {
-      actions: {
+    let payload = this.authService.getDatosCliente().payload;
+    this.admin = (payload.perfil === "Administrador") ? true : false;
+    if(this.admin) {
+      this.objActions = {
         add: false, edit: false, delete: false, position: 'right', 
         custom:
           [
             { name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
             { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }
           ]
-      },
+      }
+    } else {
+      this.objActions = false;
+    }
+    this.settings = {
+      actions: this.objActions,
       columns: {
         nombre: {
           title: 'Nombre'
@@ -73,12 +83,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         listanegra: {
           title: "Lista Negra",
           type: 'custom',
-          renderComponent: ButtonListaNegraComponent
+          renderComponent: ButtonListaNegraComponent,
+          show: this.admin
         },
         restaurar: {
           title: "Restaurar",
           type: 'custom',
-          renderComponent: ButtonRestoreComponent
+          renderComponent: ButtonRestoreComponent,
+          show: this.admin
         },
         detalle: {
           title: "Detelle",
