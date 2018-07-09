@@ -33,7 +33,7 @@
         <li *ngIf="!loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
-        <li *ngIf="loggedIn" class="nav-item">
+        <li *ngIf="cliente" class="nav-item">
                 <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
                     <i class="material-icons align-middle">shopping_cart</i><span>({{videojuegosCarrito.length}})</span>
                 </a>

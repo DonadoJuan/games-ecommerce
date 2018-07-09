@@ -283,11 +283,10 @@ export class CartWizardComponent implements OnInit {
       if(res.code == '00'){
         this.pedido.cupon = res.cupon;
         this.updateTotal();
-        msg = 'Descuento aplicado!'
-      }else
-        msg = res.messsage;
-
-      this.snackBar.open(msg,'',{duration: 2500, panelClass:['sb-error']});
+        this.snackBar.open('Descuento aplicado!','',{duration: 2500, panelClass:['sb-error']});
+      }else{
+        this.snackBar.open(res.message,'',{duration: 2500});
+      }
     });
   }
 

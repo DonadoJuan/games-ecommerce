@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Pedido } from "../../domain/pedido";
+import { AuthService } from '../../core/services/auth/auth.service';
+import { ClienteService } from '../../core/services/cliente/cliente.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -8,48 +10,29 @@ import { Pedido } from "../../domain/pedido";
   styleUrls: ['./pedidos.component.scss']
 })
 export class PedidosComponent implements OnInit {
-  displayedColumns = ['fecha', 'cliente', 'destino', 'estado'];
-  dataSource: MatTableDataSource<Pedido>;
-  private paginator: MatPaginator;
-  private sort: MatSort;
 
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  }
-
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    this.setDataSourceAttributes();
-  }
-
-  constructor() {
-    const pedidos: Pedido[] = [];
-    for (let i = 1; i <= 100; i++) { 
-      pedidos.push({
-        fecha: '15/04/2018',
-        cliente: 'Bart Simpson ' + i,
-        destino: 'Av. Siempreviva 742',
-        estado: 'Despachado',
-        _id: i + ""
-      }); 
-    }
-
-    this.dataSource = new MatTableDataSource(pedidos);
+  clientes: any;
+  
+  constructor(
+    private authService: AuthService,
+    private clienteService: ClienteService) {
   }
 
   ngOnInit() {
-  }
 
-  setDataSourceAttributes() {
-    setTimeout(() => this.dataSource.paginator = this.paginator);
-    setTimeout(() => this.dataSource.sort = this.sort);
-  }
+    this.clientes = [];
+    let sesionCliente = this.authService.getDatosCliente().payload;
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+    this.clienteService.getClientes$()
+    .subscribe((data)=>{
+
+      if(!sesionCliente.perfil){
+        this.clientes.push(data.find(c=> c._id == sesionCliente._id));
+      }else{
+        this.clientes = data;
+      }
+    });
+    
   }
 
 }

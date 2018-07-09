@@ -13,6 +13,7 @@ export class Cliente {
         public faltas: Falta[],
         public baneos: Baneo[],
         public activo: Boolean,
+        public pedidos?: any[],
         public _id?: string
     ) {}
 }

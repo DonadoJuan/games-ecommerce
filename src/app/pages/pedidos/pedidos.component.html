@@ -1,41 +1,99 @@
-<div class="example-header">
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
-</div>
+<section class="container-fluid">
 
-<div class="example-container mat-elevation-z8">
+  <div class=" example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+    </mat-form-field>
+  </div>
 
-  <mat-table [dataSource]="dataSource" matSort>
+  <div class="example-container mat-elevation-z8">
 
-    <!-- ID Column -->
-    <ng-container matColumnDef="fecha">
-      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Fecha </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.fecha}} </mat-cell>
-    </ng-container>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th *ngIf="clientes.length > 1" class="font-weight-bold text-center">Cliente</th>
+          <th class="font-weight-bold text-center">Fecha</th>
+          <th class="font-weight-bold text-center">Forma de entrega</th>
+          <th class="font-weight-bold text-center">Medio de pago</th>
+          <th class="font-weight-bold text-center">Lista de productos</th>
+          <th class="font-weight-bold text-center">Descuentos</th>
+          <th class="font-weight-bold text-center">Total</th>
+          <th class="font-weight-bold text-center">Estado</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let c of clientes">
+        <tr *ngFor="let p of c.pedidos">
+          <td *ngIf="clientes.length > 1">{{c.nombre}}</td>
+          <td>{{p.fecha | slice:0:10}}</td>
+          <td class="text-center">
+            <span class="text-center" *ngIf="p.domicilio_entrega">
+              A domicilio <br> {{p.domicilio_entrega?.calle}} {{p.domicilio_entrega?.altura}}, {{p.domicilio_entrega?.barrio.nombre}}
+            </span>
+            <span class="text-center" *ngIf="!p.domicilio_entrega">
+              Retiro en sucursal <br> {{p.sucursal_entrega.ubicacion.calle}} {{p.sucursal_entrega.ubicacion.altura}}, {{p.sucursal_entrega.ubicacion.barrio.nombre}}
+            </span> 
+          </td>
+          <td class="text-center">
+            {{p.medio_pago.medio}} <br>{{p.medio_pago.tarjeta?.tipoTarjeta}} {{p.medio_pago?.tarjeta?.numero | slice:-4}}
+          </td>
+          <td class="text-center">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Datalle de la compra
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Titulo</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let j of p.videojuegos">
+                        <td class="text-center">{{j.videojuego.titulo}}</td>
+                        <td class="text-center">{{j.cantidad}}</td>
+                        <td class="text-center">${{j.videojuego.precio}}</td>
+                        <td class="text-center">${{j.subtotal}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </mat-expansion-panel>
+          </td>
+          <td class="text-center">
+            <div *ngIf="p.cupon">
+              {{p.cupon?.codigo}} <br>{{p.cupon?.descuento}}% 
+            </div>
+            <div *ngIf="!p.cupon">
+              -
+            </div>
+          </td>
+          <td class="text-center">${{p.total}}</td>
+          <td *ngIf="true" class="text-center">{{p.estado}}</td>
+          <td *ngIf="false">
+            <mat-form-field>
+                <mat-select (ngModel)="p.estado">
+                  <mat-option [value]="'Pendiente'">
+                    {{food.viewValue}}
+                  </mat-option>
+                  <mat-option [value]="'Reservado'">
+                      {{food.viewValue}}
+                  </mat-option>
+                  <mat-option [value]="'Entregado'">
+                      {{food.viewValue}}
+                  </mat-option>
+                  <mat-option [value]="'Demorado'">
+                      {{food.viewValue}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+         </td>
+        </tr>
+    </table>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="cliente">
-      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Cliente </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.cliente}} </mat-cell>
-    </ng-container>
+  </div>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="destino">
-      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Destino </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.destino}} </mat-cell>
-    </ng-container>
-
-    <!-- Color Column -->
-    <ng-container matColumnDef="estado">
-      <mat-header-cell *matHeaderCellDef mat-sort-header class="text-white"> Estado </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.estado}} </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns" class="mdb-color darken-3"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
-</div>
+</section>
