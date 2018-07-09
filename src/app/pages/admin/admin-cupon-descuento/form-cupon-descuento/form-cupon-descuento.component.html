@@ -12,7 +12,7 @@
           [innerHTML]="formErrors.codigo">
         </div>
         <div class="md-form fullwidth">
-            <input type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="descuento" class="form-control" formControlName="descuento" mdbActive [maxlength]="fcd.intMax">
+            <input placeholder="Expresado en %" type="number" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true" id="descuento" class="form-control" formControlName="descuento" mdbActive [maxlength]="fcd.intMax">
             <label for="descuento">Descuento</label>
           </div>
           <div
