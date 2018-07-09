@@ -80,6 +80,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('carrito');
     this.router.navigate(['wrapper-login']);
+    this.carritoService.limpiarVideoJuegosCarrito();
   }
 
 }
