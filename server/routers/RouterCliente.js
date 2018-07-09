@@ -194,7 +194,7 @@ router.post('/pedido', (req, res) => {
             if(err)
                 return res.status(500).send({message: err.message});
 
-            res.status(200).send({code: '00',message: "Alta de pedido exitosa"});
+            res.status(200).send({code: '00',message: "Alta de pedido exitosa", token: cliente.generateJwt()});
         });
     }
 

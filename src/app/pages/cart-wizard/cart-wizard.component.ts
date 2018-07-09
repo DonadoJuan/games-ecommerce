@@ -423,6 +423,8 @@ export class CartWizardComponent implements OnInit {
     .subscribe(res=>{
 
       if(res.code == '00'){
+
+        this.authService.saveToken(res.token);
         this.carritoService.limpiarVideoJuegosCarrito();
         let dialogRef = this.dialog.open(ConfirmPurchaseDialog, {
           width: '300px'
