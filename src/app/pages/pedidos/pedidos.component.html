@@ -1,18 +1,78 @@
-<section class="container-fluid">
+<br><br><br><br>
+<section class="container m-t--5">
 
-  <div class=" example-header">
+  <section *ngIf="hayPedidos">
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro">
+        <mat-select [(value)]="tipoFiltro" (change)="validarNinguno()" placeholder="Seleccione un filtro">
+          <mat-option *ngIf="!esCliente" value="Cliente">
+            Cliente
+          </mat-option>
+          <mat-option value="Fecha">
+            Fecha
+          </mat-option>
+          <mat-option value="Estado">
+            Estado
+          </mat-option>
+          <mat-option value="Cupones">
+            Cupones
+          </mat-option>
+          <mat-option value="Ninguno">
+              Ninguno
+          </mat-option>
+        </mat-select>
     </mat-form-field>
+
+    <mat-form-field *ngIf="tipoFiltro == 'Cliente'"> 
+      <input matInput (keyup)="aplicarFiltro($event.target.value)" placeholder="Ingrese su busqueda">
+    </mat-form-field>
+
+    <mat-form-field *ngIf="tipoFiltro == 'Cupones'">
+        <mat-select [(value)]="cuponFiltro" (change)="aplicarFiltro(cuponFiltro)">
+            <!-- <mat-option [value]="c.codigo">Todos</mat-option> -->
+          <mat-option *ngFor="let c of cupones" [value]="c.codigo">{{c.codigo}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="tipoFiltro == 'Estado'">
+        <mat-select [(value)]="estadoFiltro" (change)="aplicarFiltro(estadoFiltro)" placeholder="Seleccione un estado">
+          <mat-option value="">
+            Todos
+          </mat-option>
+          <mat-option value="Reservado">
+            Reservado
+          </mat-option>
+          <mat-option value="Pendiente">
+            Pendiente
+          </mat-option>
+          <mat-option value="Entregado">
+            Entregado
+          </mat-option>
+          <mat-option value="Demorado">
+            Demorado
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="tipoFiltro == 'Fecha'">
+        <input matInput (dateChange)="aplicarFiltro($event.target.value)" [matDatepicker]="dp3" placeholder="Fecha a filtrar" disabled>
+        <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+        <mat-datepicker #dp3 disabled="false"></mat-datepicker>
+    </mat-form-field>
+
+  </section>
+
+  <div *ngIf="!hayPedidos" class="alert alert-dark text-center font-weight-bold" role="alert">
+      Aun no hay pedidos registrados.
   </div>
 
+  <div *ngIf="hayPedidos && !hayPedidosFiltrados()" class="alert alert-dark text-center font-weight-bold" role="alert">
+      No hay pedidos que coincidan con la busqueda.
+  </div>
+
+
   <div class="example-container mat-elevation-z8">
-
-      <div *ngIf="!hayPedidos"class="alert alert-dark text-center font-weight-bold" role="alert">
-          Aun no hay pedidos registrados.
-      </div>
-
-    <table *ngIf="hayPedidos" class="table table-striped">
+    
+    <table *ngIf="hayPedidos && hayPedidosFiltrados()" class="table table-striped">
       <thead>
         <tr>
           <th *ngIf="!esCliente" class="font-weight-bold text-center">Cliente</th>
@@ -25,10 +85,10 @@
           <th class="font-weight-bold text-center">Estado</th>
         </tr>
       </thead>
-      <tbody *ngFor="let c of clientes">
+      <tbody *ngFor="let c of clientesFiltrados">
         <tr *ngFor="let p of c.pedidos">
           <td *ngIf="!esCliente">{{c.nombre}}</td>
-          <td>{{p.fecha | slice:0:10}}</td>
+          <td>{{p.fecha | date:'d/M/yyyy'}}</td>
           <td class="text-center">
             <span class="text-center" *ngIf="p.domicilio_entrega">
               A domicilio <br> {{p.domicilio_entrega?.calle}} {{p.domicilio_entrega?.altura}}, {{p.domicilio_entrega?.barrio.nombre}}
@@ -79,7 +139,7 @@
           <td *ngIf="esCliente" class="text-center">{{p.estado}}</td>
           <td *ngIf="!esCliente">
             <mat-form-field>
-                <mat-select (change)="actualizarEstado(c)" [(value)]="p.estado">
+                <mat-select (change)="actualizarEstado(c._id,p)" [(value)]="p.estado">
                   <mat-option value="Reservado">
                     Reservado
                   </mat-option>
