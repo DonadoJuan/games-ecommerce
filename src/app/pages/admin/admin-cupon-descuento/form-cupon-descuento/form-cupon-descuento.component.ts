@@ -66,16 +66,16 @@ export class FormCuponDescuentoComponent implements OnInit {
         Validators.pattern(this.fcd.regNombre)
 
       ]],
-      descuento: [this.formCuponModel.codigo, [
+      descuento: [this.formCuponModel.descuento, [
         Validators.required,
         Validators.min(this.fcd.intMin),
         Validators.max(this.fcd.intMax)
       ]],
-      validoDesde: [this.formCuponModel.codigo, [
+      validoDesde: [this.formCuponModel.validoDesde, [
         Validators.required,
 
       ]],
-      validoHasta: [this.formCuponModel.codigo, [
+      validoHasta: [this.formCuponModel.validoHasta, [
         Validators.required,
  
       ]]

@@ -9,7 +9,7 @@
             <a class="nav-link text-white" routerLink="/ofertas" routerLinkActive="active">Ofertas</a>
         </li>
     </ul>
-    <ul class="navbar-nav d-flex d-row margen-derecho">
+    <ul class="navbar-nav d-flex d-row">
         <li *ngIf="loggedIn" class="nav-item btn-group" dropdown>
         <!--<li *ngIf="loggedIn" class="nav-item btn-group" dropdown>-->
                 <a dropdownToggle class="nav-link font-weight-bold text-white" mdbRippleRadius>
@@ -18,7 +18,7 @@
                 <div class="dropdown-menu">
                     <a class="nav-link font-weight-bold" *ngIf="cliente" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
                     <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
-                    <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
+                    <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
                     <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-videojuegos-form" routerLinkActive="active">Form Videojuegos</a>
                     <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/usuarios" routerLinkActive="active">Gestion Usuarios</a>
                     <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/admin-usuarios-form" routerLinkActive="active">Form Usuarios</a>
@@ -33,9 +33,9 @@
         <li *ngIf="!loggedIn" class="nav-item">
                 <a class="nav-link text-white" routerLink="/wrapper-login" routerLinkActive="active">Login</a>
         </li>
-        <li *ngIf="!loggedIn || cliente" class="nav-item">
-                <a class="nav-link text-white" (click)="irAlCarrito(addToCarrito)">
-                    <i class="material-icons align-middle">shopping_cart</i><span *ngIf="cliente">({{videojuegosCarrito.length}})</span>
+        <li *ngIf="loggedIn" class="nav-item">
+                <a class="nav-link text-white" routerLink="/cart-wizard" routerLinkActive="active">
+                    <i class="material-icons align-middle">shopping_cart</i><span>({{videojuegosCarrito.length}})</span>
                 </a>
         </li>
         <li *ngIf="loggedIn" class="nav-item">
@@ -43,18 +43,3 @@
         </li>
     </ul>
 </nav>
-
-<ng-template #addToCarrito let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title">Debe estar Logueado</h4>
-      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <p>Debe estar logueado para agregar productos al carrito</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="c('Close click')">Cerrar</button>
-    </div>
-  </ng-template>

@@ -4,13 +4,18 @@ import { Router } from '@angular/router';
 import { SucursalService } from '../../core/services/sucursal/sucursal.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { UtilsService } from '../../core/services/utils/utils.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { CarritoService } from '../../core/services/carrito/carrito.service';
 import { Sucursal } from '../../domain/sucursal';
 import { SubmittingComponent } from '../../core/submitting.component';
 import { LoadingComponent } from '../../core/loading.component';
 import { CuponService } from '../../core/services/cupon/cupon.service';
 import { ClienteService } from '../../core/services/cliente/cliente.service';
+import { FormDomicilioModel } from '../../core/models/form-domicilio.model';
+import { Domicilio } from '../../domain/domicilio';
+import { FormCartWizardService } from './form-cart-wizard.service';
+import { Subscription } from 'rxjs';
+import { FormTarjetaModel } from '../../core/models/form-tarjeta.model';
 
 @Component({
   selector: 'confirm-purchase-dialog',
@@ -53,6 +58,15 @@ export class CartWizardComponent implements OnInit {
   tarjetas: any;
   sucursales: any;
   pedido: any;
+  formDomicilioModel: FormDomicilioModel;
+  formTarjetaModel : FormTarjetaModel;
+  formErrors: any;
+  formErrorsTarjeta: any;
+  formChangeSub: Subscription;
+  formChangeSubTarjeta: Subscription;
+
+  minDate = new Date(Date.now());  
+
 
   constructor(
     private dialog: MatDialog,
@@ -64,7 +78,8 @@ export class CartWizardComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private cuponService: CuponService,
-    private clienteService: ClienteService) { }
+    private clienteService: ClienteService,
+    private fcws: FormCartWizardService) { }
 
 
   ngOnInit() {
@@ -72,10 +87,16 @@ export class CartWizardComponent implements OnInit {
     this.tipoEntregaValida = false;
     this.costoEnvioCalculado = false;
     this.ofertaSucursalInvalida = false;
+    this.formErrors = this.fcws.formErrors;
+    this.formErrorsTarjeta = this.fcws.formErrorsTarjeta;
 
+    this.formDomicilioModel = new FormDomicilioModel(new Domicilio(null,null,null,null),null);
+    this.formTarjetaModel = new FormTarjetaModel(null,null,null,null,null,new Domicilio(null,null,null,null),null)
     this._buildForms();
+    this._buildFormsTarjeta();
     this._getServiceData();
     this.updateTotal();
+
     this.formDomicilio.valueChanges.subscribe(val => {
       this.actualizarTipoEntrega('otro');
     });
@@ -86,24 +107,132 @@ export class CartWizardComponent implements OnInit {
 
   private _buildForms() {
     this.formDomicilio = this.fb.group({
-      barrio: ['', [Validators.required]],
-      calle: ['', [Validators.required]],
-      altura: ['', [Validators.required]],
-      codigo_postal: ['', [Validators.required]]
+      barrio: [this.formDomicilioModel.domicilio_entrega.barrio, 
+        Validators.required
+      ],
+      calle: [this.formDomicilioModel.domicilio_entrega.calle, [
+        Validators.required,
+        Validators.minLength(this.fcws.strMin),
+        Validators.maxLength(this.fcws.strMax),
+        Validators.pattern(this.fcws.regCalle)
+
+      ]],
+      altura: [this.formDomicilioModel.domicilio_entrega.altura, [
+        Validators.required,
+        Validators.min(this.fcws.intMin),
+        Validators.max(this.fcws.intMax),
+        Validators.pattern(this.fcws.reg)
+      ]],
+      codigo_postal: [this.formDomicilioModel.domicilio_entrega.codigo_postal, [
+        Validators.required,
+        Validators.min(this.fcws.intMin),
+        Validators.max(this.fcws.intMax),
+        Validators.pattern(this.fcws.reg)
+      ]]
     });
 
-    this.formTarjeta = this.fb.group({
-      tipoTarjeta: ['', [Validators.required]],
-      nombre: ['', [Validators.required]],
-      numero: ['', [Validators.required]],
-      vencimiento: ['', [Validators.required]],
-      codigo: ['', [Validators.required]],
-      calle: ['', [Validators.required]],
-      altura: ['', [Validators.required]],
-      barrio: ['', [Validators.required]]
-    });
+    
+    this.formChangeSub = this.formDomicilio
+      .valueChanges
+      .subscribe(data => this._onValueChanged());
   }
 
+  private _onValueChanged() {
+
+    if(!this.formDomicilio) {return;}
+    const _setErrMsgs = (control: AbstractControl, errorsObj: any, field: string) => {
+      if (control && control.dirty && control.invalid) {
+        const messages = this.fcws.mensajesValidacion[field];
+        for (const key in control.errors) {
+          if(control.errors.hasOwnProperty(key)) {
+            errorsObj[field] += messages[key] + '<br>';
+          }
+        }
+      }
+    };
+
+    for(const field in this.formErrors) {
+      if(this.formErrors.hasOwnProperty(field)) {
+        this.formErrors[field] = '';
+        _setErrMsgs(this.formDomicilio.get(field), this.formErrors, field);
+      }
+    }
+  
+  }
+  private _buildFormsTarjeta() {
+
+    this.formTarjeta = this.fb.group({
+      tipoTarjeta: [this.formTarjetaModel.tipoTarjeta, 
+        Validators.required
+      ],
+      nombre: [this.formTarjetaModel.nombre, [
+        Validators.required,
+        Validators.minLength(this.fcws.strMin),
+        Validators.maxLength(this.fcws.strMax),
+        Validators.pattern(this.fcws.regNombre)
+      ]],
+      numero: [this.formTarjetaModel.numero, [
+        Validators.required,
+        Validators.min(this.fcws.intNumeroMin),
+        Validators.max(this.fcws.intNumeroMax),
+        Validators.pattern(this.fcws.reg)
+      ]],
+      vencimiento: [this.formTarjetaModel.vencimiento, [
+        Validators.required
+      ]],
+      codigo: [this.formTarjetaModel.codigo, [
+        Validators.required,
+        Validators.min(this.fcws.codMin),
+        Validators.max(this.fcws.codMax),
+        Validators.pattern(this.fcws.reg)
+
+      ]],
+      barrio: [this.formTarjetaModel.domicilio_entrega.barrio, 
+        Validators.required
+      ],
+      calle: [this.formTarjetaModel.domicilio_entrega.calle, [
+        Validators.required,
+        Validators.minLength(this.fcws.strMin),
+        Validators.maxLength(this.fcws.strMax),
+        Validators.pattern(this.fcws.regCalle)
+
+      ]],
+      altura: [this.formTarjetaModel.domicilio_entrega.altura, [
+        Validators.required,
+        Validators.min(this.fcws.intMin),
+        Validators.max(this.fcws.intMax),
+        Validators.pattern(this.fcws.reg)
+      ]]
+    });
+
+    
+    this.formChangeSubTarjeta = this.formTarjeta
+      .valueChanges
+      .subscribe(data => this._onValueChangedTarjeta());
+  }
+
+  private _onValueChangedTarjeta() {
+
+    if(!this.formTarjeta) {return;}
+    const _setErrMsgs = (control: AbstractControl, errorsObj: any, field: string) => {
+      if (control && control.dirty && control.invalid) {
+        const messages = this.fcws.mensajesValidacionTarjeta[field];
+        for (const key in control.errors) {
+          if(control.errors.hasOwnProperty(key)) {
+            errorsObj[field] += messages[key] + '<br>';
+          }
+        }
+      }
+    };
+
+    for(const field in this.formErrorsTarjeta) {
+      if(this.formErrorsTarjeta.hasOwnProperty(field)) {
+        this.formErrorsTarjeta[field] = '';
+        _setErrMsgs(this.formTarjeta.get(field), this.formErrorsTarjeta, field);
+      }
+    }
+  
+  }
   private _getServiceData() {
     this.pedido = {};
     this.pedido.videojuegos = this.carritoService.getVideojuegosCarrito();
