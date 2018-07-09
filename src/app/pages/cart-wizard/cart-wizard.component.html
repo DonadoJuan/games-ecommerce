@@ -154,21 +154,39 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrors.barrio"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrors.barrio">
+                      </div>
 
                         <mat-form-field floatLabel="never">
-                          <input matInput placeholder="Calle" formControlName="calle" required>
-                          <mat-error> campo invalido</mat-error>
+                          <input matInput placeholder="Calle" [maxlength]="fcws.strMax" formControlName="calle" required>
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrors.calle"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrors.calle">
+                      </div>
+                  
 
                         <mat-form-field floatLabel="never">
-                          <input matInput placeholder="Altura" formControlName="altura">
-                          <mat-error> campo invalido</mat-error>
+                          <input matInput placeholder="Altura" formControlName="altura" [maxlength]="fcws.intMax"  onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
-
+                        <div
+                        *ngIf="formErrors.altura"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrors.altura">
+                      </div>
+                  
                         <mat-form-field floatLabel="never">
-                            <input matInput placeholder="Codigo postal" formControlName="codigo_postal">
-                            <mat-error> campo invalido</mat-error>
+                            <input matInput placeholder="Codigo postal" formControlName="codigo_postal" [maxlength]="fcws.intMax"  onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrors.codigo_postal"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrors.codigo_postal">
+                      </div>
 
                   </form>
 
@@ -287,45 +305,86 @@
                             </mat-option>
                           </mat-select>
                         </mat-form-field>
-
+                          <div
+                          *ngIf="formErrorsTarjeta.tipoTarjeta"
+                          class="small text-danger formErrors"
+                          [innerHTML]="formErrorsTarjeta.tipoTarjeta">
+                        </div>
                         <mat-form-field floatLabel="never">
-                          <input matInput formControlName="nombre" placeholder="Nombre en tarjeta">
-                          <mat-error> campo invalido</mat-error>
+                          <input matInput formControlName="nombre" [maxlength]="fcws.strMax" placeholder="Nombre en tarjeta">
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.nombre"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.nombre">
+                      </div>
 
                         <mat-form-field floatLabel="never">
-                          <input matInput formControlName="numero" placeholder="Numero">
-                          <mat-error> campo invalido</mat-error>
+                          <input matInput formControlName="numero" [maxlength]="fcws.intNumeroMax" placeholder="Numero" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.numero"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.numero">
+                      </div>
 
                         <mat-form-field floatLabel="never">
-                          <input matInput formControlName="vencimiento" [matDatepicker]="myDatepicker" placeholder="Fecha de vencimiento" disabled>
+                          <input matInput formControlName="vencimiento" [min]="minDate" [matDatepicker]="myDatepicker" placeholder="Fecha de vencimiento" >
                           <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
-                          <mat-datepicker #myDatepicker disabled="false" touchUi="true"></mat-datepicker>
-                          <mat-error> campo invalido</mat-error>
+                          <mat-datepicker #myDatepicker  touchUi="true"></mat-datepicker>
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.vencimiento"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.vencimiento">
+                      </div>
 
                         <mat-form-field floatLabel="never">
-                          <input formControlName="codigo" matInput placeholder="Codigo de seguridad">
-                          <mat-error> campo invalido</mat-error>
+                          <input formControlName="codigo" matInput [maxlength]="fcws.codMax" placeholder="Codigo de seguridad" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
-
+                        <div
+                        *ngIf="formErrorsTarjeta.codigo"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.codigo">
+                      </div>
+                      
                         <h6 class="mt-4">Dirección de facturación</h6>
                         <mat-divider class="mb-3"></mat-divider>
+
+
+                        <!--<mat-form-field floatLabel="never">
+                          <input formControlName="barrio" matInput placeholder="Barrio">
+                        </mat-form-field>-->
                         <mat-form-field floatLabel="never">
-                          <input formControlName="calle" matInput placeholder="Calle">
-                          <mat-error> campo invalido</mat-error>
+                          <mat-select placeholder="Barrio" formControlName="barrio">
+                              <mat-option *ngFor="let barrio of barrios" [value]="barrio">
+                                {{barrio.nombre}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.barrio"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.barrio">
+                      </div>
+                        <mat-form-field floatLabel="never">
+                          <input formControlName="calle" matInput [maxlength]="fcws.strMax"  placeholder="Calle">
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.calle"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.calle">
+                      </div>
 
                         <mat-form-field floatLabel="never">
-                          <input matInput formControlName="altura" placeholder="Altura">
-                          <mat-error> campo invalido</mat-error>
+                          <input matInput formControlName="altura" placeholder="Altura" [maxlength]="fcws.intMax"  onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
+                        <div
+                        *ngIf="formErrorsTarjeta.altura"
+                        class="small text-danger formErrors"
+                        [innerHTML]="formErrorsTarjeta.altura">
+                      </div>
 
-                        <mat-form-field floatLabel="never">
-                          <input formControlName="barrio" matInput placeholder="Ciudad">
-                          <mat-error> campo invalido</mat-error>
-                        </mat-form-field>
                     </form>
 
                     </div>

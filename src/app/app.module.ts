@@ -88,6 +88,7 @@ import { AdminCuponDescuentoComponent } from './pages/admin/admin-cupon-descuent
 import { CuponService } from './core/services/cupon/cupon.service';
 import { FormCuponDescuentoComponent } from './pages/admin/admin-cupon-descuento/form-cupon-descuento/form-cupon-descuento.component';
 import { StockSucursalComponent } from './pages/admin/admin-consulta-stock/stock-sucursal/stock-sucursal.component';
+import { FormCartWizardService } from './pages/cart-wizard/form-cart-wizard.service';
 
 @NgModule({
   declarations: [
@@ -188,6 +189,7 @@ import { StockSucursalComponent } from './pages/admin/admin-consulta-stock/stock
     UtilsService, 
     AdminEmpleadosFormService,
     FormSignupService,
+    FormCartWizardService,
     VideojuegoService,
     SucursalService,
     PersonalService, 
