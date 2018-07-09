@@ -124,8 +124,8 @@ export class SignupComponent implements OnInit {
       ]],
       password: [this.formClientesModel.password, [
         Validators.required,
-        Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax)
+        Validators.minLength(this.fss.passMin),
+        Validators.maxLength(this.fss.passMax)
       ]],
       dni: [this.formClientesModel.dni, [
         Validators.required,
@@ -145,7 +145,9 @@ export class SignupComponent implements OnInit {
       calle: [this.formClientesModel.domicilio_entrega.calle, [
         Validators.required,
         Validators.minLength(this.fss.strMin),
-        Validators.maxLength(this.fss.strMax)
+        Validators.maxLength(this.fss.strMax),
+        Validators.pattern(this.fss.regCalle)
+
       ]],
       altura: [this.formClientesModel.domicilio_entrega.altura, [
         Validators.required,
