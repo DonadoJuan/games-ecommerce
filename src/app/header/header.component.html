@@ -18,7 +18,7 @@
                 <div class="dropdown-menu">
                     <a class="nav-link font-weight-bold" *ngIf="cliente" routerLink="/pedidos" routerLinkActive="active">Mis Pedidos</a>
                     <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-slideshow" routerLinkActive="active">Slideshow</a>
-                    <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
+                    <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/admin-videojuegos" routerLinkActive="active">Gestion Videojuegos</a>
                     <a class="nav-link font-weight-bold" *ngIf="admin" routerLink="/admin-videojuegos-form" routerLinkActive="active">Form Videojuegos</a>
                     <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/usuarios" routerLinkActive="active">Gestion Usuarios</a>
                     <a class="nav-link font-weight-bold" *ngIf="empleado || admin" routerLink="/admin-usuarios-form" routerLinkActive="active">Form Usuarios</a>
