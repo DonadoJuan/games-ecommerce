@@ -27,6 +27,7 @@ export class FormVideojuegosService {
   codStr = 4;
   reg = /^\d+$/;
   regVideo = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+  regTitulo = /^[A-Za-z0-9 _.:]*[A-Za-z]+[A-Za-z0-9 _.:]*$/;
 
 
   constructor() { 
@@ -34,7 +35,9 @@ export class FormVideojuegosService {
       titulo: {
         required: `El Titulo es <strong>requerido</strong>`,
         minlength: `El Titulo debe tener ${this.strMin} caracteres o mas`,
-        maxlength: `El Titulo debe tener ${this.titleMax} caracteres o menos`
+        maxlength: `El Titulo debe tener ${this.titleMax} caracteres o menos`,
+        pattern: `Formato del titulo invalido!`
+
       },
       codigo: {
         required: `El codigo es <strong>requerido</strong>`,

@@ -167,7 +167,9 @@ export class AdminEmpleadosFormComponent implements OnInit, OnDestroy {
       calle: [this.formEmpleadosModel.domicilio.calle, [
         Validators.required,
         Validators.minLength(this.aes.strMin),
-        Validators.maxLength(this.aes.strMax)
+        Validators.maxLength(this.aes.strMax),
+        Validators.pattern(this.aes.regCalle)
+
       ]],
       altura: [this.formEmpleadosModel.domicilio.altura, [
         Validators.required,

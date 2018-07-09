@@ -60,7 +60,8 @@ export class FormSliderComponent implements OnInit {
       titulo: [this.formSliderModel.titulo, [
         Validators.required,
         Validators.minLength(this.fs.strMin),
-        Validators.maxLength(this.fs.titleMax)
+        Validators.maxLength(this.fs.titleMax),
+        Validators.pattern(this.fs.regTitulo)
       ]]});
       this.formChangeSub = this.formSlider
       .valueChanges

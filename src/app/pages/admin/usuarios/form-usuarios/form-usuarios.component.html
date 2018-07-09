@@ -23,7 +23,7 @@
       <div *ngIf="!isEdit">
         
         <div class="md-form fullwidth">
-          <input type="password"  id="password" class="form-control" formControlName="password" [maxlength]="fss.strMax" mdbActive>
+          <input type="password"  id="password" class="form-control" formControlName="password" [maxlength]="fss.passMax" mdbActive>
           <label for="password">Password</label>
         </div>
         <div *ngIf="formErrors.password" class="small text-danger formErrors" [innerHTML]="formErrors.password">
