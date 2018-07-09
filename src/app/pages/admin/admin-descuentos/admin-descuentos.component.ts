@@ -117,7 +117,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
     this.selectedQuitarItems = [];
 
     sucursal.videojuegos.forEach(v => {
-      //if(v.activo) {
+      if(v.activo) {
         this.videojuegos.push(v);
         if(v.descuento === 0) {
           this.dropdownCargarList.push({
@@ -127,7 +127,8 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
             "codigo": v.codigo,
             "plataforma": v.plataforma,
             "imagen": v.imagen,
-            "precio": v.precio
+            "precio": v.precio,
+            "stock": v.stock
           });
         } else {
           this.dropdownQuitarList.push({
@@ -140,10 +141,11 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
             "precio": v.precio,
             "descuento": v.descuento,
             "inicioDescuento": v.inicioDescuento,
-            "finDescuento": v.finDescuento
+            "finDescuento": v.finDescuento,
+            "stock": v.stock
           });
         }
-      //}
+      }
     });
 
   }
