@@ -9,6 +9,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Videojuego } from "../../../domain/videojuego";
 import { VideojuegoService } from "../../../core/services/videojuego/videojuego.service";
 import { ConfirmDeleteDialog } from "../../admin/admin-empleados/admin-empleados.component";
+import { AuthService } from '../../../core/services/auth/auth.service';
 
 @Component({
   selector: 'app-admin-videojuegos',
@@ -25,27 +26,36 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
   dataVideojuegos: any[] = [];
   loading: boolean;
   error: boolean;
+  admin: boolean;
+  objActions: any;
 
   constructor(
     private router: Router, 
     private us: UtilsService,
     private videojuegoService: VideojuegoService,
     private sanitization: DomSanitizer,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.initializeGrid();
-    this.settings = {
-      actions: {
+    let payload = this.authService.getDatosCliente().payload;
+    this.admin = (payload.perfil === "Administrador") ? true : false;
+    if(this.admin) {
+      this.objActions = {
         add: false, edit: false, delete: false, position: 'right', 
         custom:
           [
             { name: 'editar', title: `<i class="fa fa-edit" aria-hidden="true" title="Editar"></i><br>` },
             { name: 'eliminar', title: `<i class="fa fa-trash-o" aria-hidden="true" title="Eliminar"></i>` }
           ]
-      },
-
+      }
+    } else {
+      this.objActions = false;
+    }
+    this.settings = {
+      actions: this.objActions,
       columns: {
         codigo: {
           title: 'Codigo',
@@ -81,7 +91,8 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
           type: 'custom',
           renderComponent: CheckboxComponent,
           filter: false,
-          width: "10%"
+          width: "10%",
+          show: this.admin
         },
         imagen: {
           title: 'Imagen',

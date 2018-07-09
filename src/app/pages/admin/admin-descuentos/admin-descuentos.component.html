@@ -41,6 +41,7 @@
                               <p class="card-text">Codigo: {{product.codigo}}</p>
                               <p class="card-text">Plataforma: {{product.plataforma}}</p>
                               <p class="card-text">Precio: {{product.precio}}</p>
+                              <p class="card-text">Stock: {{product.stock}}</p>
                           </div>
                       </div>
                       <br>
@@ -133,6 +134,7 @@
                             <p class="card-text">Descuento: {{product.descuento}}%</p>
                             <p class="card-text">Inicio: {{product.inicioDescuento | date:'dd-MM-yyyy'}}</p>
                             <p class="card-text">Fin: {{product.finDescuento | date:'dd-MM-yyyy'}}</p>
+                            <p class="card-text">Stock: {{product.stock}}</p>
                             <a class="btn btn-danger btn-circle btn-lg btn-block waves-light zoom" mdbRippleRadius (click)="removerDescuento(product, modalRemover)">Remover Descuento</a>
                         </div>
                     </div>
