@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, pipeDef } from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatSnackBar } from '@angular/material';
 import { Pedido } from "../../domain/pedido";
 import { AuthService } from '../../core/services/auth/auth.service';
@@ -33,7 +33,10 @@ export class PedidosComponent implements OnInit {
     this.clientes = [];
     this.tipoFiltro = '';
     this.getClientesData();
-    
+    this.clienteService.getClientes$()
+    .subscribe(()=>{
+      this.clientesFiltrados = _.cloneDeep(this.clientes);
+    })
   }
 
   private getClientesData(){
@@ -60,9 +63,9 @@ export class PedidosComponent implements OnInit {
           this.hayPedidos = true;
       });
 
-      this.clientesFiltrados = _.cloneDeep(this.clientes);
-      this.tipoFiltro = 'Ninguno';
-      this.validarNinguno();
+      // this.clientesFiltrados = _.cloneDeep(this.clientes);
+      // this.tipoFiltro = 'Ninguno';
+      // this.validarNinguno();
 
     });
   }

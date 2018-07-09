@@ -27,7 +27,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="tipoFiltro == 'Cupones'">
-        <mat-select [(value)]="cuponFiltro" (change)="aplicarFiltro(cuponFiltro)">
+        <mat-select [(value)]="cuponFiltro" (change)="aplicarFiltro(cuponFiltro)" placeholder="Seleccione un cupon">
             <!-- <mat-option [value]="c.codigo">Todos</mat-option> -->
           <mat-option *ngFor="let c of cupones" [value]="c.codigo">{{c.codigo}}</mat-option>
         </mat-select>
