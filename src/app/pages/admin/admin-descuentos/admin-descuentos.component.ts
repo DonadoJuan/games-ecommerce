@@ -91,6 +91,7 @@ export class AdminDescuentosComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.sucursal = data;
         this.loading = false;
+        this.sucursales = [];
         this.sucursales.push(this.sucursal);
         this.cargarDatos(this.sucursal);
       }, err => {

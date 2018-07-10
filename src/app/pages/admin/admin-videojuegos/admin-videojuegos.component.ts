@@ -22,6 +22,7 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
   data: any[];
   videojuegoSub: Subscription;
   deleteVideojuegoSub: Subscription;
+  stockGlobalSub: Subscription;
   videojuegos: Videojuego[] = [];
   dataVideojuegos: any[] = [];
   loading: boolean;
@@ -85,6 +86,12 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
           title: 'Precio',
           type: 'custom',
           renderComponent: NumberComponent
+        },
+        stock: {
+          title: 'Stock Global',
+          type: 'custom',
+          renderComponent: NumberComponent,
+          show: this.admin
         },
         destacado: {
           title: 'Destacado',
@@ -189,35 +196,45 @@ export class AdminVideojuegosComponent implements OnInit, OnDestroy {
     this.dataVideojuegos = [];
     this.videojuegoSub = this.videojuegoService.getVideojuegos$()
       .subscribe(data => {
-        data.forEach(d => {
-          this.videojuegos.push(d);
-          let generos = "";
-          //let plataformas = "";
-          d.genero.forEach(g => {
-            generos = generos.concat(g + ", ");
+        this.stockGlobalSub = this.videojuegoService.getStockGlobal()
+          .subscribe(stocks => {
+            data.forEach(d => {
+              stocks.forEach(s => {
+                if(s._id.codigo === d.codigo) {
+                  this.videojuegos.push(d);
+                  let generos = "";
+                  //let plataformas = "";
+                  d.genero.forEach(g => {
+                    generos = generos.concat(g + ", ");
+                  });
+                  /*d.plataforma.forEach(p => {
+                    plataformas = plataformas.concat(p + ", ");
+                  });*/
+                  //console.log("generos pusheado", generos);
+                  generos = generos.substring(0, generos.length - 2);
+                  //plataformas = plataformas.substring(0, plataformas.length - 2);
+                  //console.log("generos final", generos);
+                  let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
+                  //console.log("image: ", image);
+                  this.dataVideojuegos.push({
+                    codigo: d.codigo,
+                    titulo: d.titulo,
+                    genero: generos,
+                    plataforma: d.plataforma,
+                    min: d.cantidadMinima,
+                    max: d.cantidadMaxima,
+                    precio: d.precio,
+                    stock: s.stock,
+                    destacado: d.destacado,
+                    imagen: image
+                  });
+                }
+              });
+              
+            });
+            this.fillData();
           });
-          /*d.plataforma.forEach(p => {
-            plataformas = plataformas.concat(p + ", ");
-          });*/
-          //console.log("generos pusheado", generos);
-          generos = generos.substring(0, generos.length - 2);
-          //plataformas = plataformas.substring(0, plataformas.length - 2);
-          //console.log("generos final", generos);
-          let image = (d.imagen) ? d.imagen : "http://localhost:3000/img/no-image.png";
-          //console.log("image: ", image);
-          this.dataVideojuegos.push({
-            codigo: d.codigo,
-            titulo: d.titulo,
-            genero: generos,
-            plataforma: d.plataforma,
-            min: d.cantidadMinima,
-            max: d.cantidadMaxima,
-            precio: d.precio,
-            destacado: d.destacado,
-            imagen: image
-          });
-        });
-        this.fillData();
+        
       }, 
       error => {
         console.error(error);

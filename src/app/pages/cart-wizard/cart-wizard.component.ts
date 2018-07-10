@@ -173,9 +173,9 @@ export class CartWizardComponent implements OnInit {
       ]],
       numero: [this.formTarjetaModel.numero, [
         Validators.required,
-        Validators.min(this.fcws.intNumeroMin),
-        Validators.max(this.fcws.intNumeroMax),
-        Validators.pattern(this.fcws.reg)
+        //Validators.min(this.fcws.intNumeroMin),
+        //Validators.max(this.fcws.intNumeroMax),
+        Validators.pattern(this.fcws.regCreditCard)
       ]],
       vencimiento: [this.formTarjetaModel.vencimiento, [
         Validators.required

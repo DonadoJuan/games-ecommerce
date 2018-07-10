@@ -342,7 +342,7 @@
                         <mat-form-field floatLabel="never">
                           <input formControlName="codigo" matInput [maxlength]="fcws.codMax" placeholder="Codigo de seguridad" onkeydown="javascript: return (event.keyCode == 69 || event.keyCode == 188 || event.keyCode == 189 || event.keyCode == 190 || event.keyCode == 187) ? false : true">
                         </mat-form-field>
-                        <div
+                        <div 
                         *ngIf="formErrorsTarjeta.codigo"
                         class="small text-danger formErrors"
                         [innerHTML]="formErrorsTarjeta.codigo">
