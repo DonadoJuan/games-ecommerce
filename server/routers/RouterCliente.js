@@ -21,6 +21,7 @@ router.post('/login', (req, res) => {
         if(!cliente.validPassword(input.password))
             return res.status(401).json({message: 'Clave incorrecta'});
         
+        cliente.pedidos = [];
         res.status(200)
         res.json({
             "token" : cliente.generateJwt()
@@ -194,6 +195,7 @@ router.post('/pedido', (req, res) => {
             if(err)
                 return res.status(500).send({message: err.message});
 
+            cliente.pedidos = [];
             res.status(200).send({code: '00',message: "Alta de pedido exitosa", token: cliente.generateJwt()});
         });
     }

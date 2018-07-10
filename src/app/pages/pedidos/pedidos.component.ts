@@ -29,6 +29,7 @@ export class PedidosComponent implements OnInit {
 
   ngOnInit() {
 
+    this.clientesFiltrados = [];
     this.hayPedidos = false;
     this.clientes = [];
     this.tipoFiltro = '';
