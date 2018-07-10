@@ -430,7 +430,7 @@ export class CartWizardComponent implements OnInit {
           width: '300px'
         });
         dialogRef.afterClosed().subscribe(()=>{
-          this.router.navigate(['']);
+          this.router.navigate(['pedidos']);
         })
 
       }else{

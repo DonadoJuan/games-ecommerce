@@ -68,10 +68,10 @@ router.post('/validar', (req, res) => {
             if(!cliente)
                 return res.status(500).send({message:"Cliente invalido"});
             
-            cliente.pedidos.forEach(pedido => {
+            for (const pedido of cliente.pedidos) {
                 if(pedido.cupon != undefined && pedido.cupon.codigo == cuponExistente.codigo)
-                    return res.status(200).send({ code: '02', message: 'Cupon ya reclamado'});
-            });
+                    return res.status(200).send({ code: '02', message: 'Cupon ya reclamado'});            
+            }
 
             cuponExistente.validoDesde.setHours(0,0,0,0);
             cuponExistente.validoHasta.setHours(0,0,0,0);
