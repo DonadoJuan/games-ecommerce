@@ -15,6 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class UtilsService {
 
+  public datosLogin: any;
   public personal: Personal;
   public cliente: Cliente;
   public videojuego: Videojuego;

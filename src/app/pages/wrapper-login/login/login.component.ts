@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class LoginComponent implements OnInit, OnDestroy {
 
   tab: string;
-  cliente: Object = {};
+  cliente: any = {};
   fechaDelDia: Date;
   quitBaneoClienteSub: Subscription;
   ejecutoTodo: boolean = true;
@@ -90,6 +90,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.fechaDelDia = new Date();
+    if(this.us.datosLogin) {
+      this.cliente.email = this.us.datosLogin.mail;
+      this.cliente.password = this.us.datosLogin.pass;
+    }
   }
 
   ngOnDestroy() {
